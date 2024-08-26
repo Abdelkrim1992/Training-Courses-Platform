@@ -1,0 +1,186 @@
+<template>
+  <!-- [ Sidebar Menu ] start -->
+  <nav class="pc-sidebar">
+    <div class="navbar-wrapper">
+      <div class="m-header">
+        <router-link to="/admin/dashboard" class="b-brand text-primary">
+          <!-- ========   Change your logo from here   ============ -->
+          <img src="/backend/images/logo-dark.svg" alt="logo image" class="logo-lg" />
+        </router-link>
+      </div>
+      <div class="navbar-content">
+        <ul class="pc-navbar">
+          <li class="pc-item pc-caption">
+            <label>Application</label>
+            <i class="ph-duotone ph-buildings"></i>
+          </li>
+          <li class="pc-item">
+            <a href="/admin/dashboard" class="pc-link">
+              <span class="pc-micon">
+                <i class="ph-duotone ph-gauge"></i>
+              </span>
+              <span class="pc-mtext">Dashboard</span>
+            </a>
+          </li>
+
+          <!-- Projects Dropdown -->
+          <li class="dropdown pc-h-itemu pc-item">
+            <a href="#" class="pc-link" @click.prevent="toggleDropdown('projects')" data-bs-toggle="dropdown" role="button"
+              aria-haspopup="false" aria-expanded="false">
+              <span class="pc-micon">
+                <i class="ph-duotone ph-circles-four"></i>
+              </span>
+              <span class="pc-mtext">Projects</span>
+              <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+            </a>
+            <ul v-if="dropdowns.projects" class="pc-submenu">
+              <li v-for="(item, index) in projects" :key="index" class="pc-item d-flex justify-content-between align-items-center">
+                <router-link class="pc-link" :to="item.link">
+                  <span>{{ item.name }}</span>
+                </router-link>
+                
+              </li>
+            </ul>
+          </li>
+          <!-- End Projects Dropdown -->
+
+          <!-- Courses Dropdown -->
+          <li class="dropdown pc-h-itemu pc-item">
+            <a href="#" class="pc-link" @click.prevent="toggleDropdown('courses')" data-bs-toggle="dropdown" role="button"
+              aria-haspopup="false" aria-expanded="false">
+              <span class="pc-micon">
+                <i class="ph-duotone ph-books"></i>
+              </span>
+              <span class="pc-mtext">Courses</span>
+              <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+            </a>
+            <ul v-if="dropdowns.courses" class="pc-submenu">
+              <li v-for="(item, index) in courses" :key="index" class="pc-item d-flex justify-content-between align-items-center">
+                <router-link class="pc-link" :to="item.link">
+                  <span>{{ item.name }}</span>
+                </router-link>
+                
+              </li>
+            </ul>
+          </li>
+          <!-- End Courses Dropdown -->
+
+          <!-- Students Dropdown -->
+          <li class="dropdown pc-h-itemu pc-item">
+            <a href="#" class="pc-link" @click.prevent="toggleDropdown('students')" data-bs-toggle="dropdown" role="button"
+              aria-haspopup="false" aria-expanded="false">
+              <span class="pc-micon">
+                <i class="ph-duotone ph-books"></i>
+              </span>
+              <span class="pc-mtext">Students</span>
+              <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+            </a>
+            <ul v-if="dropdowns.students" class="pc-submenu">
+              <li v-for="(item, index) in students" :key="index" class="pc-item d-flex justify-content-between align-items-center">
+                <router-link class="pc-link" :to="item.link">
+                  <span>{{ item.name }}</span>
+                </router-link>
+                
+              </li>
+            </ul>
+          </li>
+          <!-- End Students Dropdown -->
+
+          <!-- Team Dropdown -->
+          <li class="dropdown pc-h-itemu pc-item">
+            <a href="#" class="pc-link" @click.prevent="toggleDropdown('team')" data-bs-toggle="dropdown" role="button"
+              aria-haspopup="false" aria-expanded="false">
+              <span class="pc-micon">
+                <i class="ph-duotone ph-user"></i>
+              </span>
+              <span class="pc-mtext">Team</span>
+              <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+            </a>
+            <ul v-if="dropdowns.team" class="pc-submenu">
+              <li v-for="(item, index) in team" :key="index" class="pc-item d-flex justify-content-between align-items-center">
+                <router-link class="pc-link" :to="item.link">
+                  <span>{{ item.name }}</span>
+                </router-link>
+                
+              </li>
+            </ul>
+          </li>
+          <!-- End Team Dropdown -->
+
+          <!-- Testimonial Dropdown -->
+          <li class="dropdown pc-h-itemu pc-item">
+            <a href="#" class="pc-link" @click.prevent="toggleDropdown('testimonial')" data-bs-toggle="dropdown" role="button"
+              aria-haspopup="false" aria-expanded="false">
+              <span class="pc-micon">
+                <i class="ph-duotone ph-user"></i>
+              </span>
+              <span class="pc-mtext">Testimonial</span>
+              <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+            </a>
+            <ul v-if="dropdowns.testimonial" class="pc-submenu">
+              <li v-for="(item, index) in testimonial" :key="index" class="pc-item d-flex justify-content-between align-items-center">
+                <router-link class="pc-link" :to="item.link">
+                  <span>{{ item.name }}</span>
+                </router-link>
+                
+              </li>
+            </ul>
+          </li>
+          <!-- End Testimonial Dropdown -->
+
+          <li class="pc-item">
+            <router-link to="/admin/site-setting" class="pc-link">
+              <span class="pc-micon">
+                <i class="ph-duotone ph-globe"></i>
+              </span>
+              <span class="pc-mtext">Site Settings</span>
+            </router-link>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- [ Sidebar Menu ] end -->
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      dropdowns: {
+        courses: false,
+        students: false,
+        projects: false,
+        team: false,
+        testimonial: false,
+      },
+      courses: [
+        { name: 'Courses List', link: '/admin/courses/list' },
+        { name: 'Add Course', link: '/admin/courses/add-course' },
+      ],
+      students: [
+        { name: 'Students List', link: '/admin/students/list' },
+        { name: 'Add Student', link: '/admin/students/add-student' },
+      ],
+      projects: [
+        { name: 'Projects List', link: '/admin/projects/list' },
+        { name: 'Add Project', link: '/admin/projects/add-project' },
+      ],
+      team: [
+        { name: 'Member List', link: '/admin/team-members/list' },
+        { name: 'Add Member', link: '/admin/team-members/add-member' },
+      ],
+      testimonial: [
+        { name: 'Testimonial List', link: '/admin/testimonials/list' },
+        { name: 'Add Testimonial', link: '/admin/testimonials/add-testimonial' },
+      ],
+    };
+  },
+  methods: {
+    toggleDropdown(menu) {
+      this.dropdowns[menu] = !this.dropdowns[menu];
+    },
+    
+  },
+};
+</script>
