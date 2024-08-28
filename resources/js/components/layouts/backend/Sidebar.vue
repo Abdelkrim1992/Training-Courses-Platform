@@ -145,6 +145,7 @@
 
 <script>
 export default {
+  name:'Sidebar',
   data() {
     return {
       dropdowns: {

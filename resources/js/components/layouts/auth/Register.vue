@@ -39,7 +39,7 @@ const register_action = ()=>{
               <img src="/backend/images/authentication/img-auth-register.png" alt="images" class="img-fluid mb-3">
               <h4 class="f-w-500 mb-1">Register with your email</h4>
               <p class="mb-3">Already have an Account? 
-                <router-link to="/admin/login" class="link-primary">Log in</router-link>
+                <router-link to="/auth/login" class="link-primary">Log in</router-link>
               </p>
             </div>
             
