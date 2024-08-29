@@ -10,20 +10,33 @@ import ContactUs from '../components/layouts/frontend/ContactUs.vue'
 
 // backend routes//
 
+// auth //
 import Register from '../components/layouts/auth/Register.vue'
 import Login from '../components/layouts/auth/Login.vue'
+
+// admin //
 import Dashboard from '../components/layouts/backend/Dashboard.vue'
 import SiteSetting from '../components/layouts/backend/pages/SiteSetting.vue'
+//courses//
 import CoursesList from '../components/layouts/backend/pages/courses/CoursesList.vue'
 import AddCourse from '../components/layouts/backend/pages/courses/AddCourse.vue'
+import EditCourse from '../components/layouts/backend/pages/courses/EditCourse.vue'
+//students//
 import StudentsList from '../components/layouts/backend/pages/students/StudentsList.vue'
 import AddStudent from '../components/layouts/backend/pages/students/AddStudent.vue'
+import EditStudent from '../components/layouts/backend/pages/students/EditStudent.vue'
+//project//
 import ProjectsList from '../components/layouts/backend/pages/projects/ProjectsList.vue'
 import AddProject from '../components/layouts/backend/pages/projects/AddProject.vue'
+import EditProject from '../components/layouts/backend/pages/projects/EditProject.vue'
+//team//
 import TeamMembersList from '../components/layouts/backend/pages/team/TeamMembersList.vue'
 import AddTeamMember from '../components/layouts/backend/pages/team/AddTeamMember.vue'
-import TestimonialsList from '../components/layouts/backend/pages/testimonials/TestimonialsList.vue'
-import AddTestimonial from '../components/layouts/backend/pages/testimonials/AddTestimonial.vue'
+import EditTeamMember from '../components/layouts/backend/pages/team/EditTeamMember.vue'
+//Reviews//
+import ReviewsList from '../components/layouts/backend/pages/reviews/ReviewsList.vue'
+import AddReview from '../components/layouts/backend/pages/reviews/AddReview.vue'
+import EditReview from '../components/layouts/backend/pages/reviews/EditReview.vue'
 
 
 
@@ -122,6 +135,12 @@ const routes =[
     },
 
     {
+        name:'EditCourse',
+        path:'/admin/courses/edit-course',
+        component: EditCourse,
+    },
+
+    {
         name:'StudentsList',
         path:'/admin/students/list',
         component: StudentsList,
@@ -131,6 +150,12 @@ const routes =[
         name:'AddStudent',
         path:'/admin/students/add-student',
         component: AddStudent,
+    },
+
+    {
+        name:'EditStudent',
+        path:'/admin/students/edit-student/:id',
+        component: EditStudent,
     },
 
     {
@@ -146,27 +171,45 @@ const routes =[
     },
 
     {
+        name:'EditProject',
+        path:'/admin/students/edit-project/:id',
+        component: EditProject,
+    },
+
+    {
         name:'TeamMembersList',
-        path:'/admin/team-members/list',
+        path:'/admin/team/list',
         component: TeamMembersList,
     },
 
     {
         name:'AddTeamMember',
-        path:'/admin/team-members/add-member',
+        path:'/admin/team/add-member',
         component: AddTeamMember,
-    },
-    
-    {
-        name:'TestimonialsList',
-        path:'/admin/testimonials/list',
-        component: TestimonialsList,
     },
 
     {
-        name:'AddMember',
-        path:'/admin/testimonials/add-testimonial',
-        component: AddTestimonial,
+        name:'EditTeamMember',
+        path:'/admin/team/edit-member/:id',
+        component: EditTeamMember,
+    },
+    
+    {
+        name:'ReviewsList',
+        path:'/admin/reviews/list',
+        component: ReviewsList,
+    },
+
+    {
+        name:'AddReview',
+        path:'/admin/reviews/add-review',
+        component: AddReview,
+    },
+
+    {
+        name:'EditReview',
+        path:'/admin/reviews/edit-review/:id',
+        component: EditReview,
     },
 ]
 

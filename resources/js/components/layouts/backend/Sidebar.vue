@@ -109,16 +109,16 @@
 
           <!-- Testimonial Dropdown -->
           <li class="dropdown pc-h-itemu pc-item">
-            <a href="#" class="pc-link" @click.prevent="toggleDropdown('testimonial')" data-bs-toggle="dropdown" role="button"
+            <a href="#" class="pc-link" @click.prevent="toggleDropdown('review')" data-bs-toggle="dropdown" role="button"
               aria-haspopup="false" aria-expanded="false">
               <span class="pc-micon">
                 <i class="ph-duotone ph-user"></i>
               </span>
-              <span class="pc-mtext">Testimonial</span>
+              <span class="pc-mtext">Reviews</span>
               <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
             </a>
-            <ul v-if="dropdowns.testimonial" class="pc-submenu">
-              <li v-for="(item, index) in testimonial" :key="index" class="pc-item d-flex justify-content-between align-items-center">
+            <ul v-if="dropdowns.review" class="pc-submenu">
+              <li v-for="(item, index) in review" :key="index" class="pc-item d-flex justify-content-between align-items-center">
                 <router-link class="pc-link" :to="item.link">
                   <span>{{ item.name }}</span>
                 </router-link>
@@ -153,7 +153,7 @@ export default {
         students: false,
         projects: false,
         team: false,
-        testimonial: false,
+        review: false,
       },
       courses: [
         { name: 'Courses List', link: '/admin/courses/list' },
@@ -168,12 +168,12 @@ export default {
         { name: 'Add Project', link: '/admin/projects/add-project' },
       ],
       team: [
-        { name: 'Member List', link: '/admin/team-members/list' },
-        { name: 'Add Member', link: '/admin/team-members/add-member' },
+        { name: 'Member List', link: '/admin/team/list' },
+        { name: 'Add Member', link: '/admin/team/add-member' },
       ],
-      testimonial: [
-        { name: 'Testimonial List', link: '/admin/testimonials/list' },
-        { name: 'Add Testimonial', link: '/admin/testimonials/add-testimonial' },
+      review: [
+        { name: 'Reviews List', link: '/admin/reviews/list' },
+        { name: 'Add Review', link: '/admin/reviews/add-testimonial' },
       ],
     };
   },

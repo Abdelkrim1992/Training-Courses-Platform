@@ -1,133 +1,95 @@
+<script setup>
+import { ref, reactive } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+import BackendLayouts from '../../BackendLayouts.vue';
+
+const router = useRouter();
+
+const errorMessage = ref(null);
+
+const formData = reactive({
+  member_name: '',
+  member_email: '',
+  member_phone: '',
+  member_service: '',
+});
+
+const add_team_member = () => {
+  axios.post('/api/add_team_member', formData)
+    .then((response) => {
+      console.log('Add student success', response.data);
+      router.push('/admin/team/list');
+    })
+    .catch((error) => {
+      console.error('Adding member failed', error.response.data);
+      errorMessage.value = error.response.data.message || "Adding member failed. Please try again.";
+    });
+};
+</script>
+
 <template>
-    <BackendLayouts>
-  <div class="pc-container">
-    <div class="pc-content">
-      <!-- [ breadcrumb ] start -->
-      <div class="page-header">
-        <div class="page-block">
-          <div class="row align-items-center">
-            <div class="col-md-12">
-              <ul class="breadcrumb">
-                <li class="breadcrumb-item"><router-link to="/admin/dashboard">Home</router-link></li>
-                <li class="breadcrumb-item" aria-current="page">Add Team Member</li>
-              </ul>
+  <BackendLayouts>
+    <div class="pc-container">
+      <div class="pc-content">
+        <div class="page-header">
+          <div class="page-block">
+            <div class="row align-items-center">
+              <div class="col-md-12">
+                <ul class="breadcrumb">
+                  <li class="breadcrumb-item"><router-link to="/admin/dashboard">Home</router-link></li>
+                  <li class="breadcrumb-item" aria-current="page">Add Team Member</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- [ breadcrumb ] end -->
 
-      <!-- [ Main Content ] start -->
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-header">
-              <h5 class="mb-0">Member Information</h5>
-            </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label">First Name</label>
-                    <input type="text" class="form-control" placeholder="Enter first name">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="mb-0">Member Information</h5>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div v-if="errorMessage" class="alert alert-danger" role="alert">
+                    {{ errorMessage }}
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label">Full Name</label>
+                      <input type="text" v-model="formData.member_name" class="form-control" placeholder="Enter full name">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label">Phone</label>
+                      <input type="text" v-model="formData.member_phone" class="form-control" placeholder="Enter phone number">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label">Email</label>
+                      <input type="text" v-model="formData.member_email" class="form-control" placeholder="Enter email">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label">Service</label>
+                      <input type="text" v-model="formData.member_service" class="form-control" placeholder="Enter member service">
+                    </div>
+                  </div>
+                  <div class="col-md-12 text-end">
+                    <button @click="add_team_member" class="btn btn-primary">Submit</button>
                   </div>
                 </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label">Last Name</label>
-                    <input type="text" class="form-control" placeholder="Enter last name">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-control" placeholder="Enter email">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label">Joining Date</label>
-                    <input type="date" class="form-control">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-control" placeholder="Enter Password">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label">Confirm Password</label>
-                    <input type="password" class="form-control" placeholder="Enter confirm password">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label">Mobile Number</label>
-                    <input type="number" class="form-control" placeholder="Enter Mobile number">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label">Gender</label>
-                    <select class="form-select">
-                      <option>Female</option>
-                      <option>Male</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label">Designation</label>
-                    <input type="text" class="form-control" placeholder="Designation">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label">Department</label>
-                    <select class="form-select">
-                      <option>Department</option>
-                      <option>Department 1</option>
-                      <option>Department 2</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label">Date of Birth</label>
-                    <input type="date" class="form-control">
-                  </div>
-                </div> 
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label">Education</label>
-                    <input type="text" class="form-control" placeholder="Education">
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <div class="mb-3">
-                    <input class="form-control" type="file">
-                  </div>
-                </div>
-                <div class="col-md-12 text-end">
-                  <button class="btn btn-primary">Submit</button>
-                </div>
-                
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- [ Main Content ] end -->
     </div>
-  </div>
-    </BackendLayouts>
+  </BackendLayouts>
 </template>
-
-
-<script setup>
-
-import BackendLayouts from '../../BackendLayouts.vue';
-
-</script>

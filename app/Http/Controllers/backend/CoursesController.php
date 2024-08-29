@@ -4,20 +4,19 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Student;
-use Illuminate\Support\Facades\Validator;
+use App\Models\Course;
 
-class StudentsController extends Controller
+class CoursesController extends Controller
 {
     public function index(){
 
-        $StudentsList = Student::all();
+        $CourseList = Cousre::all();
 
-        if(!empty($StudentsList)){
+        if(!empty($CourseList)){
             return response()->json([
                 'status' => 200,
                 'message' => 'Students',
-                'data' => $StudentsList
+                'data' => $CourseList
             ]);
         }
 
@@ -32,36 +31,36 @@ class StudentsController extends Controller
             'course_name'=>'required',
         ]);
 
-        $student = new Student ;
-        $student->name = $request-> name;
-        $student->email = $request-> email;
-        $student->phone = $request-> phone;
-        $student->course_name = $request-> course_name;
+        $course = new Course ;
+        $course->name = $request-> name;
+        $course->email = $request-> email;
+        $course->phone = $request-> phone;
+        $course->course_name = $request-> course_name;
 
-        $student->save();
+        $course->save();
 
         return response()->json([
-            ['message' => 'User registered successfully']
+            ['message' => 'course added']
         ]);
     }
 
     public function show($id){
 
-        $student = Student::find($id);
+        $course = Course::find($id);
         return response()->json([
             'status' => 200,
-            'data' => $student
+            'data' => $course
         ]);
     }
 
     public function update(Request $request, $id){
 
-        $student = Student::find($id);
-        $student->name = $request->name;
-        $student->phone = $request->phone;
-        $student->email = $request->email;
-        $student->course_name = $request->course_name;
-        $student->save();
+        $course = Course::find($id);
+        $course->name = $request->name;
+        $course->phone = $request->phone;
+        $course->email = $request->email;
+        $course->course_name = $request->course_name;
+        $course->save();
 
         return response()->json(['status' => 200, 'message' => 'Student updated successfully']);
 
@@ -69,10 +68,10 @@ class StudentsController extends Controller
 
     public function destroy($id){
 
-        $student = Student::find($id);
+        $course = Course::find($id);
 
-        if ($student) {
-            $student->delete();
+        if ($course) {
+            $course->delete();
             return response()->json([
                 'status' => 200, 
                 'message' => 'Student deleted successfully',
@@ -83,4 +82,5 @@ class StudentsController extends Controller
         }
 
     }
+
 }
