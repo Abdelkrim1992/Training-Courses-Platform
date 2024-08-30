@@ -25,17 +25,15 @@ class ReviewsController extends Controller
     public function store(Request $request){
 
         $request->validate([
-            'name'=>'required',
-            'email'=>'required',
-            'phone'=>'required',
-            'course_name'=>'required',
+            'student_name'=>'required',
+            'review_text'=>'required',
+            'course_title'=>'required',
         ]);
 
         $review = new Review ;
-        $review->name = $request-> name;
-        $review->email = $request-> email;
-        $review->phone = $request-> phone;
-        $review->course_name = $request-> course_name;
+        $review->student_name = $request-> student_name;
+        $review->review_text = $request-> review_text;
+        $review->course_title = $request-> course_title;
 
         $review->save();
 
@@ -56,10 +54,9 @@ class ReviewsController extends Controller
     public function update(Request $request, $id){
 
         $review = Reviews::find($id);
-        $review->name = $request->name;
-        $review->phone = $request->phone;
-        $review->email = $request->email;
-        $review->course_name = $request->course_name;
+        $review->student_name = $request-> student_name;
+        $review->review_text = $request-> review_text;
+        $review->course_title = $request-> course_title;
         $review->save();
 
         return response()->json(['status' => 200, 'message' => 'review updated successfully']);

@@ -173,7 +173,7 @@ export default {
       ],
       review: [
         { name: 'Reviews List', link: '/admin/reviews/list' },
-        { name: 'Add Review', link: '/admin/reviews/add-testimonial' },
+        { name: 'Add Review', link: '/admin/reviews/add-review' },
       ],
     };
   },

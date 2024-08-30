@@ -11,7 +11,7 @@
                   <li class="breadcrumb-item">
                     <router-link to="/admin/dashboard">Home</router-link>
                   </li>
-                  <li class="breadcrumb-item" aria-current="page">Student List</li>
+                  <li class="breadcrumb-item" aria-current="page">Reviews List</li>
                 </ul>
               </div>
             </div>
@@ -25,10 +25,10 @@
             <div class="card table-card">
               <div class="card-header">
                 <div class="d-sm-flex align-items-center justify-content-between">
-                  <h5 class="mb-3 mb-sm-0">Student List</h5>
+                  <h5 class="mb-3 mb-sm-0">Reviews List</h5>
                   <div>
-                    <router-link to="/admin/students/add-student" class="btn btn-primary">
-                      Add Student
+                    <router-link to="/admin/reviews/add-review" class="btn btn-primary">
+                      Add Review
                     </router-link>
                   </div>
                 </div>
@@ -38,24 +38,22 @@
                   <table class="table table-hover" id="pc-dt-simple">
                     <thead>
                       <tr>
-                        <th>Name</th>
-                        <th>Mobile</th>
-                        <th>Email</th>
-                        <th>Course</th>
+                        <th>Student Name</th>
+                        <th>Course Name</th>
+                        <th>Review Text</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="(items, index) in StudentsList" :key="index">
-                        <td>{{ items.name }}</td>
-                        <td>{{ items.phone }}</td>
-                        <td>{{ items.email }}</td>
-                        <td>{{ items.course_name }}</td>
+                      <tr v-for="(items, index) in ReviewsList" :key="index">
+                        <td>{{ items.student_name }}</td>
+                        <td>{{ items.course_title }}</td>
+                        <td>{{ items.review_text }}</td>
                         <td>
-                          <router-link :to="{path:'/admin/students/edit-student/'+ items.id}" class="avtar avtar-xs btn-link-secondary">
+                          <router-link :to="{path:'/admin/reviews/edit-review/'+ items.id}" class="avtar avtar-xs btn-link-secondary">
                             <i class="ti ti-edit f-20"></i>
                           </router-link>
-                          <a @click="deleteStudent(items.id)" class="avtar avtar-xs btn-link-secondary">
+                          <a @click="deleteReview(items.id)" class="avtar avtar-xs btn-link-secondary">
                             <i class="ti ti-trash f-20"></i>
                           </a>
                         </td>
@@ -82,24 +80,24 @@ import BackendLayouts from '../../BackendLayouts.vue';
 export default {
   data() {
     return {
-      StudentsList: [],
+      ReviewsList: [],
     };
   },
   mounted() {
     console.log('Component mounted');
-    this.getStudents();
+    this.getReviews();
   },
   methods: {
-    getStudents() {
-      console.log('getStudents method called');
-      axios.get('/api/get_students')
+    getReviews() {
+      console.log('getReviews method called');
+      axios.get('/api/get_reviews')
         .then((response) => {
           console.log('API response:', response);
           const status = response.data.status;
 
           if (status === 200) {
-            this.StudentsList = response.data.data;
-            console.log('StudentsList updated:', this.StudentsList);
+            this.ReviewsList = response.data.data;
+            console.log('ReviewsList updated:', this.ReviewsList);
           } else {
             console.warn('Unexpected status:', status);
           }
@@ -108,17 +106,17 @@ export default {
           console.error('API request error:', error);
         });
     },
-    deleteStudent(id) {
-      if (confirm('Are you sure you want to delete this student?')) {
-        axios.delete(`/api/delete_student/${id}`)
+    deleteReview(id) {
+      if (confirm('Are you sure you want to delete this review?')) {
+        axios.delete(`/api/delete_review/${id}`)
           .then((response) => {
             const status = response.data.status;
 
             if (status === 200) {
-              this.getStudents(); // Refresh the student list after deletion
+              this.getReviews(); // Refresh the student list after deletion
               alert('Student deleted successfully.');
             } else {
-              alert('Failed to delete the student.');
+              alert('Failed to delete the review.');
             }
           })
           .catch((error) => {

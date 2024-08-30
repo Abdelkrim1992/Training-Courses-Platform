@@ -11,9 +11,9 @@
                       <router-link to="/admin/dashboard">Home</router-link>
                     </li>
                     <li class="breadcrumb-item">
-                      <router-link to="/admin/students/list">Student List</router-link>
+                      <router-link to="/admin/reviews/list">Review List</router-link>
                     </li>
-                    <li class="breadcrumb-item" aria-current="page">Edit Student</li>
+                    <li class="breadcrumb-item" aria-current="page">Edit Review</li>
                   </ul>
                 </div>
               </div>
@@ -24,26 +24,28 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h5>Edit Student</h5>
+                  <h5>Edit Review</h5>
                 </div>
                 <div class="card-body">
-                  <form @submit.prevent="updateStudent">
+                  <form @submit.prevent="updateReview">
+                    <div class="col-md-6">
                     <div class="mb-3">
-                      <label for="name" class="form-label">Name</label>
-                      <input type="text" v-model="student.name" class="form-control" id="name" required />
+                      <label class="form-label">Student Name</label>
+                      <input type="text" v-model="formData.student_name" class="form-control" placeholder="Enter full name">
                     </div>
+                  </div>
+                  <div class="col-md-6">
                     <div class="mb-3">
-                      <label for="phone" class="form-label">Mobile</label>
-                      <input type="text" v-model="student.phone" class="form-control" id="phone" required />
+                      <label class="form-label">Course Name</label>
+                      <input type="text" v-model="formData.course_title" class="form-control" placeholder="Enter email">
                     </div>
-                    <div class="mb-3">
-                      <label for="email" class="form-label">Email</label>
-                      <input type="email" v-model="student.email" class="form-control" id="email" required />
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <textarea type="text" v-model="formData.review_text" class="form-control" id="floatingTextarea"></textarea>
+                      <label for="floatingTextarea"> Review Text</label>
                     </div>
-                    <div class="mb-3">
-                      <label for="course" class="form-label">Course</label>
-                      <input type="text" v-model="student.course_name" class="form-control" id="course" required />
-                    </div>
+                  </div>
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                   </form>
                 </div>
@@ -63,31 +65,31 @@
   
   const route = useRoute();
   const router = useRouter();
-  const student = ref({});
+  const review = ref({});
   
   onMounted(() => {
-    const studentId = route.params.id;
-    axios.get(`/api/get_student/${studentId}`)
+    const reviewId = route.params.id;
+    axios.get(`/api/get_review/${reviewId}`)
       .then(response => {
-        student.value = response.data.data;
+        review.value = response.data.data;
       })
       .catch(error => {
-        console.error('Error fetching student:', error);
+        console.error('Error fetching review:', error);
       });
   });
   
-  const updateStudent = () => {
-    const studentId = route.params.id;
-    axios.put(`/api/update_student/${studentId}`, student.value)
+  const updateReview = () => {
+    const reviewId = route.params.id;
+    axios.put(`/api/update_review/${reviewId}`, review.value)
       .then(response => {
         if (response.data.status === 200) {
-          router.push('/admin/students/list');
+          router.push('/admin/reviews/list');
         } else {
-          console.error('Error updating student:', response.data.message);
+          console.error('Error updating review:', response.data.message);
         }
       })
       .catch(error => {
-        console.error('Error updating student:', error);
+        console.error('Error updating review:', error);
       });
   };
   </script>

@@ -25,17 +25,21 @@ class CoursesController extends Controller
     public function store(Request $request){
 
         $request->validate([
-            'name'=>'required',
-            'email'=>'required',
-            'phone'=>'required',
-            'course_name'=>'required',
+            'course_title'=>'required',
+            'teacher_name'=>'required',
+            'duration'=>'required',
+            'date' => 'required',
+            'course_description' =>'required',
+            'course_tips' =>'required',
         ]);
 
         $course = new Course ;
-        $course->name = $request-> name;
-        $course->email = $request-> email;
-        $course->phone = $request-> phone;
-        $course->course_name = $request-> course_name;
+        $course->course_title = $request-> course_title;
+        $course->teacher_name = $request-> teacher_name;
+        $course->course_description = $request-> course_description;
+        $course->course_tips = $request-> course_tips;
+        $course->duration = $request-> duration;
+        $course->date = $request-> date;
 
         $course->save();
 
@@ -49,17 +53,19 @@ class CoursesController extends Controller
         $course = Course::find($id);
         return response()->json([
             'status' => 200,
-            'data' => $course
+            'data' => $course,
         ]);
     }
 
     public function update(Request $request, $id){
 
         $course = Course::find($id);
-        $course->name = $request->name;
-        $course->phone = $request->phone;
-        $course->email = $request->email;
-        $course->course_name = $request->course_name;
+        $course->course_title = $request-> course_title;
+        $course->teacher_name = $request-> teacher_name;
+        $course->course_description = $request-> course_description;
+        $course->course_tips = $request-> course_tips;
+        $course->duration = $request-> duration;
+        $course->date = $request-> date;
         $course->save();
 
         return response()->json(['status' => 200, 'message' => 'Student updated successfully']);
@@ -74,11 +80,11 @@ class CoursesController extends Controller
             $course->delete();
             return response()->json([
                 'status' => 200, 
-                'message' => 'Student deleted successfully',
+                'message' => 'course deleted successfully',
                 'data' => []
             ]);
         } else {
-            return response()->json(['status' => 404, 'message' => 'Student not found','data' => []]);
+            return response()->json(['status' => 404, 'message' => 'course not found','data' => []]);
         }
 
     }

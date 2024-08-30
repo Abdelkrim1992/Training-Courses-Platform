@@ -42,9 +42,25 @@
 
 	@if(Request::is('admin/*'))
         <link rel="stylesheet" href="{{ asset('backend/css/style.css') }}">
-    @else
+        <script src="{{ asset('backend/js/plugins/datepicker-full.min.js') }}"></script>
+        <script>
+  // Initialization for the datepicker in admin pages
+  document.addEventListener('DOMContentLoaded', function () {
+    const datepickerElement = document.querySelector('#pc-datepicker-3');
+    if (datepickerElement) {
+      new Datepicker(datepickerElement, {
+        buttonClass: 'btn',
+        todayBtn: true,
+        clearBtn: true
+      });
+    }
+  });
+</script>
+  @else
         <link rel="stylesheet" href="{{ asset('frontend/css/main.css') }}">
   @endif
+
+  
 
 
     <div id="app" ></div>
@@ -60,8 +76,7 @@
 <script src="{{asset('backend/js/fonts/custom-font.js')}}"></script>
 <script src="{{asset('backend/js/pcoded.js')}}"></script>
 <script src="{{asset('backend/js/plugins/feather.min.js')}}"></script>
-
-
+<script src="{{asset('backend/js/plugins/datepicker-full.min.js')}}"></script>
 
 
 
