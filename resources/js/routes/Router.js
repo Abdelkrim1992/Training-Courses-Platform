@@ -136,7 +136,7 @@ const routes =[
 
     {
         name:'EditCourse',
-        path:'/admin/courses/edit-course',
+        path:'/admin/courses/edit-course/:id',
         component: EditCourse,
     },
 

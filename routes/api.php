@@ -43,6 +43,7 @@ Route::delete('/delete_review/{id}', [ReviewsController::class, 'destroy']);
 
 // courses//
 Route::get('/get_courses', [CoursesController::class, 'index']);
+Route::post('/upload_image', [CourseController::class, 'uploadImage']);
 Route::post('/add_course', [CoursesController::class, 'store']);
 Route::get('/get_course/{id}', [CoursesController::class, 'show']);
 Route::put('/update_course/{id}', [CoursesController::class, 'update']);

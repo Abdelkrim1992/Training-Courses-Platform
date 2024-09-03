@@ -1,44 +1,3 @@
-<script setup>
-import { ref, reactive } from 'vue';
-import { useRouter } from 'vue-router';
-import axios from 'axios';
-import BackendLayouts from '../../BackendLayouts.vue';
-import Datepicker from 'vue3-datepicker';
-
-const router = useRouter();
-const errorMessage = ref(null);
-
-const formData = reactive({
-  course_title: '',
-  teacher_name: '',
-  duration: '',
-  date: '',
-  category:'',
-  course_tips:'',
-  course_description:'',
-});
-
-const add_course = () => {
-  // Ensure the date is correctly formatted before submission
-  formData.date = formData.date instanceof Date ? formData.date.toISOString().split('T')[0] : formData.date;
-
-  if (!formData.date) {
-    errorMessage.value = 'Invalid date. Please select a valid date.';
-    return;
-  }
-
-  axios.post('/api/add_course', formData)
-    .then((response) => {
-      console.log('Add course success', response.data);
-      router.push('/admin/courses/list');
-    })
-    .catch((error) => {
-      console.error('Adding course failed', error.response.data);
-      errorMessage.value = error.response.data.message || "Adding course failed. Please try again.";
-    });
-};
-</script>
-
 <template>
   <BackendLayouts>
     <div class="pc-container">
@@ -100,19 +59,26 @@ const add_course = () => {
                   </div>
                   <div class="col-md-12">
                     <div class="form-floating">
-                      <textarea v-model="formData.course_description" class="form-control" id="floatingTextarea"></textarea>
-                      <label for="floatingTextarea">Course Description</label>
+                      <textarea v-model="formData.course_description" class="form-control" placeholder="Course Description"></textarea>
+                      <label for="floatingTextarea2">Course Description</label>
                     </div>
                   </div>
-                  <div class="col-md-12 mt-3 mb-3">
+                  <div class="col-md-12">
                     <div class="form-floating">
-                      <textarea v-model="formData.course_tips" class="form-control" id="floatingTextareaTips"></textarea>
-                      <label for="floatingTextareaTips">What you will learn?</label>
+                      <textarea v-model="formData.course_tips" class="form-control" placeholder="Course Tips"></textarea>
+                      <label for="floatingTextarea2">Course Tips</label>
                     </div>
                   </div>
-                  <div class="col-md-12 text-end">
-                    <button @click="add_course" class="btn btn-primary">Submit</button>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label">Upload Image</label>
+                      <input type="file" @change="handleFileUpload" class="form-control" accept="image/*" />
+                    </div>
                   </div>
+                </div>
+
+                <div class="mt-3">
+                  <button @click="add_course" class="btn btn-primary">Add Course</button>
                 </div>
               </div>
             </div>
@@ -122,3 +88,63 @@ const add_course = () => {
     </div>
   </BackendLayouts>
 </template>
+
+<script setup>
+import { ref, reactive } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+import Datepicker from 'vue3-datepicker';
+import BackendLayouts from '../../BackendLayouts.vue';
+
+const router = useRouter();
+const errorMessage = ref(null);
+
+const formData = reactive({
+  course_title: '',
+  teacher_name: '',
+  duration: '',
+  date: '',
+  category: '',
+  course_tips: '',
+  course_description: '',
+  image: '' // Store the image path here
+});
+
+const handleFileUpload = async (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const response = await axios.post('/api/upload_image', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
+      });
+      formData.image = response.data.filePath; // Ensure this path is a string
+    } catch (error) {
+      errorMessage.value = 'Image upload failed. Please try again.';
+    }
+  }
+};
+
+const add_course = () => {
+  formData.date = formData.date instanceof Date ? formData.date.toISOString().split('T')[0] : formData.date;
+
+  if (!formData.date) {
+    errorMessage.value = 'Invalid date. Please select a valid date.';
+    return;
+  }
+
+  axios.post('/api/add_course', formData)
+    .then((response) => {
+      console.log('Add course success', response.data);
+      router.push('/admin/courses/list');
+    })
+    .catch((error) => {
+      console.error('Adding course failed', error.response.data);
+      errorMessage.value = error.response.data.message || "Adding course failed. Please try again.";
+    });
+};
+</script>

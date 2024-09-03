@@ -13,6 +13,7 @@
     "dependencies": {
         "@vitejs/plugin-vue": "^5.1.2",
         "api": "^6.1.2",
+        "dropzone": "^6.0.0-beta.2",
         "moment": "^2.30.1",
         "sweetalert2": "^11.12.4",
         "vue": "^3.4.38",
