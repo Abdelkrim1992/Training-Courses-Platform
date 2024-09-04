@@ -13,7 +13,10 @@ class CoursesController extends Controller
 {
     public function index()
     {
-        $courses = Course::with('courseImage')->get();
+        $courses = Course::with('courseImage')->get()->map(function ($course) {
+            $course->course_image_url = $course->courseImage ? asset('storage/' . $course->courseImage->course_image) : null;
+            return $course;
+        });
         return response()->json([
             'status' => 200,
             'data' => $courses

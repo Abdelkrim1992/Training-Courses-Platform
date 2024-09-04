@@ -37,7 +37,7 @@
                       <div class="card-body p-2">
                         <div class="position-relative">
                           <!-- Display the course image from the courseImage relationship -->
-                          <img :src="getImageUrl(item.course_image?.course_image)" alt="Course Image" class="img-fluid w-100" />
+                          <img :src="item.course_image_url" alt="Course Image" class="img-fluid w-100" v-if="item.course_image_url" />
                         </div>
                         <ul class="list-group list-group-flush my-2">
                           <li class="list-group-item px-0 py-2">
@@ -151,9 +151,6 @@ export default {
           });
       }
     },
-    getImageUrl(image) {
-      return image ? `/storage/courses/${image}` : '/images/default-course.jpg';
-    }
   }
 };
 
