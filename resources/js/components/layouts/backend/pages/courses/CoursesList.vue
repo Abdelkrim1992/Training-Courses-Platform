@@ -9,7 +9,7 @@
               <div class="col-md-12">
                 <ul class="breadcrumb">
                   <li class="breadcrumb-item"><router-link to="/admin/dashboard">Home</router-link></li>
-                  <li class="breadcrumb-item" aria-current="page">Project List</li>
+                  <li class="breadcrumb-item" aria-current="page">Course List</li>
                 </ul>
               </div>
             </div>
@@ -32,22 +32,22 @@
               <div class="card-body">
                 <div class="row">
                   <!-- Loop through courses and render each course card -->
-                  <div v-for="course in courses" :key="course.id" class="col-sm-6 col-lg-4 col-xxl-3 mb-3">
+                  <div v-for="(item, index) in CoursesList" :key="index" class="col-sm-6 col-lg-4 col-xxl-3 mb-3">
                     <div class="card border">
                       <div class="card-body p-2">
                         <div class="position-relative">
-                          <!-- Display the course image -->
-                          <img :src="'/storage/' + course.image" alt="Course Image" class="img-fluid w-100" />
+                          <!-- Display the course image from the courseImage relationship -->
+                          <img :src="getImageUrl(item.course_image?.course_image)" alt="Course Image" class="img-fluid w-100" />
                         </div>
                         <ul class="list-group list-group-flush my-2">
                           <li class="list-group-item px-0 py-2">
                             <div class="d-flex align-items-center">
                               <div class="flex-grow-1 me-2">
                                 <!-- Display the course title -->
-                                <h6 class="mb-1">{{ course.course_title }}</h6>
+                                <h6 class="mb-1">{{ item.course_title }}</h6>
                               </div>
                               <div class="flex-shrink-0">
-                                <a href="#" class="avtar avtar-xs btn-link-secondary">
+                                <a @click.prevent="deleteCourse(item.id)" class="avtar avtar-xs btn-link-secondary">
                                   <i class="ti ti-trash f-20"></i>
                                 </a>
                               </div>
@@ -61,7 +61,7 @@
                               </div>
                               <div class="flex-shrink-0">
                                 <!-- Display the course duration -->
-                                <p class="text-muted mb-0">{{ course.duration }}</p>
+                                <p class="text-muted mb-0">{{ item.duration }}</p>
                               </div>
                             </div>
                           </li>
@@ -73,7 +73,7 @@
                               </div>
                               <div class="flex-shrink-0">
                                 <!-- Display the teacher name -->
-                                <p class="text-muted mb-0">{{ course.teacher_name }}</p>
+                                <p class="text-muted mb-0">{{ item.teacher_name }}</p>
                               </div>
                             </div>
                           </li>
@@ -85,7 +85,7 @@
                               </div>
                               <div class="flex-shrink-0">
                                 <!-- Display the course date -->
-                                <p class="text-muted mb-0">{{ course.date }}</p>
+                                <p class="text-muted mb-0">{{ item.date }}</p>
                               </div>
                             </div>
                           </li>
@@ -107,19 +107,54 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import BackendLayouts from '../../BackendLayouts.vue';
 
-const courses = ref([]);
+</script>
 
-onMounted(() => {
-  axios.get('/api/get_courses')
-    .then(response => {
-      courses.value = response.data;
-    })
-    .catch(error => {
-      console.error('Failed to fetch courses', error);
-    });
-});
+<script>
+
+export default {
+  data() {
+    return {
+      CoursesList: [],
+    };
+  },
+  mounted() {
+    this.getCourses();
+  },
+  methods: {
+    getCourses() {
+      axios.get('/api/get_courses')
+        .then((response) => {
+          if (response.data.status === 200) {
+            this.CoursesList = response.data.data;
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching courses:', error);
+        });
+    },
+    deleteCourse(id) {
+      if (confirm('Are you sure you want to delete this course?')) {
+        axios.delete(`/api/delete_course/${id}`)
+          .then((response) => {
+            if (response.data.status === 200) {
+              this.getCourses(); // Refresh the course list after deletion
+              alert('Course deleted successfully.');
+            } else {
+              alert('Failed to delete the course.');
+            }
+          })
+          .catch((error) => {
+            console.error('Error deleting course:', error);
+          });
+      }
+    },
+    getImageUrl(image) {
+      return image ? `/storage/courses/${image}` : '/images/default-course.jpg';
+    }
+  }
+};
+
 </script>

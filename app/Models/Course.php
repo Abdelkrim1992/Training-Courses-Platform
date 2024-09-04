@@ -8,4 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     use HasFactory;
+
+    protected $fillable = ([
+        'course_title',
+        'teacher_name',
+        'duration',
+        'date',
+        'course_description',
+        'course_tips',
+        'category',
+    ]);
+
+    public function courseImage()
+    {
+        return $this->hasOne(CourseImage::class);
+    }
 }

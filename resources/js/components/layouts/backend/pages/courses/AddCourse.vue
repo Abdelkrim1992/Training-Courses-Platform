@@ -54,7 +54,7 @@
                   <div class="col-md-6">
                     <div class="mb-3">
                       <label class="form-label">Date</label>
-                      <Datepicker v-model="formData.date" format="YYYY-MM-DD" class="form-control" />
+                      <Datepicker v-model="formData.date" class="form-control" />
                     </div>
                   </div>
                   <div class="col-md-12">
@@ -103,48 +103,52 @@ const formData = reactive({
   course_title: '',
   teacher_name: '',
   duration: '',
-  date: '',
+  date: '', // v-model here binds the date
   category: '',
   course_tips: '',
   course_description: '',
-  image: '' // Store the image path here
+  image: [] // Array to handle multiple images
 });
 
-const handleFileUpload = async (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    const formData = new FormData();
-    formData.append('image', file);
-
-    try {
-      const response = await axios.post('/api/upload_image', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        }
-      });
-      formData.image = response.data.filePath; // Ensure this path is a string
-    } catch (error) {
-      errorMessage.value = 'Image upload failed. Please try again.';
-    }
-  }
+// Function to format the date as 'YYYY-MM-DD'
+const formatDate = (date) => {
+  const d = new Date(date);
+  const month = `${d.getMonth() + 1}`.padStart(2, '0');
+  const day = `${d.getDate()}`.padStart(2, '0');
+  const year = d.getFullYear();
+  return `${year}-${month}-${day}`;
 };
 
-const add_course = () => {
-  formData.date = formData.date instanceof Date ? formData.date.toISOString().split('T')[0] : formData.date;
+// Handle file upload
+const handleFileUpload = (event) => {
+  formData.image = Array.from(event.target.files); // Convert FileList to Array
+};
 
-  if (!formData.date) {
-    errorMessage.value = 'Invalid date. Please select a valid date.';
-    return;
+// Add course
+const add_course = async () => {
+  // Ensure the date is properly formatted before sending the request
+  formData.date = formatDate(formData.date);
+
+  const formDataObj = new FormData();
+  for (const key in formData) {
+    if (Array.isArray(formData[key])) {
+      formData[key].forEach(file => formDataObj.append('image[]', file));
+    } else {
+      formDataObj.append(key, formData[key]);
+    }
   }
 
-  axios.post('/api/add_course', formData)
-    .then((response) => {
-      console.log('Add course success', response.data);
-      router.push('/admin/courses/list');
-    })
-    .catch((error) => {
-      console.error('Adding course failed', error.response.data);
-      errorMessage.value = error.response.data.message || "Adding course failed. Please try again.";
+  try {
+    const response = await axios.post('/api/add_course', formDataObj, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
     });
+    console.log('Add course success', response.data);
+    router.push('/admin/courses/list');
+  } catch (error) {
+    console.error('Adding course failed', error.response.data);
+    errorMessage.value = error.response.data.message || "Adding course failed. Please try again.";
+  }
 };
 </script>
