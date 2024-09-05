@@ -172,7 +172,7 @@ const routes =[
 
     {
         name:'EditProject',
-        path:'/admin/students/edit-project/:id',
+        path:'/admin/projects/edit-project/:id',
         component: EditProject,
     },
 

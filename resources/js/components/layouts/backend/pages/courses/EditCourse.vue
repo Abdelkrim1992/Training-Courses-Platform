@@ -1,61 +1,3 @@
-<script setup>
-import { ref, reactive, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import axios from 'axios';
-import BackendLayouts from '../../BackendLayouts.vue';
-import Datepicker from 'vue3-datepicker';
-
-const route = useRoute();
-const router = useRouter();
-const errorMessage = ref(null);
-
-const formData = reactive({
-  course_title: '',
-  teacher_name: '',
-  duration: '',
-  date: '',
-  category: '',
-  course_tips: '',
-  course_description: '',
-  logo:'',
-});
-
-// Fetch course data and populate form
-onMounted(() => {
-  const courseId = route.params.id;
-  axios.get(`/api/get_course/${courseId}`)
-    .then((response) => {
-      Object.assign(formData, response.data.data); // Populate formData with fetched course data
-      formData.date = new Date(formData.date); // Convert the date to a Date object for Datepicker
-    })
-    .catch((error) => {
-      console.error('Error fetching course:', error);
-      errorMessage.value = 'Failed to load course data. Please try again.';
-    });
-});
-
-const update_course = () => {
-  // Ensure the date is correctly formatted before submission
-  formData.date = formData.date instanceof Date ? formData.date.toISOString().split('T')[0] : formData.date;
-
-  if (!formData.date) {
-    errorMessage.value = 'Invalid date. Please select a valid date.';
-    return;
-  }
-
-  const courseId = route.params.id;
-  axios.put(`/api/update_course/${courseId}`, formData)
-    .then((response) => {
-      console.log('Course updated successfully', response.data);
-      router.push('/admin/courses/list');
-    })
-    .catch((error) => {
-      console.error('Updating course failed', error.response.data);
-      errorMessage.value = error.response.data.message || "Updating course failed. Please try again.";
-    });
-};
-</script>
-
 <template>
   <BackendLayouts>
     <div class="pc-container">
@@ -112,31 +54,31 @@ const update_course = () => {
                   <div class="col-md-6">
                     <div class="mb-3">
                       <label class="form-label">Date</label>
-                      <Datepicker v-model="formData.date" format="YYYY-MM-DD" class="form-control" />
+                      <Datepicker v-model="formData.date" class="form-control" />
                     </div>
                   </div>
                   <div class="col-md-12">
                     <div class="form-floating">
-                      <textarea v-model="formData.course_description" class="form-control" id="floatingTextarea"></textarea>
-                      <label for="floatingTextarea">Course Description</label>
+                      <textarea v-model="formData.course_description" class="form-control" placeholder="Course Description"></textarea>
+                      <label for="floatingTextarea2">Course Description</label>
                     </div>
                   </div>
-                  <div class="col-md-12 mt-3 mb-3">
+                  <div class="col-md-12 mt-3">
                     <div class="form-floating">
-                      <textarea v-model="formData.course_tips" class="form-control" id="floatingTextareaTips"></textarea>
-                      <label for="floatingTextareaTips">What you will learn?</label>
+                      <textarea v-model="formData.course_tips" class="form-control" placeholder="Course Tips"></textarea>
+                      <label for="floatingTextarea2">Course Tips</label>
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-6 mt-3">
                     <div class="mb-3">
-                      <label class="form-label">Change Course Logo</label>
-                      <img :src="formData.logo" alt="Course Logo" class="img-fluid mb-3" v-if="formData.logo">
-                      <input type="file" @change="handleLogoUpload" class="form-control">
+                      <label class="form-label">Upload Image</label>
+                      <input type="file" @change="handleFileUpload" class="form-control" accept="image/*" />
                     </div>
                   </div>
-                  <div class="col-md-12 text-end">
-                    <button @click="update_course" class="btn btn-primary">Submit</button>
-                  </div>
+                </div>
+
+                <div class="mt-3">
+                  <button @click="edit_course" class="btn btn-primary">Update Course</button>
                 </div>
               </div>
             </div>
@@ -146,3 +88,99 @@ const update_course = () => {
     </div>
   </BackendLayouts>
 </template>
+<script setup>
+import { ref, reactive, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import axios from 'axios';
+import Datepicker from 'vue3-datepicker';
+import BackendLayouts from '../../BackendLayouts.vue';
+
+const router = useRouter();
+const route = useRoute();
+const errorMessage = ref(null);
+const successMessage = ref(null); // Optional success message
+const formData = reactive({
+  teacher_name: '',
+  course_title: '',
+  category: '',
+  duration: '',
+  date: '',
+  course_description: '',
+  course_tips: '',
+  image: [] // for image files
+});
+
+const handleFileUpload = (event) => {
+  formData.image = Array.from(event.target.files); // Convert FileList to Array
+};
+
+// Function to format the date as 'YYYY-MM-DD'
+const formatDate = (date) => {
+  const d = new Date(date);
+  const month = `${d.getMonth() + 1}`.padStart(2, '0');
+  const day = `${d.getDate()}`.padStart(2, '0');
+  const year = d.getFullYear();
+  return `${year}-${month}-${day}`;
+};
+
+onMounted(() => {
+  const courseId = route.params.id;
+  axios.get(`/api/get_course/${courseId}`)
+    .then(response => {
+      const courseData = response.data.data;
+      formData.teacher_name = courseData.teacher_name;
+      formData.course_title = courseData.course_title;
+      formData.category = courseData.category;
+      formData.duration = courseData.duration;
+      formData.date = new Date(courseData.date); // Ensure this is a Date object
+      formData.course_description = courseData.course_description;
+      formData.course_tips = courseData.course_tasks;
+    })
+    .catch(error => {
+      console.error('Error fetching course:', error);
+      errorMessage.value = 'Error loading course data';
+    });
+});
+
+const edit_course = async () => {
+  const courseId = route.params.id;
+
+  // Format the date before submission
+  formData.date = formatDate(formData.date);
+
+  // Create a new FormData instance for file uploads
+  const formDataObj = new FormData();
+  
+  // Append data fields
+  formDataObj.append('teacher_name', formData.teacher_name);
+  formDataObj.append('course_title', formData.course_title);
+  formDataObj.append('category', formData.category);
+  formDataObj.append('duration', formData.duration);
+  formDataObj.append('date', formData.date);
+  formDataObj.append('course_description', formData.course_description);
+  formDataObj.append('course_tips', formData.course_tips);
+
+  for (const key in formData) {
+    if (Array.isArray(formData[key])) {
+      formData[key].forEach(file => formDataObj.append('image[]', file));
+    } else {
+      formDataObj.append(key, formData[key]);
+    }
+  }
+
+  try {
+    // Use PUT request to update the course
+    const response = await axios.post(`/api/update_course/${courseId}`, formDataObj, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+    console.log('Edit course success', response.data);
+    successMessage.value = 'course updated successfully!';
+    router.push('/admin/courses/list'); // Redirect to course list after successful update
+  } catch (error) {
+    console.error('Updating course failed', error);
+    errorMessage.value = error.response?.data?.message || "Updating course failed. Please try again.";
+  }
+};
+</script>

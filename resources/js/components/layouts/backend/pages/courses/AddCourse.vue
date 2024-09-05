@@ -63,13 +63,13 @@
                       <label for="floatingTextarea2">Course Description</label>
                     </div>
                   </div>
-                  <div class="col-md-12">
+                  <div class="col-md-12 mt-3">
                     <div class="form-floating">
                       <textarea v-model="formData.course_tips" class="form-control" placeholder="Course Tips"></textarea>
                       <label for="floatingTextarea2">Course Tips</label>
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-6 mt-3">
                     <div class="mb-3">
                       <label class="form-label">Upload Image</label>
                       <input type="file" @change="handleFileUpload" class="form-control" accept="image/*" />

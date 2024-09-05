@@ -8,6 +8,7 @@ use App\Http\Controllers\backend\StudentsController;
 use App\Http\Controllers\backend\TeamController;
 use App\Http\Controllers\backend\ReviewsController;
 use App\Http\Controllers\backend\CoursesController;
+use App\Http\Controllers\backend\ProjectsController;
 
 
 Route::get('/user', function (Request $request) {
@@ -46,5 +47,13 @@ Route::get('/get_courses', [CoursesController::class, 'index']);
 Route::post('/upload_image', [CourseController::class, 'uploadImage']);
 Route::post('/add_course', [CoursesController::class, 'store']);
 Route::get('/get_course/{id}', [CoursesController::class, 'show']);
-Route::put('/update_course/{id}', [CoursesController::class, 'update']);
+Route::post('/update_course/{id}', [CoursesController::class, 'update']);
 Route::delete('/delete_course/{id}', [CoursesController::class, 'destroy']);
+
+// project//
+Route::get('/get_projects', [ProjectsController::class, 'index']);
+Route::post('/upload_image', [ProjectsController::class, 'uploadImage']);
+Route::post('/add_project', [ProjectsController::class, 'store']);
+Route::get('/get_project/{id}', [ProjectsController::class, 'show']);
+Route::post('/update_project/{id}', [ProjectsController::class, 'update']);
+Route::delete('/delete_project/{id}', [ProjectsController::class, 'destroy']);

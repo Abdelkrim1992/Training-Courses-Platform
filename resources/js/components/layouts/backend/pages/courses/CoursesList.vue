@@ -90,7 +90,7 @@
                             </div>
                           </li>
                         </ul>
-                        <button class="btn btn-sm btn-outline-primary mb-2">Read More</button>
+                        <router-link :to="{path:'/admin/courses/edit-course/'+ item.id}" class="btn btn-sm btn-outline-primary mb-2">Edit</router-link>
                       </div>
                     </div>
                   </div>

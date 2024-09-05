@@ -14,9 +14,12 @@ class CoursesController extends Controller
     public function index()
     {
         $courses = Course::with('courseImage')->get()->map(function ($course) {
-            $course->course_image_url = $course->courseImage ? asset('storage/' . $course->courseImage->course_image) : null;
+            // Get the latest image if available
+            $latestImage = $course->courseImage()->latest('created_at')->first();
+            $course->course_image_url = $latestImage ? asset('storage/' . $latestImage->course_image) : null;
             return $course;
         });
+    
         return response()->json([
             'status' => 200,
             'data' => $courses
@@ -65,6 +68,25 @@ class CoursesController extends Controller
         return response()->json(['status' => 200, 'message' => 'Course added successfully']);
     }
 
+    public function show($id)
+    {
+        // Find the course by ID, including its related image
+        $course = Course::with('courseImage')->find($id);
+    
+        if (!$course) {
+            return response()->json(['status' => 404, 'message' => 'course not found']);
+        }
+    
+        // Add image URL to the course response
+        $course->course_image_url = $course->courseImage ? asset('storage/' . $course->courseImage->course_image) : null;
+    
+        return response()->json([
+            'status' => 200,
+            'data' => $course
+        ]);
+    }
+
+    
     public function update(Request $request, $id)
     {
         // Validate input
