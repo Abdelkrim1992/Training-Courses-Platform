@@ -21,6 +21,9 @@ Route::post('/login', [UserController::class, 'login'])->name('login');
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
+Route::get('/settings/first', [SiteSettingController::class, 'index']);
+Route::put('/settings/first', [SiteSettingController::class, 'update']);
+
 // students//
 Route::get('/get_students', [StudentsController::class, 'index']);
 Route::post('/add_student', [StudentsController::class, 'store']);

@@ -57,7 +57,7 @@
                                 <p class="mb-0">Budjet</p>
                               </div>
                               <div class="flex-shrink-0">
-                                <p class="text-muted mb-0">{{ item.budjet }}</p>
+                                <p class="text-muted mb-0">{{ item.budjet }} Dhs</p>
                               </div>
                             </div>
                           </li>

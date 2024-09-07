@@ -118,7 +118,7 @@ const routes =[
 
     {
         name:'SiteSetting',
-        path:'/admin/site-setting',
+        path:'/admin/site-setting/',
         component: SiteSetting,
     },
 

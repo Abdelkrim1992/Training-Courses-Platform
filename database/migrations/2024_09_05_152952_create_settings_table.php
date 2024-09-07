@@ -12,14 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('settings', function (Blueprint $table) {
-        $table->id();
-        $table->string('site_name');
-        $table->string('email');
-        $table->string('phone');
-        $table->string('address');
-        $table->string('facebook')->nullable();
-        $table->string('instagram')->nullable();
-        $table->timestamps();
+            $table->id();
+            $table->string('site_name');
+            $table->string('email');
+            $table->string('phone');
+            $table->string('address');
+            $table->string('facebook');
+            $table->string('instagram');
+            $table->timestamps();
         });
     }
 
