@@ -33,7 +33,9 @@ class ProjectsController extends Controller
         $request->validate([
             'project_description' => 'required|string|max:2000',
             'project_tasks' => 'required|string|max:2000',
+            'short_description' => 'required|string|max:2000',
             'project_name' => 'required|string|max:255',
+            'domaine' => 'required|string|max:255',
             'budjet' => 'required|integer',
             'dead_line' => 'required|date',
             'image' => 'nullable|array', // Expecting an array of images
@@ -50,6 +52,8 @@ class ProjectsController extends Controller
         $project->project_description = $request->project_description;
         $project->project_tasks = $request->project_tasks;
         $project->project_name = $request->project_name;
+        $project->short_description = $request->short_description;
+        $project->domaine = $request->domaine;
         $project->dead_line = $request->dead_line;
         $project->budjet = $request->budjet;
         $project->save();
@@ -95,6 +99,8 @@ class ProjectsController extends Controller
             'project_description' => 'required|string|max:2000',
             'project_tasks' => 'required|string|max:2000',
             'project_name' => 'required|string|max:255',
+            'short_description' => 'required|string|max:2000',
+            'domaine' => 'required|string|max:255',
             'budjet' => 'required|integer',
             'dead_line' => 'required|date',
             'image' => 'nullable|array', // Expecting an array of images
@@ -108,7 +114,9 @@ class ProjectsController extends Controller
 
         $project->project_description = $request->project_description;
         $project->project_tasks = $request->project_tasks;
+        $project->domaine = $request->domaine;
         $project->project_name = $request->project_name;
+        $project->short_description = $request->short_description;
         $project->dead_line = $request->dead_line;
         $project->budjet = $request->budjet;
         

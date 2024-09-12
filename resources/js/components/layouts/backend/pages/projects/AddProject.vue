@@ -29,13 +29,13 @@
                   <div class="col-md-6">
                     <div class="mb-3">
                       <label class="form-label">Project Name</label>
-                      <input type="text" v-model="formData.project_name" class="form-control" placeholder="Enter teacher name">
+                      <input type="text" v-model="formData.project_name" class="form-control" placeholder="Enter project name">
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="mb-3">
                       <label class="form-label">Budjet</label>
-                      <input type="text" v-model="formData.budjet" class="form-control" placeholder="Enter duration of course">
+                      <input type="text" v-model="formData.budjet" class="form-control" placeholder="Enter budjet">
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -44,10 +44,22 @@
                       <Datepicker v-model="formData.dead_line" class="form-control" />
                     </div>
                   </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label">Domaine</label>
+                      <input type="text" v-model="formData.domaine" class="form-control" placeholder="Enter domaine">
+                    </div>
+                  </div>
                   <div class="col-md-12">
                     <div class="form-floating">
-                      <textarea v-model="formData.project_description" class="form-control" placeholder="Course Description"></textarea>
-                      <label for="floatingTextarea2">Project Description</label>
+                      <textarea v-model="formData.short_description" class="form-control" placeholder="Enter short description"></textarea>
+                      <label for="floatingTextarea2">Short Description</label>
+                    </div>
+                  </div>
+                  <div class="col-md-12 mt-4">
+                    <div class="form-floating">
+                      <textarea v-model="formData.project_description" class="form-control" placeholder="Enter full description"></textarea>
+                      <label for="floatingTextarea2">Full Description</label>
                     </div>
                   </div>
                   <div class="col-md-12 mt-4">
@@ -90,7 +102,9 @@ const errorMessage = ref(null);
 
 const formData = reactive({
   project_description: '',
+  short_description: '',
   project_tasks: '',
+  domaine: '',
   project_name: '',
   dead_line: '', // v-model here binds the date
   budjet: '',

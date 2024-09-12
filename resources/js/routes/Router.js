@@ -7,6 +7,7 @@ import AboutUs from '../components/layouts/frontend/AboutUs.vue'
 import Courses from '../components/layouts/frontend/Courses.vue'
 import Projects from '../components/layouts/frontend/Projects.vue'
 import ContactUs from '../components/layouts/frontend/ContactUs.vue'
+import CourseDetails from '../components/layouts/frontend/CourseDetails.vue'
 
 // backend routes//
 
@@ -107,6 +108,12 @@ const routes =[
         name:'ContactUs',
         path:'/contact-us',
         component: ContactUs,
+    },
+
+    {
+        name:'CourseDetails',
+        path:'/course-details/:id',
+        component: CourseDetails,
     },
 
     {

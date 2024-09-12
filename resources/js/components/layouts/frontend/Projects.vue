@@ -4,6 +4,34 @@ import Layouts from '../frontend/Layouts.vue';
 
 </script>
 
+<script>
+
+export default {
+  data() {
+    return {
+      ProjectsList: [],
+    };
+  },
+  mounted() {
+    this.getProjects();
+  },
+  methods: {
+    getProjects() {
+      axios.get('/api/get_projects')
+        .then((response) => {
+          if (response.data.status === 200) {
+            this.ProjectsList = response.data.data;
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching courses:', error);
+        });
+    },
+  }
+};
+
+</script>
+
 
 <template>
     <Layouts>
@@ -35,25 +63,24 @@ import Layouts from '../frontend/Layouts.vue';
             <div class="container">
                <div class="row">
 
-                  <div class="tab-content" id="myTabContent">
+                  <div v-for="(item, index) in ProjectsList" :key="index" class="tab-content" id="myTabContent">
                      <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="tab-content" id="Content">
                            <div class="tab-pane fade show active" id="art-2" role="tabpanel" aria-labelledby="art-2-tab">
                               <div class="tp-course-filter-item mb-25 d-flex">
                                  <div class="tp-course-filter-thumb">
-                                    <a href="course-details-2.html"><img class="course-pink" src="frontend/img/course/course-thumb-1.jpg" alt=""></a>
+                                    <a href="course-details-2.html"><img class="course-pink" :src="item.project_image_url" alt="Project Image"  v-if="item.project_image_url"></a>
                                  </div>
                                  <div class="tp-course-filter-content">
                                     <div class="tp-course-filter-tag d-flex align-items-center justify-content-between mb-10">
-                                       <span class="tag-span">Art & Design</span>
+                                       <span class="tag-span">{{item.domaine}}</span>
                                      
                                     </div>
                                     <h4 class="tp-course-filter-title ">
-                                       <a href="course-details-2.html">Interior design concepts Masterclass</a>
+                                       <a href="course-details-2.html">{{item.project_name}}</a>
                                     </h4>
                                     <div class="tp-course-filter-p">
-                                       <p>In this course, We'll learn how to create websites by structuring and styling your pages <br>
-                                          with HTML and CSS.</p>
+                                       <p>{{item.short_description}}</p>
                                     </div>
                                     <div class="tp-course-filter-pricing list d-flex align-items-center justify-content-between">
                                         

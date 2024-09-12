@@ -44,16 +44,28 @@
                       <Datepicker v-model="formData.dead_line" class="form-control" />
                     </div>
                   </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label">Domaine</label>
+                      <input type="text" v-model="formData.domaine" class="form-control" placeholder="Enter domaine">
+                    </div>
+                  </div>
                   <div class="col-md-12">
                     <div class="form-floating">
-                      <textarea v-model="formData.project_description" class="form-control" placeholder="Project Description"></textarea>
-                      <label for="floatingTextarea2">Project Description</label>
+                      <textarea v-model="formData.short_description" class="form-control" placeholder="Enter Short Description"></textarea>
+                      <label for="floatingTextarea2">Short Description</label>
+                    </div>
+                  </div>
+                  <div class="col-md-12 mt-4 ">
+                    <div class="form-floating">
+                      <textarea v-model="formData.project_description" class="form-control" placeholder="Enter Full Description"></textarea>
+                      <label for="floatingTextarea2">Full Description</label>
                     </div>
                   </div>
                   <div class="col-md-12 mt-4">
                     <div class="mb-3">
                       <div class="form-floating">
-                        <textarea v-model="formData.project_tasks" class="form-control" placeholder="Project Tasks"></textarea>
+                        <textarea v-model="formData.project_tasks" class="form-control" placeholder="Enter Project Tasks"></textarea>
                         <label for="floatingTextarea2">Project Tasks</label>
                       </div>
                     </div>
@@ -92,8 +104,10 @@ const successMessage = ref(null); // Optional success message
 const formData = reactive({
   project_name: '',
   budjet: '',
+  domaine: '',
   dead_line: '',
   project_description: '',
+  short_description: '',
   project_tasks: '',
   image: [] // for image files
 });
@@ -118,8 +132,10 @@ onMounted(() => {
       const projectData = response.data.data;
       formData.project_name = projectData.project_name;
       formData.budjet = projectData.budjet;
+      formData.domaine = projectData.domaine;
       formData.dead_line = new Date(projectData.dead_line); // Ensure this is a Date object
       formData.project_description = projectData.project_description;
+      formData.short_description = projectData.short_description;
       formData.project_tasks = projectData.project_tasks;
     })
     .catch(error => {
@@ -141,7 +157,9 @@ const edit_project = async () => {
   formDataObj.append('project_name', formData.project_name);
   formDataObj.append('budjet', formData.budjet);
   formDataObj.append('dead_line', formData.dead_line);
+  formDataObj.append('short_description', formData.short_description);
   formDataObj.append('project_description', formData.project_description);
+  formDataObj.append('domaine', formData.domaine);
   formDataObj.append('project_tasks', formData.project_tasks);
 
   for (const key in formData) {

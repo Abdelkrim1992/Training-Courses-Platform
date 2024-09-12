@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('project_name')->nullable();
             $table->text('project_description')->nullable();
+            $table->text('short_description')->nullable();
             $table->text('project_tasks')->nullable();
             $table->integer('budjet')->nullable();
             $table->date('dead_line')->nullable();
             $table->string('image')->nullable();
+            $table->string('domaine')->nullable();
             $table->timestamps();
         });
     }
