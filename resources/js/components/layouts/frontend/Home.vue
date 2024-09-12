@@ -262,7 +262,7 @@ export default {
                                  <span><img src="frontend/img/teacher/teacher-1.png" alt="">{{item.teacher_name}}</span>
                               </div>
                               <div class="tp-course-thumb">
-                                 <a href="course-details-2.html"><img class="course-pink" src="frontend/img/course/course-thumb-1.jpg" alt=""></a>
+                                 <router-link to="/course-details/{item.id}"><img class="course-pink" :src="item.course_image_url" alt="Course Image" v-if="item.course_image_url"></router-link>
                               </div>
                               <div class="tp-course-content">
                                  <div class="tp-course-tag mb-10">

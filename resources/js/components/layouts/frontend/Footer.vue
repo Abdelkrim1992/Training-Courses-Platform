@@ -43,7 +43,7 @@
 <!-- Talk area end here -->
 
     <!-- footer-area-start -->
-    <footer>
+   <footer>
          <div class="tp-footer-2">
             <div class="tp-footer-main pt-70 pb-55">
                <div class="container">
@@ -175,7 +175,7 @@
                </div>
             </div>
          </div>
-      </footer>
+   </footer>
    <!-- footer-area-end -->
 </template>
 
