@@ -76,15 +76,16 @@ class ProjectsController extends Controller
 
     public function show($id)
     {
-        // Find the project by ID, including its related image
+        // Find the course by ID, including its related image
         $project = Project::with('projectImage')->find($id);
     
         if (!$project) {
-            return response()->json(['status' => 404, 'message' => 'Project not found']);
+            return response()->json(['status' => 404, 'message' => 'project not found']);
         }
     
-        // Add image URL to the project response
-        $project->project_image_url = $project->projectImage ? asset('storage/' . $project->projectImage->project_image) : null;
+        // Get the latest image if available
+        $latestImage = $project->projectImage()->latest('created_at')->first();
+        $project->project_image_url = $latestImage ? asset('storage/' . $latestImage->project_image) : null;
     
         return response()->json([
             'status' => 200,

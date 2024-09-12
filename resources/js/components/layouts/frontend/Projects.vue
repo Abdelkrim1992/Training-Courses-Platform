@@ -69,7 +69,9 @@ export default {
                            <div class="tab-pane fade show active" id="art-2" role="tabpanel" aria-labelledby="art-2-tab">
                               <div class="tp-course-filter-item mb-25 d-flex">
                                  <div class="tp-course-filter-thumb">
-                                    <a href="course-details-2.html"><img class="course-pink" :src="item.project_image_url" alt="Project Image"  v-if="item.project_image_url"></a>
+                                    <router-link :to="{ path: '/project-details/' + item.id }">
+                                       <img class="course-pink" :src="item.project_image_url" alt="Project Image"  v-if="item.project_image_url">
+                                    </router-link>
                                  </div>
                                  <div class="tp-course-filter-content">
                                     <div class="tp-course-filter-tag d-flex align-items-center justify-content-between mb-10">
@@ -77,7 +79,7 @@ export default {
                                      
                                     </div>
                                     <h4 class="tp-course-filter-title ">
-                                       <a href="course-details-2.html">{{item.project_name}}</a>
+                                       <router-link :to="{ path: '/project-details/' + item.id }">{{item.project_name}}</router-link>
                                     </h4>
                                     <div class="tp-course-filter-p">
                                        <p>{{item.short_description}}</p>
@@ -85,7 +87,7 @@ export default {
                                     <div class="tp-course-filter-pricing list d-flex align-items-center justify-content-between">
                                         
                                        <div class="tp-course-filter-btn">
-                                          <a href="course-details-2.html">Learn More</a>
+                                          <router-link :to="{ path: '/project-details/' + item.id }">Learn More</router-link>
                                        </div>
                                     </div>
                                  </div>

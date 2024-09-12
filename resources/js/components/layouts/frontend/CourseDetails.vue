@@ -2,8 +2,8 @@
    <Header/>
              <!-- course details breadcrumb start -->
              <section class="tp-breadcrumb__area pt-110 pb-90 p-relative z-index-1">
-             <div class="tp-breadcrumb__bg details3" :style="{ backgroundImage: `url(${course.course_image_url})` }"  v-if="course.course_image_url"></div>
-             <div class="container">
+             <div class="tp-breadcrumb__bg details3" :style="{ backgroundImage: `url(${course.course_image_url})` }"></div>
+             <div class="container current">
                 <div class="row">
                    <div class="col-sm-12">
                       <div class="tp-breadcrumb__content">
@@ -71,7 +71,7 @@
                    <div class="col-lg-5">
                       <div class="tp-course-details-3-widget">
                          <div class="tp-course-details-2-widget-thumb p-relative">
-                            <img :src="course.course_image_url"  v-if="course.course_image_url" alt="">
+                            <img :src="course.course_image_url" alt="">
                          </div>
                          <div class="tp-course-details-3-widget-content">
                             <div class="tp-course-details-2-widget-price d-flex justify-content-between align-items-center">
@@ -172,7 +172,7 @@
                          <div class="tp-course-details-2-nav d-flex align-items-center">
                             <nav>
                                <ul id="course_details2_nav">
-                                  <li class="current"><a href="#info">Course Info</a></li>
+                                  <li class=""><a href="#info">Course Info</a></li>
                                   <li class=""><a href="#instructors">Instructors</a></li>
                                   <li class=""><a href="#reviews">Reviews</a></li>
                                </ul>
@@ -428,7 +428,7 @@
  
  <script setup>
  
- import Footer from '../frontend/Footer.vue'
+ import Footer from '../frontend/footer.vue'
  import Header from '../frontend/Header.vue'
  
  </script>
@@ -439,16 +439,12 @@ export default {
     return {
       course: null,
       courseId: this.$route.params.id,
-      sidebarOpen: false, // Assuming you're using Vue Router to pass the course ID
     };
   },
   created() {
     this.fetchCourseDetails();
   },
   methods: {
-   toggleSidebar() {
-      this.sidebarOpen = !this.sidebarOpen;
-    },
     async fetchCourseDetails() {
       try {
         const response = await fetch(`/api/get_course/${this.courseId}`);
