@@ -110,9 +110,9 @@ export default {
 
       <!-- Course Image -->
       <div class="tp-course-thumb">
-        <a href="course-details-2.html">
+        <router-link :to="{ path: '/course-details/' + item.id }">
           <img class="course-pink" :src="item.course_image_url" alt="Course Image" v-if="item.course_image_url">
-        </a>
+        </router-link>
       </div>
 
       <!-- Course Content -->
@@ -145,7 +145,7 @@ export default {
 
         <!-- Course Title -->
         <h4 class="tp-course-title">
-          <a href="course-details-2.html">{{ item.course_title }}</a>
+          <router-link :to="{ path: '/course-details/' + item.id }">{{ item.course_title }}</router-link>
         </h4>
         
 

@@ -3229,7 +3229,7 @@ div.demo img {
   }
 }
 .tp-breadcrumb__bg.details3 {
-  height: 990px;
+  height: 880px;
 }
 .tp-breadcrumb__bg.details3::after {
   position: absolute;
@@ -3239,6 +3239,18 @@ div.demo img {
   top: 0;
   left: 0;
   background: linear-gradient(180deg, rgba(134, 56, 252, 0.9) 0%, #5838fc 100%);
+}
+.tp-breadcrumb__bg.details2 {
+  height: 990px;
+}
+.tp-breadcrumb__bg.details2::after {
+  position: absolute;
+  content: "";
+  height: 43%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: linear-gradient(180deg, #ebf0fd 0%, #ebf0fd 100%);
 }
 .tp-breadcrumb__title {
   color: #031F42;

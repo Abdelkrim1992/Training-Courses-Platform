@@ -1,7 +1,7 @@
 <template>
    <Header/>
              <!-- course details breadcrumb start -->
-             <section class="tp-breadcrumb__area pt-110 pb-90 p-relative z-index-1">
+         <section class="tp-breadcrumb__area pt-110 pb-90 p-relative z-index-1">
              <div class="tp-breadcrumb__bg details3" :style="{ backgroundImage: `url(${course.course_image_url})` }"></div>
              <div class="container current">
                 <div class="row">
@@ -31,10 +31,6 @@
                                <div class="tp-course-details-2-meta">
                                   <span class="tp-course-details-2-meta-subtitle">Category</span>
                                   <h3 class="tp-course-details-2-meta-title">{{course.category}}</h3>
-                               </div>
-                               <div class="tp-course-details-2-meta">
-                                  <span class="tp-course-details-2-meta-subtitle">Last updated</span>
-                                  <h3 class="tp-course-details-2-meta-title">{{course.date}}</h3>
                                </div>
                                <div class="tp-course-details-2-meta text-end">
                                   <div class="tp-course-details-2-meta-rating-wrapper">
@@ -137,34 +133,22 @@
                    <div class="col-lg-7">
                       <div class="tp-course-details-3-list">
                          <div class="tp-course-details-3-list-item d-flex align-items-center justify-content-between">
-                            <span>All classes available online</span>
-                            <span><svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                               <path d="M13 1L4.75 9.25L1 5.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                             </svg></span>
-                         </div>
-                         <div class="tp-course-details-3-list-item d-flex align-items-center justify-content-between">
-                            <span>Hours of classes</span>
-                            <span class="width">36</span>
+                            <span>Duration of course</span>
+                            <span class="width">{{course.duration}}</span>
                          </div>
                          <div class="tp-course-details-3-list-item d-flex align-items-center justify-content-between">
                             <span>Level</span>
                             <span class="width">Beginner</span>
                          </div>
                          <div class="tp-course-details-3-list-item d-flex align-items-center justify-content-between">
+                            <span>Start Date</span>
+                            <span class="width">{{course.date}}</span>
+                         </div>
+                         <div class="tp-course-details-3-list-item d-flex align-items-center justify-content-between">
                             <span>Certificate after completing</span>
                             <span><svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                                <path d="M13 1L4.75 9.25L1 5.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                              </svg></span>
-                         </div>
-                         <div class="tp-course-details-3-list-item d-flex align-items-center justify-content-between">
-                            <span>Duration</span>
-                            <span><svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                               <path d="M13 1L4.75 9.25L1 5.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                             </svg></span>
-                         </div>
-                         <div class="tp-course-details-3-list-item d-flex align-items-center justify-content-between">
-                            <span>Lifetime access</span>
-                            <span class="width">8 weeks</span>
                          </div>
                       </div>
  
