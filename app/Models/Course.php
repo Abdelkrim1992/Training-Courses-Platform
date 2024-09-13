@@ -23,4 +23,8 @@ class Course extends Model
     {
         return $this->hasOne(CourseImage::class);
     }
+    public function teacherPhoto()
+    {
+        return $this->hasOne(TeacherPhoto::class);
+    }
 }

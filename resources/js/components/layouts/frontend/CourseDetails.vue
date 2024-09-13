@@ -20,7 +20,7 @@
                                <div class="tp-course-details-2-meta ">
                                   <div class="tp-course-details-2-author d-flex align-items-center">
                                      <div class="tp-course-details-2-author-avater">
-                                        <img src="frontend/img/course/course-5-teacher-1.png" alt="Salim Rana">
+                                        <img :src="course.teacher_photo_url" alt="Salim Rana">
                                      </div>
                                      <div class="tp-course-details-2-author-content">
                                         <span class="tp-course-details-2-author-designation">Teacher</span>
@@ -180,8 +180,8 @@
                             <div id="instructors" class="pt-100">
                                <h4 class="tp-course-details-2-main-title">Your Instructors</h4>
                                <div class="tp-course-details-2-instructor d-flex">
-                                  <div class="tp-course-details-2-instructor-thumb mr-40">
-                                     <img src="frontend/img/course/details/user.png" alt="">
+                                  <div class="tp-course-details-2-author-avater mr-40">
+                                     <img :src="course.teacher_photo_url" alt="">
                                   </div>
                                   <div class="tp-course-details-2-instructor-content">
                                      <h5>{{course.teacher_name}}</h5>
@@ -436,6 +436,7 @@ export default {
         
         if (result.status === 200) {
           this.course = result.data;
+          console.log("Teacher Photo URL:", this.course.teacher_photo_url);
         } else {
           console.error(result.message);
           // Handle the error accordingly

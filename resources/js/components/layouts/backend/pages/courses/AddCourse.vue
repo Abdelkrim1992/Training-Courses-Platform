@@ -71,8 +71,14 @@
                   </div>
                   <div class="col-md-6 mt-4">
                     <div class="mb-3">
-                      <label class="form-label">Upload Image</label>
+                      <label class="form-label">Course Logo</label>
                       <input type="file" @change="handleFileUpload" class="form-control" accept="image/*" />
+                    </div>
+                  </div>
+                  <div class="col-md-6 mt-4">
+                    <div class="mb-3">
+                      <label class="form-label">Teacher Photo</label>
+                      <input type="file" @change="handleFileUpload_photo" class="form-control" accept="photo/*" />
                     </div>
                   </div>
                 </div>
@@ -107,7 +113,8 @@ const formData = reactive({
   category: '',
   course_tips: '',
   course_description: '',
-  image: [] // Array to handle multiple images
+  image: [], // For course images
+  photo: []  // For teacher photo
 });
 
 // Function to format the date as 'YYYY-MM-DD'
@@ -119,9 +126,14 @@ const formatDate = (date) => {
   return `${year}-${month}-${day}`;
 };
 
-// Handle file upload
+// Handle course image upload
 const handleFileUpload = (event) => {
-  formData.image = Array.from(event.target.files); // Convert FileList to Array
+  formData.image = Array.from(event.target.files); // Convert FileList to Array for course images
+};
+
+// Handle teacher photo upload
+const handleFileUpload_photo = (event) => {
+  formData.photo = Array.from(event.target.files); // Convert FileList to Array for teacher photo
 };
 
 // Add course
@@ -130,13 +142,25 @@ const add_course = async () => {
   formData.date = formatDate(formData.date);
 
   const formDataObj = new FormData();
-  for (const key in formData) {
-    if (Array.isArray(formData[key])) {
-      formData[key].forEach(file => formDataObj.append('image[]', file));
-    } else {
-      formDataObj.append(key, formData[key]);
-    }
-  }
+
+  // Append other form fields
+  formDataObj.append('course_title', formData.course_title);
+  formDataObj.append('teacher_name', formData.teacher_name);
+  formDataObj.append('duration', formData.duration);
+  formDataObj.append('date', formData.date);
+  formDataObj.append('category', formData.category);
+  formDataObj.append('course_tips', formData.course_tips);
+  formDataObj.append('course_description', formData.course_description);
+
+  // Append course images
+  formData.image.forEach(file => {
+    formDataObj.append('image[]', file);
+  });
+
+  // Append teacher photo (only one photo expected)
+  formData.photo.forEach(file => {
+    formDataObj.append('photo[]', file);
+  });
 
   try {
     const response = await axios.post('/api/add_course', formDataObj, {

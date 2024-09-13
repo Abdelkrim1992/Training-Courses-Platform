@@ -71,8 +71,14 @@
                   </div>
                   <div class="col-md-6 mt-3">
                     <div class="mb-3">
-                      <label class="form-label">Upload Image</label>
+                      <label class="form-label">Course Logo</label>
                       <input type="file" @change="handleFileUpload" class="form-control" accept="image/*" />
+                    </div>
+                  </div>
+                  <div class="col-md-6 mt-3">
+                    <div class="mb-3">
+                      <label class="form-label">Teacher Photo</label>
+                      <input type="file" @change="handleFileUpload_photo" class="form-control" accept="photo/*" />
                     </div>
                   </div>
                 </div>
@@ -107,11 +113,16 @@ const formData = reactive({
   date: '',
   course_description: '',
   course_tips: '',
-  image: [] // for image files
+  image: [] ,
+  photo: [] 
 });
 
 const handleFileUpload = (event) => {
   formData.image = Array.from(event.target.files); // Convert FileList to Array
+};
+
+const handleFileUpload_photo = (event) => {
+  formData.photo = Array.from(event.target.files); // Convert FileList to Array
 };
 
 // Function to format the date as 'YYYY-MM-DD'

@@ -14,6 +14,7 @@ export default {
   },
   mounted() {
     this.getCourses();
+    console.log(this.CoursesList);
   },
   methods: {
     getCourses() {
@@ -258,11 +259,8 @@ export default {
                      <div class="row">
                         <div v-for="(item, index) in CoursesList" :key="index" class="col-lg-4 col-md-6">
                            <div class="tp-course-item p-relative fix mb-30">
-                              <div class="tp-course-teacher mb-15">
-                                 <span><img src="frontend/img/teacher/teacher-1.png" alt="">{{item.teacher_name}}</span>
-                              </div>
                               <div class="tp-course-thumb">
-                                 <router-link to="/course-details/{item.id}"><img class="course-pink" :src="item.course_image_url" alt="Course Image" v-if="item.course_image_url"></router-link>
+                                 <router-link :to="{ path: '/course-details/' + item.id }"><img class="course-pink" :src="item.course_image_url" alt="Course Image" v-if="item.course_image_url"></router-link>
                               </div>
                               <div class="tp-course-content">
                                  <div class="tp-course-tag mb-10">

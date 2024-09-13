@@ -19318,8 +19318,11 @@ a .course-sky {
   margin-right: 14px;
 }
 .tp-course-details-2-author-avater img {
-  width: 50px;
-  height: 50px;
+  width: 60px; /* Adjust width as needed */
+  height: 60px; /* Adjust height as needed */
+  object-fit: cover; /* Ensures the image fills the circle */
+  border-radius: 50%; /* Makes the image a circle */
+  border: 2px solid #ddd; /* Optional border for styling */
 }
 .tp-course-details-2-author-designation {
   font-weight: 400;
