@@ -46,7 +46,7 @@ const logout = async () => {
               <i class="ph-duotone ph-user"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
-              <router-link to="/admin/site-setting" class="dropdown-item">
+              <router-link to="/admin/setting/add-setting" class="dropdown-item">
                 <i class="ph-duotone ph-gear"></i>
                 <span>Settings</span>
               </router-link>

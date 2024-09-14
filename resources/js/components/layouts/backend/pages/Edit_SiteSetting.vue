@@ -73,40 +73,45 @@
   <script setup>
   import { ref, onMounted } from 'vue';
   import { useRouter } from 'vue-router';
-  import BackendLayouts from '../BackendLayouts.vue';
   import axios from 'axios';
+  import BackendLayouts from '../BackendLayouts.vue';
   
   const router = useRouter();
-  const setting = ref({});
-  const errorMessage = ref('');
-  const successMessage = ref('');
   
+  const errorMessage = ref(null);
+  const successMessage = ref(null);
+  const setting = ref({
+    site_name: '',
+    email: '',
+    phone: '',
+    address: '',
+    facebook: '',
+    instagram: '',
+  });
+  
+  // Fetch the first setting when the component is mounted
   onMounted(() => {
-    axios.get('/api/settings/first')
+    axios.get('/api/get_setting/1')  // Always fetching the first setting
       .then(response => {
         setting.value = response.data.data;
       })
       .catch(error => {
-        errorMessage.value = 'Error fetching setting: ' + error;
+        errorMessage.value = 'Failed to load the setting.';
       });
   });
   
   const updateSetting = () => {
-    axios.put('/api/settings/first', setting.value)
+    axios.put('/api/update_setting/1', setting.value)  // Always updating the first setting
       .then(response => {
-        if (response.status === 200) {
-          successMessage.value = 'Settings updated successfully!';
-          router.push('/admin/dashboard');
-        } else {
-          errorMessage.value = 'Error updating setting: ' + response.data.message;
-        }
+        successMessage.value = 'Setting updated successfully';
+        setTimeout(() => {
+          router.push('/admin/setting/edit-setting');
+        }, 1500);
       })
       .catch(error => {
-        if (error.response && error.response.status === 422) {
-          errorMessage.value = 'Validation error: ' + JSON.stringify(error.response.data.errors);
-        } else {
-          errorMessage.value = 'Error updating setting: ' + error;
-        }
+        errorMessage.value = 'Failed to update the setting.';
       });
   };
   </script>
+  
+  

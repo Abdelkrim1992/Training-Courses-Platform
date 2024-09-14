@@ -15,7 +15,10 @@ class Project extends Model
         'project_tasks',
         'budjet',
         'dead_line',
-        'image',
+        'started_date',
+        'city',
+        'domaine',
+        'short_description',
     ]);
 
     public function ProjectImage()

@@ -40,8 +40,20 @@
                   </div>
                   <div class="col-md-6">
                     <div class="mb-3">
-                      <label class="form-label">Deadline</label>
-                      <Datepicker v-model="formData.dead_line" class="form-control" />
+                      <label class="form-label">City</label>
+                      <input type="text" v-model="formData.city" class="form-control" placeholder="Enter project city">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label">Started Date</label>
+                      <input v-model="formData.started_date" class="form-control" placeholder="Enter started date"/>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label">Dead Line</label>
+                      <input v-model="formData.dead_line" class="form-control" placeholder="Enter end date"/>
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -72,7 +84,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="mb-3">
-                      <label class="form-label">Upload Image</label>
+                      <label class="form-label">Project Logo</label>
                       <input type="file" @change="handleFileUpload" class="form-control" accept="image/*" />
                     </div>
                   </div>
@@ -94,7 +106,6 @@
 import { ref, reactive, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import axios from 'axios';
-import Datepicker from 'vue3-datepicker';
 import BackendLayouts from '../../BackendLayouts.vue';
 
 const router = useRouter();
@@ -103,43 +114,39 @@ const errorMessage = ref(null);
 const successMessage = ref(null); // Optional success message
 const formData = reactive({
   project_name: '',
+  project_description: '',
+  city: '',
   budjet: '',
   domaine: '',
-  dead_line: '',
-  project_description: '',
-  short_description: '',
   project_tasks: '',
-  image: [] // for image files
+  started_date: '',
+  dead_line: '',
+  short_description: '',
+  image: [] ,
 });
 
 const handleFileUpload = (event) => {
   formData.image = Array.from(event.target.files); // Convert FileList to Array
 };
 
-// Function to format the date as 'YYYY-MM-DD'
-const formatDate = (date) => {
-  const d = new Date(date);
-  const month = `${d.getMonth() + 1}`.padStart(2, '0');
-  const day = `${d.getDate()}`.padStart(2, '0');
-  const year = d.getFullYear();
-  return `${year}-${month}-${day}`;
-};
 
 onMounted(() => {
   const projectId = route.params.id;
   axios.get(`/api/get_project/${projectId}`)
     .then(response => {
-      const projectData = response.data.data;
-      formData.project_name = projectData.project_name;
-      formData.budjet = projectData.budjet;
-      formData.domaine = projectData.domaine;
-      formData.dead_line = new Date(projectData.dead_line); // Ensure this is a Date object
-      formData.project_description = projectData.project_description;
-      formData.short_description = projectData.short_description;
-      formData.project_tasks = projectData.project_tasks;
+      const ProjectData = response.data.data;
+      formData.project_name = ProjectData.project_name;
+      formData.project_description = ProjectData.project_description;
+      formData.city = ProjectData.city;
+      formData.domaine = ProjectData.domaine;
+      formData.short_description = ProjectData.short_description; // Ensure this is a Date object
+      formData.started_date = ProjectData.started_date;
+      formData.dead_line = ProjectData.dead_line;
+      formData.budjet = ProjectData.budjet;
+      formData.project_tasks = ProjectData.project_tasks;
     })
     .catch(error => {
-      console.error('Error fetching project:', error);
+      console.error('Error fetching course:', error);
       errorMessage.value = 'Error loading project data';
     });
 });
@@ -147,20 +154,19 @@ onMounted(() => {
 const edit_project = async () => {
   const projectId = route.params.id;
 
-  // Format the deadline before submission
-  formData.dead_line = formatDate(formData.dead_line);
-
   // Create a new FormData instance for file uploads
   const formDataObj = new FormData();
   
   // Append data fields
   formDataObj.append('project_name', formData.project_name);
-  formDataObj.append('budjet', formData.budjet);
-  formDataObj.append('dead_line', formData.dead_line);
-  formDataObj.append('short_description', formData.short_description);
   formDataObj.append('project_description', formData.project_description);
+  formDataObj.append('city', formData.city);
+  formDataObj.append('budjet', formData.budjet);
   formDataObj.append('domaine', formData.domaine);
+  formDataObj.append('dead_line', formData.dead_line);
+  formDataObj.append('started_date', formData.started_date);
   formDataObj.append('project_tasks', formData.project_tasks);
+  formDataObj.append('short_description', formData.short_description);
 
   for (const key in formData) {
     if (Array.isArray(formData[key])) {
@@ -171,18 +177,18 @@ const edit_project = async () => {
   }
 
   try {
-    // Use PUT request to update the project
+    // Use PUT request to update the course
     const response = await axios.post(`/api/update_project/${projectId}`, formDataObj, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     });
     console.log('Edit project success', response.data);
-    successMessage.value = 'Project updated successfully!';
-    router.push('/admin/projects/list'); // Redirect to project list after successful update
+    successMessage.value = 'project updated successfully!';
+    router.push('/admin/projects/list'); // Redirect to course list after successful update
   } catch (error) {
     console.error('Updating project failed', error);
-    errorMessage.value = error.response?.data?.message || "Updating project failed. Please try again.";
+    errorMessage.value = error.response?.data?.message || "Updating course failed. Please try again.";
   }
 };
 </script>

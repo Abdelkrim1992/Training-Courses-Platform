@@ -18,7 +18,8 @@ import Login from '../components/layouts/auth/Login.vue'
 
 // admin //
 import Dashboard from '../components/layouts/backend/Dashboard.vue'
-import SiteSetting from '../components/layouts/backend/pages/SiteSetting.vue'
+import Add_SiteSetting from '../components/layouts/backend/pages/Add_SiteSetting.vue'
+import Edit_SiteSetting from '../components/layouts/backend/pages/Edit_SiteSetting.vue'
 //courses//
 import CoursesList from '../components/layouts/backend/pages/courses/CoursesList.vue'
 import AddCourse from '../components/layouts/backend/pages/courses/AddCourse.vue'
@@ -131,9 +132,15 @@ const routes =[
     },
 
     {
-        name:'SiteSetting',
-        path:'/admin/site-setting/',
-        component: SiteSetting,
+        name:'Add_SiteSetting',
+        path:'/admin/setting/add-setting',
+        component: Add_SiteSetting,
+    },
+
+    {
+        name:'Edit_SiteSetting',
+        path:'/admin/setting/edit-setting',
+        component: Edit_SiteSetting,
     },
 
     {

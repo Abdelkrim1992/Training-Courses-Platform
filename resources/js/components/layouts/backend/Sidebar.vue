@@ -129,7 +129,7 @@
           <!-- End Testimonial Dropdown -->
 
           <li class="pc-item">
-            <router-link to="/admin/site-setting" class="pc-link">
+            <router-link to="/admin/setting/edit-setting" class="pc-link">
               <span class="pc-micon">
                 <i class="ph-duotone ph-globe"></i>
               </span>

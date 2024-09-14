@@ -29,50 +29,59 @@ class ProjectsController extends Controller
 
     public function store(Request $request)
     {
-        // Validate input
+        // Validate input with custom messages
         $request->validate([
             'project_description' => 'required|string|max:2000',
             'project_tasks' => 'required|string|max:2000',
             'short_description' => 'required|string|max:2000',
             'project_name' => 'required|string|max:255',
             'domaine' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
             'budjet' => 'required|integer',
-            'dead_line' => 'required|date',
+            'started_date' => 'required|string',
+            'dead_line' => 'required|string',
             'image' => 'nullable|array', // Expecting an array of images
             'image.*' => 'image|mimes:jpg,jpeg,png|max:2048', // Validate each image
         ]);
-
-        // Save the course first
+    
+        // Create a new project instance
         $project = new Project();
-
-        if (!$project) {
-            return response()->json(['status' => 404, 'message' => 'Course not found']);
-        }
-
+        
+        // Assign values to project fields
         $project->project_description = $request->project_description;
         $project->project_tasks = $request->project_tasks;
         $project->project_name = $request->project_name;
         $project->short_description = $request->short_description;
         $project->domaine = $request->domaine;
+        $project->city = $request->city;
         $project->dead_line = $request->dead_line;
+        $project->started_date = $request->started_date;
         $project->budjet = $request->budjet;
+        
+        // Save the project to the database
         $project->save();
-
-        // Save each image
+    
+        // Save each uploaded image (if any)
         if ($request->hasFile('image')) {
             foreach ($request->file('image') as $image) {
+                // Create a unique name for the image
                 $uniqueName = time() . '-' . Str::random(10) . '.' . $image->getClientOriginalExtension();
+                
+                // Save the image to the public storage
                 $imagePath = $image->storeAs('images', $uniqueName, 'public');
-
+    
+                // Create a new ProjectImage record
                 ProjectImage::create([
                     'project_id' => $project->id,
                     'project_image' => $imagePath,
                 ]);
             }
         }
-
-        return response()->json(['status' => 200, 'message' => 'project updated successfully']);
+    
+        // Return success response
+        return response()->json(['status' => 200, 'message' => 'Project created successfully']);
     }
+    
 
     public function show($id)
     {
@@ -100,10 +109,12 @@ class ProjectsController extends Controller
             'project_description' => 'required|string|max:2000',
             'project_tasks' => 'required|string|max:2000',
             'project_name' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
             'short_description' => 'required|string|max:2000',
             'domaine' => 'required|string|max:255',
             'budjet' => 'required|integer',
-            'dead_line' => 'required|date',
+            'dead_line' => 'required|string',
+            'started_date' => 'required|string',
             'image' => 'nullable|array', // Expecting an array of images
         ]);
 
@@ -117,8 +128,10 @@ class ProjectsController extends Controller
         $project->project_tasks = $request->project_tasks;
         $project->domaine = $request->domaine;
         $project->project_name = $request->project_name;
+        $project->city = $request->city;
         $project->short_description = $request->short_description;
         $project->dead_line = $request->dead_line;
+        $project->started_date = $request->started_date;
         $project->budjet = $request->budjet;
         
 

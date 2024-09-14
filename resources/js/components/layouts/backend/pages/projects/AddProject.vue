@@ -40,13 +40,25 @@
                   </div>
                   <div class="col-md-6">
                     <div class="mb-3">
-                      <label class="form-label">Dead Line</label>
-                      <Datepicker v-model="formData.dead_line" class="form-control" />
+                      <label class="form-label">City</label>
+                      <input type="text" v-model="formData.city" class="form-control" placeholder="Enter budjet">
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="mb-3">
-                      <label class="form-label">Domaine</label>
+                      <label class="form-label">Started Date</label>
+                      <input v-model="formData.started_date" class="form-control" placeholder="Enter started date" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label">Dead Line</label>
+                      <input v-model="formData.dead_line" class="form-control" placeholder="Enter end date" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label">Domain</label>
                       <input type="text" v-model="formData.domaine" class="form-control" placeholder="Enter domaine">
                     </div>
                   </div>
@@ -72,7 +84,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="mb-3">
-                      <label class="form-label">Upload Image</label>
+                      <label class="form-label">Project Logo</label>
                       <input type="file" @change="handleFileUpload" class="form-control" accept="image/*" />
                     </div>
                   </div>
@@ -101,43 +113,43 @@ const router = useRouter();
 const errorMessage = ref(null);
 
 const formData = reactive({
-  project_description: '',
-  short_description: '',
-  project_tasks: '',
-  domaine: '',
   project_name: '',
-  dead_line: '', // v-model here binds the date
-  budjet: '',
-  image: [] // Array to handle multiple images
+  project_description: '',
+  city: '',
+  budjet: '', // v-model here binds the date
+  dead_line: '',
+  started_date: '',
+  project_tasks: '',
+  short_description: '',
+  domaine: '',
+  image: [], // For course images
 });
 
-// Function to format the date as 'YYYY-MM-DD'
-const formatDate = (dead_line) => {
-  const d = new Date(dead_line);
-  const month = `${d.getMonth() + 1}`.padStart(2, '0');
-  const day = `${d.getDate()}`.padStart(2, '0');
-  const year = d.getFullYear();
-  return `${year}-${month}-${day}`;
-};
-
-// Handle file upload
+// Handle course image upload
 const handleFileUpload = (event) => {
-  formData.image = Array.from(event.target.files); // Convert FileList to Array
+  formData.image = Array.from(event.target.files); // Convert FileList to Array for course images
 };
 
 // Add course
 const add_project = async () => {
-  // Ensure the date is properly formatted before sending the request
-  formData.dead_line = formatDate(formData.dead_line);
 
   const formDataObj = new FormData();
-  for (const key in formData) {
-    if (Array.isArray(formData[key])) {
-      formData[key].forEach(file => formDataObj.append('image[]', file));
-    } else {
-      formDataObj.append(key, formData[key]);
-    }
-  }
+
+  // Append other form fields
+  formDataObj.append('project_name', formData.project_name);
+  formDataObj.append('project_description', formData.project_description);
+  formDataObj.append('city', formData.city);
+  formDataObj.append('budjet', formData.budjet);
+  formDataObj.append('domaine', formData.domaine);
+  formDataObj.append('dead_line', formData.dead_line);
+  formDataObj.append('started_date', formData.started_date);
+  formDataObj.append('project_tasks', formData.project_tasks);
+  formDataObj.append('short_description', formData.short_description);
+
+  // Append course images
+  formData.image.forEach(file => {
+    formDataObj.append('image[]', file);
+  });
 
   try {
     const response = await axios.post('/api/add_project', formDataObj, {
@@ -148,8 +160,8 @@ const add_project = async () => {
     console.log('Add course success', response.data);
     router.push('/admin/projects/list');
   } catch (error) {
-    console.error('Adding course failed', error.response.data);
-    errorMessage.value = error.response.data.message || "Adding course failed. Please try again.";
+    console.error('Adding project failed', error.response.data);
+    errorMessage.value = error.response.data.message || "Adding project failed. Please try again.";
   }
 };
 </script>

@@ -53,7 +53,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="mb-3">
-                      <label class="form-label">Date</label>
+                      <label class="form-label">Date of course</label>
                       <Datepicker v-model="formData.date" class="form-control" />
                     </div>
                   </div>

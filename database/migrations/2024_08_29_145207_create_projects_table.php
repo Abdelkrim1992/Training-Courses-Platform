@@ -18,8 +18,9 @@ return new class extends Migration
             $table->text('short_description')->nullable();
             $table->text('project_tasks')->nullable();
             $table->integer('budjet')->nullable();
-            $table->date('dead_line')->nullable();
-            $table->string('image')->nullable();
+            $table->string('dead_line')->nullable();
+            $table->string('started_date')->nullable();
+            $table->string('city')->nullable();
             $table->string('domaine')->nullable();
             $table->timestamps();
         });

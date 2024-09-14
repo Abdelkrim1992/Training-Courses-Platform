@@ -1,51 +1,79 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\backend;
 
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class SiteSettingController extends Controller
 {
-    public function index() {
-        try {
-            $setting = Setting::first();
-            if (!$setting) {
-                return response()->json(['message' => 'Setting not found'], 404);
-            }
-            return response()->json(['data' => $setting], 200);
-        } catch (\Exception $e) {
-            Log::error('Error fetching setting: ' . $e->getMessage());
-            return response()->json(['message' => 'Internal server error'], 500);
+    // Show setting (assuming one setting for the whole site)
+    public function show($id = 1) {
+        $setting = Setting::find($id);
+
+        if (!$setting) {
+            return response()->json(['status' => 404, 'message' => 'Setting not found'], 404);
         }
+
+        return response()->json([
+            'status' => 200,
+            'data' => $setting
+        ]);
     }
 
-    // Update the first setting
-    public function update(Request $request) {
-        try {
-            $setting = Setting::first();
-            if (!$setting) {
-                return response()->json(['message' => 'Setting not found'], 404);
-            }
+    // Store a new setting
+    // Store a new setting
+    // Add new setting
+    public function store(Request $request) {
+    $request->validate([
+        'site_name' => 'required|string',
+        'email'     => 'required|string|email',
+        'phone'     => 'required|string',
+        'address'   => 'required|string',
+        'facebook'  => 'required|string',
+        'instagram' => 'required|string',
+    ]);
 
-            // Validation
-            $request->validate([
-                'site_name' => 'required|string|max:255',
-                'email' => 'required|email|max:255',
-                'phone' => 'required|string|max:20',
-                'address' => 'required|string|max:255',
-                'facebook' => 'required|string|max:255',
-                'instagram' => 'required|string|max:255',
-            ]);
+    $setting = new Setting;
+    $setting->site_name = $request->site_name;
+    $setting->email = $request->email;
+    $setting->phone = $request->phone;
+    $setting->address = $request->address;
+    $setting->facebook = $request->facebook;
+    $setting->instagram = $request->instagram;
+    $setting->save();
 
-            // Update setting
-            $setting->update($request->all());
+    return response()->json(['status' => 200, 'message' => 'Setting stored successfully']);
+}
 
-            return response()->json(['data' => $setting, 'message' => 'Setting updated successfully'], 200);
-        } catch (\Exception $e) {
-            Log::error('Error updating setting: ' . $e->getMessage());
-            return response()->json(['message' => 'Internal server error'], 500);
-        }
+    // Update setting (for ID = 1)
+    public function update(Request $request, $id = 1) {
+    $request->validate([
+        'site_name' => 'required|string',
+        'email'     => 'required|string|email',
+        'phone'     => 'required|string',
+        'address'   => 'required|string',
+        'facebook'  => 'required|string',
+        'instagram' => 'required|string',
+    ]);
+
+    $setting = Setting::find($id);
+
+    if (!$setting) {
+        return response()->json(['status' => 404, 'message' => 'Setting not found'], 404);
     }
+
+    $setting->site_name = $request->site_name;
+    $setting->email = $request->email;
+    $setting->phone = $request->phone;
+    $setting->address = $request->address;
+    $setting->facebook = $request->facebook;
+    $setting->instagram = $request->instagram;
+    $setting->save();
+
+    return response()->json(['status' => 200, 'message' => 'Setting updated successfully']);
+}
+
 }
