@@ -132,7 +132,7 @@ const updateSetting = async () => {
   }
 
   try {
-    const response = await axios.put('/api/update_setting/1', formData, {
+    const response = await axios.post('/api/update_setting/1', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -143,7 +143,13 @@ const updateSetting = async () => {
       router.push('/admin/setting/edit-setting');
     }, 1500);
   } catch (error) {
-    errorMessage.value = error.response?.data?.message || 'An error occurred while saving the setting.';
+    if (error.response && error.response.data.errors) {
+      // If the error response contains validation messages
+      const errors = Object.values(error.response.data.errors).flat();
+      errorMessage.value = errors.join(', ');
+    } else {
+      errorMessage.value = error.response?.data?.message || 'An error occurred while saving the setting.';
+    }
   }
 };
 

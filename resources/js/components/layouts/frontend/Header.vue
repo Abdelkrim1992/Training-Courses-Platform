@@ -8,7 +8,7 @@
               <div class="tp-header-2-right d-flex align-items-center">
                 <div class="tp-header-inner-logo tp-header-logo">
                   <router-link to="/">
-                    <img src="frontend/img/logo/logo-black.png" alt="logo" />
+                    <img :src="setting?.setting_logo_url || '/default-logo.png'" alt="logo" />
                   </router-link>
                 </div>
               </div>
@@ -103,11 +103,30 @@ export default {
   data() {
     return {
       sidebarOpen: false,
+      setting: null,
     };
+  },
+  created() {
+    this.fetchSettingDetails();
   },
   methods: {
     toggleSidebar() {
       this.sidebarOpen = !this.sidebarOpen;
+    },
+    async fetchSettingDetails() {
+      try {
+        const response = await fetch(`/api/get_setting/1`);
+        const result = await response.json();
+        
+        if (result.status === 200) {
+          this.setting = result.data;
+          console.log("Setting Logo URL:", this.setting.setting_logo_url);
+        } else {
+          console.error(result.message);
+        }
+      } catch (error) {
+        console.error('Error fetching setting details:', error);
+      }
     },
   },
 };

@@ -23,7 +23,7 @@ Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
 Route::get('/get_setting/{id}', [SiteSettingController::class, 'show']);
 Route::post('/add_setting', [SiteSettingController::class, 'store']);
-Route::put('/update_setting/{id}', [SiteSettingController::class, 'update']);
+Route::post('/update_setting/{id}', [SiteSettingController::class, 'update']);
 
 // students//
 Route::get('/get_students', [StudentsController::class, 'index']);
