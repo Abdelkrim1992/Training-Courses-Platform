@@ -8,7 +8,7 @@
               <div class="tp-header-2-right d-flex align-items-center">
                 <div class="tp-header-inner-logo tp-header-logo">
                   <router-link to="/">
-                    <img :src="setting?.setting_logo_url || '/default-logo.png'" alt="logo" />
+                    <img src="frontend/img/logo/logo-black.png" alt="logo" />
                   </router-link>
                 </div>
               </div>
@@ -104,28 +104,31 @@ export default {
     return {
       sidebarOpen: false,
       setting: null,
+      settingId: this.$route.params.id,
     };
   },
   created() {
-    this.fetchSettingDetails();
-  },
+    this.fetchHeaderDetails()},
+
   methods: {
     toggleSidebar() {
       this.sidebarOpen = !this.sidebarOpen;
     },
-    async fetchSettingDetails() {
+    async fetchHeaderDetails() {
       try {
-        const response = await fetch(`/api/get_setting/1`);
+        const response = await fetch(`/api/get_setting/${this.settingId}`);
         const result = await response.json();
         
         if (result.status === 200) {
           this.setting = result.data;
-          console.log("Setting Logo URL:", this.setting.setting_logo_url);
+          console.log("Teacher Photo URL:", this.setting.setting_logo_url);
         } else {
           console.error(result.message);
+          // Handle the error accordingly
         }
       } catch (error) {
         console.error('Error fetching setting details:', error);
+        // Handle the error accordingly
       }
     },
   },
