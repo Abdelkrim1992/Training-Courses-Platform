@@ -23,8 +23,14 @@
               </div>
               <div class="card-body">
                 <div class="row">
+                  <!-- Error Message -->
                   <div v-if="errorMessage" class="alert alert-danger" role="alert">
                     {{ errorMessage }}
+                  </div>
+
+                  <!-- Success Message -->
+                  <div v-if="successMessage" class="alert alert-success" role="alert">
+                    {{ successMessage }}
                   </div>
 
                   <div class="col-md-6">
@@ -53,8 +59,8 @@
                   </div>
                   <div class="col-md-6">
                     <div class="mb-3">
-                      <label class="form-label">Date</label>
-                      <Datepicker v-model="formData.date" class="form-control" />
+                      <label class="form-label">Date of course</label>
+                      <Datepicker v-model="formData.date" class="form-control" placeholder="Choose date of course" />
                     </div>
                   </div>
                   <div class="col-md-12">
@@ -104,6 +110,7 @@ import BackendLayouts from '../../BackendLayouts.vue';
 
 const router = useRouter();
 const errorMessage = ref(null);
+const successMessage = ref(null);
 
 const formData = reactive({
   course_title: '',
@@ -168,8 +175,13 @@ const add_course = async () => {
         'Content-Type': 'multipart/form-data'
       }
     });
+    successMessage.value = response.data.message;  // Set success message
     console.log('Add course success', response.data);
-    router.push('/admin/courses/list');
+
+    // Redirect to course list after success (with delay if needed)
+    setTimeout(() => {
+      router.push('/admin/courses/list');
+    }, 2000); // Delay of 2 seconds to display success message
   } catch (error) {
     console.error('Adding course failed', error.response.data);
     errorMessage.value = error.response.data.message || "Adding course failed. Please try again.";

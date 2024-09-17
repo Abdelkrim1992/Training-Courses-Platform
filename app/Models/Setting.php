@@ -17,4 +17,9 @@ class Setting extends Model
         'facebook',
         'instagram',
     ];
+
+    public function SettingImage()
+    {
+        return $this->hasOne(SettingImage::class);
+    }
 }

@@ -27,6 +27,11 @@
                     {{ errorMessage }}
                   </div>
 
+                  <!-- Success Message -->
+                  <div v-if="successMessage" class="alert alert-success" role="alert">
+                    {{ successMessage }}
+                  </div>
+
                   <div class="col-md-6">
                     <div class="mb-3">
                       <label class="form-label">Course Title</label>

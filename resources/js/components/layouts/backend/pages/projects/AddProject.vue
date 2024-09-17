@@ -41,7 +41,7 @@
                   <div class="col-md-6">
                     <div class="mb-3">
                       <label class="form-label">City</label>
-                      <input type="text" v-model="formData.city" class="form-control" placeholder="Enter budjet">
+                      <input type="text" v-model="formData.city" class="form-control" placeholder="Enter project city">
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -106,7 +106,6 @@
 import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
-import Datepicker from 'vue3-datepicker';
 import BackendLayouts from '../../BackendLayouts.vue';
 
 const router = useRouter();
