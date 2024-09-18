@@ -1,7 +1,7 @@
 <template>
-   <Header/>
-             <!-- course details breadcrumb start -->
-         <section class="tp-breadcrumb__area pt-110 pb-90 p-relative z-index-1">
+   <Layouts>
+                   <!-- course details breadcrumb start -->
+                   <section class="tp-breadcrumb__area pt-110 pb-90 p-relative z-index-1">
              <div class="tp-breadcrumb__bg details3" :style="{ backgroundImage: `url(${course.course_image_url})` }"></div>
              <div class="container current">
                 <div class="row">
@@ -406,14 +406,12 @@
              </div>
          </section>
           <!-- course details breadcrumb end -->
-
-          <Footer/>
+   </Layouts>
  </template>
  
  <script setup>
  
- import Footer from '../frontend/footer.vue'
- import Header from '../frontend/Header.vue'
+import Layouts from '../frontend/Layouts.vue'
  
  </script>
 
@@ -421,7 +419,7 @@
 export default {
   data() {
     return {
-      course: null,
+      course: [],
       courseId: this.$route.params.id,
     };
   },

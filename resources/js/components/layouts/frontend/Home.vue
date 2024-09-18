@@ -1,6 +1,6 @@
 <script setup>
 
-    import Layouts from '../frontend/layouts.vue';
+    import Layouts from '../frontend/Layouts.vue';
     
 </script>
 
@@ -10,8 +10,11 @@ export default {
   data() {
     return {
       CoursesList: [],
+      course_1: [],
     };
   },
+  created() {
+    this.fetchCourseID1Details()},
   mounted() {
     this.getCourses();
     console.log(this.CoursesList);
@@ -27,6 +30,23 @@ export default {
         .catch((error) => {
           console.error('Error fetching courses:', error);
         });
+    },
+    async fetchCourseID1Details() {
+      try {
+        const response = await fetch(`/api/get_course/1`);
+        const result = await response.json();
+        
+        if (result.status === 200) {
+          this.course_1 = result.data;
+          console.log("Teacher Photo URL:", this.course_1.course_image_url);
+        } else {
+          console.error(result.message);
+          // Handle the error accordingly
+        }
+      } catch (error) {
+        console.error('Error fetching setting details:', error);
+        // Handle the error accordingly
+      }
     },
   }
 };
@@ -65,7 +85,7 @@ export default {
                   <div class="tp-hero-2-course p-relative wow fadeInUp" data-wow-delay=".5s">
                      <div class="tp-course-item p-relative fix mb-30">
                         <div class="tp-course-teacher mb-15">
-                           <span><img src="frontend/img/teacher/teacher-5.png" alt="">Hilary Ouse</span>
+                           <span><img :src="course_1.teacher_photo_url" alt="">{{course_1.teacher_name}}</span>
                            <span class="discount">-25%</span>
                         </div>
                         <div class="tp-course-thumb">
@@ -73,10 +93,10 @@ export default {
                         </div>
                         <div class="tp-course-content">
                            <div class="tp-course-tag mb-10">
-                              <span>Art & Design</span>
+                              <span>{{course_1.category}}</span>
                            </div>
                            <h4 class="tp-course-title">
-                              <a href="course-details-2.html">Interior design concepts <br> Masterclass</a>
+                              <a href="course-details-2.html">{{course_1.course_title}}</a>
                            </h4>
                            <div class="tp-course-rating d-flex align-items-end justify-content-between">
                               <div class="tp-course-rating-star">
