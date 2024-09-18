@@ -13,6 +13,9 @@ const formData = reactive({
   member_email: '',
   member_phone: '',
   member_service: '',
+  facebook: '',
+  instagram: '',
+  linkden: '',
 });
 
 const add_team_member = () => {
@@ -77,12 +80,30 @@ const add_team_member = () => {
                   </div>
                   <div class="col-md-6">
                     <div class="mb-3">
-                      <label class="form-label">Service</label>
+                      <label class="form-label">Member Service</label>
                       <input type="text" v-model="formData.member_service" class="form-control" placeholder="Enter member service">
                     </div>
                   </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label">Facebook</label>
+                      <input type="text" v-model="formData.facebook" class="form-control" placeholder="Enter facebook link">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label">Instagram</label>
+                      <input type="text" v-model="formData.instagram" class="form-control" placeholder="Enter instagram link">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label">Linkden</label>
+                      <input type="text" v-model="formData.linkden" class="form-control" placeholder="Enter linkden link">
+                    </div>
+                  </div>
                   <div class="col-md-12 text-end">
-                    <button @click="add_team_member" class="btn btn-primary">Submit</button>
+                    <button @click="add_team_member" class="btn btn-primary">Save</button>
                   </div>
                 </div>
               </div>

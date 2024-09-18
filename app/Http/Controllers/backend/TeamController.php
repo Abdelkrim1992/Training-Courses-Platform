@@ -35,6 +35,9 @@ class TeamController extends Controller
         $team->member_name = $request-> member_name;
         $team->member_phone = $request-> member_phone;
         $team->member_email = $request-> member_email;
+        $team->facebook = $request->facebook;
+        $team->instagram = $request->instagram;
+        $team->linkden = $request->linkden;
         $team->member_service = $request-> member_service;
 
         $team->save();
@@ -59,6 +62,9 @@ class TeamController extends Controller
         $team->member_name = $request->member_name;
         $team->member_phone = $request->member_phone;
         $team->member_email = $request->member_email;
+        $team->facebook = $request->facebook;
+        $team->instagram = $request->instagram;
+        $team->linkden = $request->linkden;
         $team->member_service = $request->member_service;
         $team->save();
 

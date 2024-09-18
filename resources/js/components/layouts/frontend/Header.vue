@@ -8,7 +8,7 @@
               <div class="tp-header-2-right d-flex align-items-center">
                 <div class="tp-header-inner-logo tp-header-logo">
                   <router-link to="/">
-                    <img src="frontend/img/logo/logo-black.png" alt="logo" />
+                    <img :src="setting?.setting_logo_url" alt="logo" />
                   </router-link>
                 </div>
               </div>
@@ -104,7 +104,6 @@ export default {
     return {
       sidebarOpen: false,
       setting: null,
-      settingId: this.$route.params.id,
     };
   },
   created() {
@@ -116,7 +115,7 @@ export default {
     },
     async fetchHeaderDetails() {
       try {
-        const response = await fetch(`/api/get_setting/${this.settingId}`);
+        const response = await fetch(`/api/get_setting/1`);
         const result = await response.json();
         
         if (result.status === 200) {
