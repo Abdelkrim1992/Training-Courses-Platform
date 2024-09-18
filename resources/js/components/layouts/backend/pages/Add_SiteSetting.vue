@@ -69,6 +69,14 @@
                     </div>
                   </div>
 
+                  <!-- whatsapp -->
+                  <div class="mb-3 row">
+                    <label class="col-form-label col-sm-3 text-sm-end">Whatsapp</label>
+                    <div class="col-lg-6 col-sm-7">
+                      <input v-model="formData.whatsapp" type="text" class="form-control" placeholder="Enter Whatsapp link">
+                    </div>
+                  </div>
+
                   <!-- Image Upload -->
                     <div class="mb-3 row">
                       <label class="col-form-label col-sm-3 text-sm-end">Website Logo</label>
@@ -115,6 +123,7 @@ const formData = reactive({
   address: '',
   facebook: '',
   instagram: '',
+  whatsapp: '',
   image: null, // Will hold the uploaded file(s)
 });
 
@@ -137,7 +146,7 @@ const submitSetting = async () => {
   formDataObj.append('address', formData.address);
   formDataObj.append('facebook', formData.facebook);
   formDataObj.append('instagram', formData.instagram);
-
+  formDataObj.append('whatsapp', formData.whatsapp);
   // Append files if present
   if (formData.image) {
     for (let i = 0; i < formData.image.length; i++) {

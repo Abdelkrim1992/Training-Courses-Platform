@@ -43,6 +43,7 @@ class SiteSettingController extends Controller
             'address'   => 'required|string',
             'facebook'  => 'required|string',
             'instagram' => 'required|string',
+            'whatsapp' => 'required|string',
         ]);
     
         // Create a new setting instance
@@ -53,6 +54,7 @@ class SiteSettingController extends Controller
         $setting->address = $request->address;
         $setting->facebook = $request->facebook;
         $setting->instagram = $request->instagram;
+        $setting->whatsapp = $request->whatsapp;
     
         // Save the setting to get a valid setting_id
         $setting->save();
@@ -84,6 +86,7 @@ class SiteSettingController extends Controller
             'address'   => 'required|string',
             'facebook'  => 'required|string',
             'instagram' => 'required|string',
+            'whatsapp' => 'required|string',
             'image'     => 'nullable|image|max:2048',  // Make sure image is optional and a valid image type
         ]);
     
@@ -101,6 +104,7 @@ class SiteSettingController extends Controller
         $setting->address = $request->address;
         $setting->facebook = $request->facebook;
         $setting->instagram = $request->instagram;
+        $setting->whatsapp = $request->whatsapp;
     
         // Handle image upload
         if ($request->hasFile('image')) {

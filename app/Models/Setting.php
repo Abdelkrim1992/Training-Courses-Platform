@@ -16,6 +16,7 @@ class Setting extends Model
         'address',
         'facebook',
         'instagram',
+        'whatsapp',
     ];
 
     public function settingImage()

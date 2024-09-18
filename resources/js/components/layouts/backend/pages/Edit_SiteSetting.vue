@@ -54,6 +54,12 @@
                     </div>
                   </div>
                   <div class="mb-3 row">
+                    <label class="col-form-label col-sm-3 text-sm-end">Whatsapp</label>
+                    <div class="col-lg-6 col-sm-7">
+                      <input v-model="setting.whatsapp" type="text" class="form-control" placeholder="Enter Whatsapp link">
+                    </div>
+                  </div>
+                  <div class="mb-3 row">
                     <label class="col-form-label col-sm-3 text-sm-end">Website Logo</label>
                     <div class="col-lg-6 col-sm-7">
                       <input type="file" @change="handleFileUpload" class="form-control" accept="image/*" />
@@ -93,6 +99,7 @@ const setting = ref({
   address: '',
   facebook: '',
   instagram: '',
+  whatsapp: '',
 });
 
 const imageFile = ref(null);
@@ -125,6 +132,7 @@ const updateSetting = async () => {
   formData.append('address', setting.value.address);
   formData.append('facebook', setting.value.facebook);
   formData.append('instagram', setting.value.instagram);
+  formData.append('whatsapp', setting.value.whatsapp);
 
   // Append file if present
   if (imageFile.value) {
