@@ -11,7 +11,7 @@
                   <li class="breadcrumb-item">
                     <router-link to="/admin/dashboard">Home</router-link>
                   </li>
-                  <li class="breadcrumb-item" aria-current="page">Student List</li>
+                  <li class="breadcrumb-item" aria-current="page">Team Member List</li>
                 </ul>
               </div>
             </div>

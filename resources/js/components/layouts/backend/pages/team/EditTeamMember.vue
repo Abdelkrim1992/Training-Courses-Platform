@@ -27,9 +27,11 @@
                 <h5>Edit Team Member</h5>
               </div>
               <div class="card-body">
-               
-                <form @submit.prevent="updateTeamMember">
-                  <div class="row">
+                <div class="row">
+                  <div v-if="errorMessage" class="alert alert-danger" role="alert">
+                    {{ errorMessage }}
+                  </div>
+
                   <div class="col-md-6">
                     <div class="mb-3">
                       <label class="form-label">Full Name</label>
@@ -72,12 +74,16 @@
                       <input type="text" v-model="formData.linkden" class="form-control" placeholder="Enter linkden link">
                     </div>
                   </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label">Member Photo</label>
+                      <input type="file" @change="handleFileUpload" class="form-control" accept="image/*" />
+                    </div>
+                  </div>
+                  <div class="col-md-12 text-end">
+                    <button @click="updateTeamMember" class="btn btn-primary">Save</button>
+                  </div>
                 </div>
-                <div class="col-md-12 text-end">
-                  <button type="submit" class="btn btn-primary">Save Changes</button>
-                </div>
-                </form>
-               
               </div>
             </div>
           </div>
@@ -88,38 +94,86 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import BackendLayouts from '../../BackendLayouts.vue';
+import { ref, reactive, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import axios from 'axios';
+import BackendLayouts from '../../BackendLayouts.vue';
 
-const route = useRoute();
 const router = useRouter();
-const formData = ref({});
+const route = useRoute();
+const errorMessage = ref(null);
+const successMessage = ref(null); // Optional success message
+
+const formData = reactive({
+  member_name: '',
+  member_email: '',
+  member_phone: '',
+  member_service: '', // v-model here binds the date
+  facebook: '',
+  instagram: '',
+  linkden: '',
+  photo: []  // For teacher photo
+});
+
+const handleFileUpload = (event) => {
+  formData.photo = Array.from(event.target.files); // Convert FileList to Array
+};
 
 onMounted(() => {
   const memberId = route.params.id;
   axios.get(`/api/get_team_member/${memberId}`)
     .then(response => {
-      formData.value = response.data.data;
+      const memberData = response.data.data;
+      formData.member_name = memberData.member_name;
+      formData.member_email = memberData.member_email;
+      formData.member_phone = memberData.member_phone;
+      formData.member_service = memberData.member_service;
+      formData.facebook = memberData.facebook; // Ensure this is a Date object
+      formData.instagram = memberData.instagram;
+      formData.linkden = memberData.linkden;
     })
     .catch(error => {
-      console.error('Error fetching student:', error);
+      console.error('Error fetching course:', error);
+      errorMessage.value = 'Error loading team member data';
     });
 });
 
-const updateTeamMember = () => {
+const updateTeamMember = async () => {
   const memberId = route.params.id;
-  axios.put(`/api/update_team_member/${memberId}`, formData.value)
-    .then(response => {
-      if (response.data.status === 200) {
-        router.push('/admin/team/list');
-      } else {
-        console.error('Error updating member:', response.data.message);
+
+  // Create a new FormData instance for file uploads
+  const formDataObj = new FormData();
+  
+    // Append other form fields
+  formDataObj.append('member_name', formData.member_name);
+  formDataObj.append('member_email', formData.member_email);
+  formDataObj.append('member_phone', formData.member_phone);
+  formDataObj.append('member_service', formData.member_service);
+  formDataObj.append('facebook', formData.facebook);
+  formDataObj.append('instagram', formData.instagram);
+  formDataObj.append('linkden', formData.linkden);
+
+  for (const key in formData) {
+    if (Array.isArray(formData[key])) {
+      formData[key].forEach(file => formDataObj.append('photo[]', file));
+    } else {
+      formDataObj.append(key, formData[key]);
+    }
+  }
+
+  try {
+    // Use PUT request to update the course
+    const response = await axios.post(`/api/update_team_member/${memberId}`, formDataObj, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
       }
-    })
-    .catch(error => {
-      console.error('Error updating member:', error);
     });
+    console.log('Edit team member success', response.data);
+    successMessage.value = 'Team member  updated successfully!';
+    router.push('/admin/team/list'); // Redirect to course list after successful update
+  } catch (error) {
+    console.error('Updating team member failed', error);
+    errorMessage.value = error.response?.data?.message || "Updating team member failed. Please try again.";
+  }
 };
 </script>

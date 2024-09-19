@@ -5,29 +5,61 @@ import axios from 'axios';
 import BackendLayouts from '../../BackendLayouts.vue';
 
 const router = useRouter();
-
 const errorMessage = ref(null);
+const successMessage = ref(null);
 
 const formData = reactive({
   member_name: '',
   member_email: '',
   member_phone: '',
-  member_service: '',
+  member_service: '', // v-model here binds the date
   facebook: '',
   instagram: '',
   linkden: '',
+  photo: []  // For teacher photo
 });
 
-const add_team_member = () => {
-  axios.post('/api/add_team_member', formData)
-    .then((response) => {
-      console.log('Add student success', response.data);
-      router.push('/admin/team/list');
-    })
-    .catch((error) => {
-      console.error('Adding member failed', error.response.data);
-      errorMessage.value = error.response.data.message || "Adding member failed. Please try again.";
+// Handle teacher photo upload
+const handleFileUpload = (event) => {
+  formData.photo = Array.from(event.target.files); // Convert FileList to Array for teacher photo
+};
+
+// Add course
+const add_team_member = async () => {
+
+  const formDataObj = new FormData();
+
+  // Append other form fields
+  formDataObj.append('member_name', formData.member_name);
+  formDataObj.append('member_email', formData.member_email);
+  formDataObj.append('member_phone', formData.member_phone);
+  formDataObj.append('member_service', formData.member_service);
+  formDataObj.append('facebook', formData.facebook);
+  formDataObj.append('instagram', formData.instagram);
+  formDataObj.append('linkden', formData.linkden);
+
+  // Append teacher photo (only one photo expected)
+  formData.photo.forEach(file => {
+    formDataObj.append('photo[]', file);
+  });
+
+  try {
+    const response = await axios.post('/api/add_team_member', formDataObj, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
     });
+    successMessage.value = response.data.message;  // Set success message
+    console.log('Add team member success', response.data);
+
+    // Redirect to course list after success (with delay if needed)
+    setTimeout(() => {
+      router.push('/admin/team/list');
+    }, 2000); // Delay of 2 seconds to display success message
+  } catch (error) {
+    console.error('Adding team member failed', error.response.data);
+    errorMessage.value = error.response.data.message || "Adding team member failed. Please try again.";
+  }
 };
 </script>
 
@@ -100,6 +132,12 @@ const add_team_member = () => {
                     <div class="mb-3">
                       <label class="form-label">Linkden</label>
                       <input type="text" v-model="formData.linkden" class="form-control" placeholder="Enter linkden link">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label">Member Photo</label>
+                      <input type="file" @change="handleFileUpload" class="form-control" accept="image/*" />
                     </div>
                   </div>
                   <div class="col-md-12 text-end">

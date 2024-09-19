@@ -36,7 +36,7 @@ Route::delete('/delete_student/{id}', [StudentsController::class, 'destroy']);
 Route::get('/get_team_member', [TeamController::class, 'index']);
 Route::post('/add_team_member', [TeamController::class, 'store']);
 Route::get('/get_team_member/{id}', [TeamController::class, 'show']);
-Route::put('/update_team_member/{id}', [TeamController::class, 'update']);
+Route::post('/update_team_member/{id}', [TeamController::class, 'update']);
 Route::delete('/delete_team_member/{id}', [TeamController::class, 'destroy']);
 
 // reviews//

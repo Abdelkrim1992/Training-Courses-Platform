@@ -5,58 +5,112 @@
 </script>
 
 <script>
-
 export default {
   data() {
     return {
-      CoursesList: [],
-      course_1: [],
+      CoursesList: [],       // Stores courses data
+      ReviewsList: [],       // Stores reviews data
+      TeamMembersList: [],   // Stores team members data
+      currentMemberIndex: 0, // Track the current team member index
+      course_1: [],          // Store details of course with ID 1
     };
   },
   created() {
-    this.fetchCourseID1Details()},
+    // Fetch course with ID 1 on component creation
+    this.fetchCourseID1Details();
+  },
+  computed: {
+    currentMember() {
+      // Compute the currently active team member
+      return this.TeamMembersList[this.currentMemberIndex] || {};
+    },
+  },
   mounted() {
+    // Fetch data for team members, reviews, and courses when the component is mounted
+    this.getTeamMembers();
+    this.getReviews();
     this.getCourses();
-    console.log(this.CoursesList);
   },
   methods: {
     getCourses() {
+      // Fetch list of courses from the API
       axios.get('/api/get_courses')
         .then((response) => {
           if (response.data.status === 200) {
             this.CoursesList = response.data.data;
+            console.log("Courses List:", this.CoursesList);
           }
         })
         .catch((error) => {
           console.error('Error fetching courses:', error);
         });
     },
+    getReviews() {
+      // Fetch list of reviews from the API
+      axios.get('/api/get_reviews')
+        .then((response) => {
+          if (response.data.status === 200) {
+            this.ReviewsList = response.data.data;
+            console.log("Reviews List:", this.ReviewsList);
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching reviews:', error);
+        });
+    },
+    getTeamMembers() {
+      // Fetch list of team members from the API
+      axios.get('/api/get_team_member')
+        .then((response) => {
+          if (response.data.status === 200) {
+            this.TeamMembersList = response.data.data;
+            console.log("Team Members List:", this.TeamMembersList);
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching team members:', error);
+        });
+    },
+    nextMember() {
+    // Move to the next team member
+    if (this.currentMemberIndex < this.TeamMembersList.length - 1) {
+      this.currentMemberIndex++;
+    } else {
+      this.currentMemberIndex = 0; // Loop back to the first member
+    }
+  },
+  prevMember() {
+    // Move to the previous team member
+    if (this.currentMemberIndex > 0) {
+      this.currentMemberIndex--;
+    } else {
+      this.currentMemberIndex = this.TeamMembersList.length - 1; // Loop back to the last member
+    }
+  },
     async fetchCourseID1Details() {
+      // Fetch details for course with ID 1
       try {
         const response = await fetch(`/api/get_course/1`);
         const result = await response.json();
         
         if (result.status === 200) {
           this.course_1 = result.data;
-          console.log("Teacher Photo URL:", this.course_1.course_image_url);
+          console.log("Course 1 Details:", this.course_1);
         } else {
           console.error(result.message);
-          // Handle the error accordingly
         }
       } catch (error) {
-        console.error('Error fetching setting details:', error);
-        // Handle the error accordingly
+        console.error('Error fetching course details:', error);
       }
     },
-  }
+  },
 };
-
 </script>
 
 
 
 <template >
-   <Layouts>
+ <Layouts>
       <!-- hero-area-start -->
    <div class="tp-hero-area lightblue-bg tp-hero-2-bg">
       <div class="container custom-container">
@@ -65,9 +119,9 @@ export default {
                <div class="col-xxl-5 col-xl-6 col-lg-7 col-md-12">
                   <div class="tp-hero-2-content">
                      <span class="tp-hero-2-subtitle wow fadeInUp" data-wow-delay=".3s">Keep Learning</span>
-                     <h2 class="tp-hero-2-title wow fadeInUp" data-wow-delay=".5s">Best digital 
-                         <span>Online <img class="wow bounceIn" data-wow-duration="1.5s" data-wow-delay=".4s" src="frontend/img/unlerline/hero-2-svg-1.svg" alt=""></span> 
-                     Courses</h2>
+                     <h2 class="tp-hero-2-title wow fadeInUp" data-wow-delay=".5s">Best  
+                         <span>Offline <img class="wow bounceIn" data-wow-duration="1.5s" data-wow-delay=".4s" src="frontend/img/unlerline/hero-2-svg-1.svg" alt=""></span> 
+                   Training Courses</h2>
                      <p class=" wow fadeInUp" data-wow-delay=".7s">Acquire global knowledge and build your <br> professional skills</p>
                      <div class="tp-hero-2-btn wow fadeInUp" data-wow-delay=".9s">
                         <a class="tp-btn-border" href="https://wa.me/message/FBO52GTDTUCCE1">Get Started With Us 
@@ -86,17 +140,17 @@ export default {
                      <div class="tp-course-item p-relative fix mb-30">
                         <div class="tp-course-teacher mb-15">
                            <span><img :src="course_1.teacher_photo_url" alt="">{{course_1.teacher_name}}</span>
-                           <span class="discount">-25%</span>
+                           
                         </div>
                         <div class="tp-course-thumb">
-                           <a href="course-details-2.html"><img class="course-lightblue" src="frontend/img/course/course-thumb-1.jpg" alt=""></a>
+                           <router-link to="/course-details/1"><img class="course-lightblue" :src="course_1.course_image_url" alt=""></router-link>
                         </div>
                         <div class="tp-course-content">
                            <div class="tp-course-tag mb-10">
                               <span>{{course_1.category}}</span>
                            </div>
                            <h4 class="tp-course-title">
-                              <a href="course-details-2.html">{{course_1.course_title}}</a>
+                              <router-link to="/course-details/1">{{course_1.course_title}}</router-link>
                            </h4>
                            <div class="tp-course-rating d-flex align-items-end justify-content-between">
                               <div class="tp-course-rating-star">
@@ -396,72 +450,82 @@ export default {
          </div>
       </div>
    </section>
-<!-- testimonial-area-end -->
 
-<!-- team-area-start -->
-   <section class="team-area pt-100 mb-100">
-      <div class="container">
-         <div class="row align-items-end">
-            <div class="col-lg-6 col-md-8">
-               <div class="tp-section mb-45">
-                  <h5 class="tp-section-3-subtitle">Our Team</h5>
-                  <h3 class="tp-section-3-title">Meet Our 
-                     <span>Teachers
-                        <img class="tp-underline-shape-9 wow bounceIn" data-wow-duration="1.5s" data-wow-delay=".4s" src="frontend/img/unlerline/team-2-svg-1.svg" alt="">
-                     </span>
-                  </h3>
-               </div>
-            </div>
-            <div class="col-lg-6 col-md-4">
-               <div class="tp-team-2-arrow d-flex align-items-center justify-content-md-end mb-55">
-                  <div class="tp-team-2-prev">
-                     <span>
-                        <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                           <path d="M6 11L1 6L6 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                     </span>
-                  </div>
-                  <div class="tp-team-2-next">
-                     <span>
-                        <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                           <path d="M1 11L6 6L1 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                     </span>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div class="swiper tp-team-2-active wow fadeInUp" data-wow-delay=".5s">
-            <div class="swiper-wrapper align-items-end">
-               <div class="swiper-slide">
-                  <div class="tp-team-2-item">
-                     <div class="tp-team-2-bg"></div>
-                     <div class="tp-team-2-social">
-                        <span class="tp-team-2-social-wrap">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                        </span>
-                        <div class="tp-team-2-social-icon">
-                           <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                           <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                           <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                        </div>
-                     </div>
-                     <div class="tp-team-2-thumb">
-                        <img src="frontend/img/team/team-2-thumb-1.png" alt="">
-                     </div>
-                     <div class="tp-team-2-content">
-                        <h4 class="tp-team-2-title"><a href="my-profile.html">Leslie Alexander</a></h4>
-                        <span>Teaches Interior Design</span>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
+   <!-- team-area-start -->
+<section class="team-area pt-100 mb-100">
+  <div class="container">
+    <div class="row align-items-end">
+      <div class="col-lg-6 col-md-8">
+        <div class="tp-section mb-45">
+          <h5 class="tp-section-3-subtitle">Our Team</h5>
+          <h3 class="tp-section-3-title">Meet Our 
+            <span>Teachers
+              <img class="tp-underline-shape-9 wow bounceIn" data-wow-duration="1.5s" data-wow-delay=".4s" src="frontend/img/unlerline/team-2-svg-1.svg" alt="">
+            </span>
+          </h3>
+        </div>
       </div>
-   </section>
+      <div class="col-lg-6 col-md-4">
+        <div class="tp-team-2-arrow d-flex align-items-center justify-content-md-end mb-55">
+          <!-- Previous button -->
+          <div class="tp-team-2-prev" @click="prevMember">
+            <span>
+              <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 11L1 6L6 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </div>
+          <!-- Next button -->
+          <div class="tp-team-2-next" @click="nextMember">
+            <span>
+              <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 11L6 6L1 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="swiper tp-team-2-active wow fadeInUp" data-wow-delay=".5s">
+      <div class="swiper-wrapper align-items-end">
+        <!-- Use v-for to loop through the team members dynamically -->
+        <div 
+          class="swiper-slide" 
+          v-for="(item, index) in TeamMembersList" 
+          :key="index" 
+          v-show="currentMemberIndex === index">
+          <div class="tp-team-2-item">
+            <div class="tp-team-2-bg"></div>
+            <div class="tp-team-2-social">
+              <span class="tp-team-2-social-wrap">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+              <div class="tp-team-2-social-icon">
+                <a :href="item.facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a :href="item.instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a :href="item.linkden"><i class="fa-brands fa-linkedin-in"></i></a>
+              </div>
+            </div>
+            <div class="tp-team-2-thumb">
+              <img src="frontend/img/team/team-2-thumb-1.png" alt="Team Member Image">
+            </div>
+            <div class="tp-team-2-content">
+              <h4 class="tp-team-2-title"><a href="my-profile.html">{{ item.member_name || 'No Name Available' }}</a></h4>
+              <span>{{ item.member_service || 'No Service Available' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 <!-- team-area-end -->
 
-    </Layouts>
+
+ </Layouts>
 </template>
 
 <style>

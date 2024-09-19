@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('member_email')->nullable();
             $table->string('member_phone')->nullable();
             $table->string('member_service')->nullable();
+            $table->string('member_photo')->nullable();
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();
             $table->string('linkden')->nullable();
