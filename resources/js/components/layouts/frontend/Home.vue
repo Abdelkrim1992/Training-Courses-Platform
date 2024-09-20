@@ -10,8 +10,9 @@ export default {
     return {
       CoursesList: [],       // Stores courses data
       ReviewsList: [],       // Stores reviews data
-      TeamMembersList: [],   // Stores team members data
+      TeamMembersList: [],
       currentMemberIndex: 0, // Track the current team member index
+      currentReviewIndex: 0, // Track the current testimonial index
       course_1: [],          // Store details of course with ID 1
     };
   },
@@ -23,6 +24,10 @@ export default {
     currentMember() {
       // Compute the currently active team member
       return this.TeamMembersList[this.currentMemberIndex] || {};
+    },
+    currentReview() {
+      // Compute the currently active testimonial
+      return this.ReviewsList[this.currentReviewIndex] || {};
     },
   },
   mounted() {
@@ -72,21 +77,39 @@ export default {
         });
     },
     nextMember() {
-    // Move to the next team member
-    if (this.currentMemberIndex < this.TeamMembersList.length - 1) {
-      this.currentMemberIndex++;
-    } else {
-      this.currentMemberIndex = 0; // Loop back to the first member
-    }
-  },
-  prevMember() {
-    // Move to the previous team member
-    if (this.currentMemberIndex > 0) {
-      this.currentMemberIndex--;
-    } else {
-      this.currentMemberIndex = this.TeamMembersList.length - 1; // Loop back to the last member
-    }
-  },
+      // Move to the next team member
+      if (this.currentMemberIndex < this.TeamMembersList.length - 1) {
+        this.currentMemberIndex++;
+      } else {
+        this.currentMemberIndex = 0; // Loop back to the first member
+      }
+    },
+    prevMember() {
+      // Move to the previous team member
+      if (this.currentMemberIndex > 0) {
+        this.currentMemberIndex--;
+      } else {
+        this.currentMemberIndex = this.TeamMembersList.length - 1; // Loop back to the last member
+      }
+    },
+
+    nextReview() {
+      // Move to the next testimonial
+      if (this.currentReviewIndex < this.ReviewsList.length - 1) {
+        this.currentReviewIndex++;
+      } else {
+        this.currentReviewIndex = 0; // Loop back to the first testimonial
+      }
+    },
+    prevReview() {
+      // Move to the previous testimonial
+      if (this.currentReviewIndex > 0) {
+        this.currentReviewIndex--;
+      } else {
+        this.currentReviewIndex = this.ReviewsList.length - 1; // Loop back to the last testimonial
+      }
+    },
+
     async fetchCourseID1Details() {
       // Fetch details for course with ID 1
       try {
@@ -109,8 +132,9 @@ export default {
 
 
 
+
 <template >
- <Layouts>
+   <Layouts>
       <!-- hero-area-start -->
    <div class="tp-hero-area lightblue-bg tp-hero-2-bg">
       <div class="container custom-container">
@@ -392,66 +416,76 @@ export default {
 <!-- course-area-end -->
 
 <!-- testimonial-area-start -->
-   <section class="testimonial-area lightblue-bg pb-85">
-      <div class="container">
-         <div class="row justify-content-center">
-            <div class="col-xxl-6 col-lg-8">
-               <div class="tp-testimonial-section">
-                  <div class="tp-section text-center mb-40">
-                     <h3 class="tp-section-3-title mt-100">Student
-                        <span>Say
-                           <img class="tp-underline-shape-8 wow bounceIn" data-wow-duration="1.5s" data-wow-delay=".4s" src="frontend/img/unlerline/testimonial-2-svg-1.svg" alt="">
-                        </span>
-                        About Acadia
-                     </h3>
-                  </div>
-               </div>
-            </div>
-         </div>
-
-         <div class="row justify-content-center">
-            <div class="col-xl-5 col-lg-6 col-md-8">
-               <div class="tp-testimonial-2-avatar-active">
-                  <div class="tp-testimonial-2-avatar-item">
-                     <img src="frontend/img/testimonial/test-2-avatar-1.png" alt="avatar">
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div class="row justify-content-center">
-            <div class="col-lg-8">
-               <div class="tp-testimonial-2-active">
-                  <div class="tp-testimonial-2-item text-center">
-                     <div class="tp-testimonial-2-avatar-info">
-                        <h4 class="tp-testimonial-2-avatar-title">Annette </h4>
-                        <span>Lecturer, Oxford university</span>
-                        <div class="tp-testimonial-2-avatar-rating">
-                           <i class="fa-solid fa-star"></i>
-                           <i class="fa-solid fa-star"></i>
-                           <i class="fa-solid fa-star"></i>
-                           <i class="fa-solid fa-star"></i>
-                           <i class="fa-solid fa-star"></i>
-                        </div>
-                     </div>
-                     <div class="tp-testimonial-2-content p-relative">
-                        <p>I need to get a certification for English proficiency and Acadia is my best choice.
-                           Their tutors are smart and professional when dealing with students.  I wanted
-                           to place a review since ! Thanks and 5 stars!
-                        </p>
-                        <div class="tp-testimonial-2-shape">
-                           <div class="shape-1"><img src="frontend/img/testimonial/testimonial-shape-1.png" alt=""></div>
-                           <div class="shape-2"><img src="frontend/img/testimonial/testimonial-shape-3.png" alt=""></div>
-                        </div>
-                     </div>
-                  </div>
-                  
-               </div>
-            </div>
-         </div>
+<section class="testimonial-area lightblue-bg pb-85">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xxl-6 col-lg-8">
+        <div class="tp-testimonial-section">
+          <div class="tp-section text-center mt-50">
+            <h3 class="tp-section-3-title">
+              Student <span>Say
+                <img class="tp-underline-shape-8 wow bounceIn" data-wow-duration="1.5s" data-wow-delay=".4s" src="assets/img/unlerline/testimonial-2-svg-1.svg" alt="">
+              </span>
+              About Acadia
+            </h3>
+          </div>
+        </div>
       </div>
-   </section>
+    </div>
 
-   <!-- team-area-start -->
+    <div class="tp-team-2-arrow d-flex align-items-center justify-content-md-center mt-20">
+      <!-- Previous button -->
+      <div class="tp-team-2-prev" @click="prevReview">
+        <span>
+          <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 11L1 6L6 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div v-if="currentReview" :key="currentReviewIndex" class="tp-testimonial-2-active">
+            <div class="tp-testimonial-2-item text-center">
+              <div class="tp-testimonial-2-avatar-info">
+                <h3 class="text-center">{{ currentReview.student_name }}</h3>
+                <h6 class="text-center mt-3">{{ currentReview.course_title }}</h6>
+                <div class="tp-testimonial-2-avatar-rating">
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                 </div>
+              </div>
+              <div class="tp-testimonial-2-content p-relative">
+                <p>{{ currentReview.review_text }}</p>
+                <div class="tp-testimonial-2-shape">
+                  <div class="shape-1">
+                    <img src="assets/img/testimonial/testimonial-shape-1.png" alt="">
+                  </div>
+                  <div class="shape-2">
+                    <img src="assets/img/testimonial/testimonial-shape-3.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Next button -->
+      <div class="tp-team-2-next" @click="nextReview">
+        <span>
+          <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 11L6 6L1 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- testimonial-area-end -->
+
+<!-- team-area-start -->
 <section class="team-area pt-100 mb-100">
   <div class="container">
     <div class="row align-items-end">
@@ -510,7 +544,7 @@ export default {
               </div>
             </div>
             <div class="tp-team-2-thumb">
-              <img src="frontend/img/team/team-2-thumb-1.png" alt="Team Member Image">
+               <img src="frontend/img/teacher/team-2-thumb-1.png" alt="Team Member Image">
             </div>
             <div class="tp-team-2-content">
               <h4 class="tp-team-2-title"><a href="my-profile.html">{{ item.member_name || 'No Name Available' }}</a></h4>
@@ -524,8 +558,7 @@ export default {
 </section>
 <!-- team-area-end -->
 
-
- </Layouts>
+   </Layouts>
 </template>
 
 <style>

@@ -11,18 +11,19 @@ use Illuminate\Support\Str;
 
 class TeamController extends Controller
 {
-    public function index(){
-
-        $TeamMemberList = Team::all();
-
-        if(!empty($TeamMemberList)){
-            return response()->json([
-                'status' => 200,
-                'message' => 'Team',
-                'data' => $TeamMemberList
-            ]);
-        }
-
+    public function index()
+    {
+        $team = Team::with('memberPhoto')->get()->map(function ($team) {
+            // Get the latest image if available
+            $latestImage = $team->memberPhoto()->latest('created_at')->first();
+            $team->member_photo = $latestImage ? asset('storage/' . $latestImage->member_photo) : null;
+            return $team;
+        });
+    
+        return response()->json([
+            'status' => 200,
+            'data' => $team
+        ]);
     }
 
     public function store(Request $request){
@@ -84,7 +85,7 @@ class TeamController extends Controller
     $latestImage = $team->memberPhoto()->latest('created_at')->first();
 
     // Add the member's photo URL to the response
-    $team->member_photo_url = $latestImage ? asset('storage/' . $latestImage->member_photo) : null;
+    $team->member_photo = $latestImage ? asset('storage/' . $latestImage->member_photo) : null;
 
     return response()->json([
         'status' => 200,

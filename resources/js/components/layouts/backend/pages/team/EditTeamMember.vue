@@ -13,7 +13,7 @@
                   <li class="breadcrumb-item">
                     <router-link to="/admin/team/list">Team Member List</router-link>
                   </li>
-                  <li class="breadcrumb-item" aria-current="page">Edit Student</li>
+                  <li class="breadcrumb-item" aria-current="page">Edit Team Member</li>
                 </ul>
               </div>
             </div>

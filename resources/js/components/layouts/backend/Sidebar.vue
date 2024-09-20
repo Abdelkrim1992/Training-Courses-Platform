@@ -3,9 +3,9 @@
   <nav class="pc-sidebar">
     <div class="navbar-wrapper">
       <div class="m-header">
-        <router-link to="/admin/dashboard" class="b-brand text-primary">
+        <router-link to="/admin/dashboard" class="b-brand text-primary mt-2">
           <!-- ========   Change your logo from here   ============ -->
-          <img src="/backend/images/logo-dark.svg" alt="logo image" class="logo-lg" />
+          <img :src="setting?.setting_logo_url" width="150px" height="80px"/>
         </router-link>
       </div>
       <div class="navbar-content">
@@ -148,6 +148,7 @@ export default {
   name:'Sidebar',
   data() {
     return {
+      setting: [],
       dropdowns: {
         courses: false,
         students: false,
@@ -177,11 +178,29 @@ export default {
       ],
     };
   },
+  created() {
+    this.fetchHeaderDetails()},
   methods: {
     toggleDropdown(menu) {
       this.dropdowns[menu] = !this.dropdowns[menu];
     },
-    
+    async fetchHeaderDetails() {
+      try {
+        const response = await fetch(`/api/get_setting/1`);
+        const result = await response.json();
+        
+        if (result.status === 200) {
+          this.setting = result.data;
+          console.log("Teacher Photo URL:", this.setting.setting_logo_url);
+        } else {
+          console.error(result.message);
+          // Handle the error accordingly
+        }
+      } catch (error) {
+        console.error('Error fetching setting details:', error);
+        // Handle the error accordingly
+      }
+    },
   },
 };
 </script>
