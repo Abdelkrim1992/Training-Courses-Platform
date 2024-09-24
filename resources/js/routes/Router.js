@@ -241,11 +241,24 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     const isAuthenticated = localStorage.getItem('token');
-    if (!isAuthenticated && to.path !== '/auth/login' && to.path !== '/auth/register') {
-    next('/auth/login');
-    } else {
-    next();
+
+    // Allow access to home page and other public routes without authentication
+    if (to.path === '/' || to.path === '/about' || to.path === '/contact') {
+        next(); // Allow access to public pages
+    } 
+    // Ensure that login, register, and home are accessible without authentication
+    else if (!isAuthenticated && (to.path === '/auth/login' || to.path === '/auth/register')) {
+        next();
+    } 
+    // If trying to access admin routes without authentication, redirect to login
+    else if (!isAuthenticated && to.path.startsWith('/admin')) {
+        next('/auth/login');
+    } 
+    // For authenticated users or other routes, allow access
+    else {
+        next();
     }
-    });
+});
+
 
 export default router;
