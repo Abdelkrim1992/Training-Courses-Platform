@@ -134,7 +134,7 @@ export default {
 
 <template >
    <Layouts>
-      <!-- hero-area-start -->
+   <!-- hero-area-start -->
    <div class="tp-hero-area lightblue-bg tp-hero-2-bg">
       <div class="container custom-container">
          <div class="tp-hero-2-wrap">
@@ -189,7 +189,7 @@ export default {
                            </div>
                         </div>
                         <div class="tp-course-btn home-2">
-                           <router-link to="/course-details/{id}">Preview this Course</router-link>
+                           <router-link to="/course-details/1">Preview this Course</router-link>
                         </div>
                      </div>
                   </div>
