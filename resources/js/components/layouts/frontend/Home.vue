@@ -497,7 +497,7 @@ export default {
                   class="tp-underline-shape-9 wow bounceIn" 
                   data-wow-duration="1.5s" 
                   data-wow-delay=".4s" 
-                  src="assets/img/unlerline/team-2-svg-1.svg" 
+                  src="frontend/img/unlerline/team-2-svg-1.svg" 
                   alt="" 
                   style="visibility: visible; animation-duration: 1.5s; animation-delay: 0.4s; animation-name: bounceIn;"
                 />
