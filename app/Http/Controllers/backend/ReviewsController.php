@@ -53,7 +53,7 @@ class ReviewsController extends Controller
 
     public function update(Request $request, $id){
 
-        $review = Reviews::find($id);
+        $review = Review::find($id);
         $review->student_name = $request-> student_name;
         $review->review_text = $request-> review_text;
         $review->course_title = $request-> course_title;

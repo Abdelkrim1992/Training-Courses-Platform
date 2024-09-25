@@ -31,7 +31,6 @@
                   <div v-if="errorMessage" class="alert alert-danger" role="alert">
                     {{ errorMessage }}
                   </div>
-
                   <div class="col-md-6">
                     <div class="mb-3">
                       <label class="form-label">Full Name</label>

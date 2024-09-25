@@ -16,7 +16,7 @@ class TeamController extends Controller
         $team = Team::with('memberPhoto')->get()->map(function ($team) {
             // Get the latest image if available
             $latestImage = $team->memberPhoto()->latest('created_at')->first();
-            $team->member_photo = $latestImage ? asset('storage/' . $latestImage->member_photo) : null;
+            $team->member_photo_url = $latestImage ? asset('storage/' . $latestImage->member_photo) : null;
             return $team;
         });
     
@@ -61,7 +61,7 @@ class TeamController extends Controller
     
                 // Create a new ProjectImage record
                 MemberPhoto::create([
-                    'member_id' => $team->id,
+                    'team_id' => $team->id,
                     'member_photo' => $imagePath,
                 ]);
             }
@@ -85,7 +85,7 @@ class TeamController extends Controller
     $latestImage = $team->memberPhoto()->latest('created_at')->first();
 
     // Add the member's photo URL to the response
-    $team->member_photo = $latestImage ? asset('storage/' . $latestImage->member_photo) : null;
+    $team->member_photo_url = $latestImage ? asset('storage/' . $latestImage->member_photo) : null;
 
     return response()->json([
         'status' => 200,
@@ -129,7 +129,7 @@ class TeamController extends Controller
     
                 // Create a new ProjectImage record
                 MemberPhoto::create([
-                    'member_id' => $team->id,
+                    'team_id' => $team->id,
                     'member_photo' => $imagePath,
                 ]);
             }
@@ -139,20 +139,27 @@ class TeamController extends Controller
 
     }
 
-    public function destroy($id){
-
+    public function destroy($id)
+    {
         $team = Team::find($id);
 
         if ($team) {
+            // Delete associated images
+            MemberPhoto::where('team_id', $team->id)->get()->each(function ($image) {
+                Storage::disk('public')->delete($image->member_photo);
+                $image->delete();
+            });
+
+            // Delete the course
             $team->delete();
+
             return response()->json([
-                'status' => 200, 
-                'message' => 'Student deleted successfully',
+                'status' => 200,
+                'message' => 'team deleted successfully',
                 'data' => []
             ]);
-        } else {
-            return response()->json(['status' => 404, 'message' => 'Student not found','data' => []]);
         }
 
+        return response()->json(['status' => 404, 'message' => 'team not found', 'data' => []]);
     }
 }

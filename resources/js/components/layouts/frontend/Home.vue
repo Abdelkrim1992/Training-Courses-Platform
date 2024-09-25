@@ -10,25 +10,23 @@ export default {
     return {
       CoursesList: [],       // Stores courses data
       ReviewsList: [],       // Stores reviews data
-      TeamMembersList: [],
-      currentMemberIndex: 0, // Track the current team member index
+      TeamMembersList: [],      // Team members array
+      currentMemberIndex: 0,    // Track the current index of the first displayed team member
+      membersPerSlide: 3,       // Number of members to display per slide   // Number of members per slide    // Number of members to display per slide
       currentReviewIndex: 0, // Track the current testimonial index
       course_1: [],          // Store details of course with ID 1
     };
   },
+  computed: {
+    currentTeamMembers() {
+      // Compute the team members for the current slide
+      const startIndex = this.currentSlideIndex * this.membersPerSlide;
+      return this.TeamMembersList.slice(startIndex, startIndex + this.membersPerSlide);
+    },
+  },
   created() {
     // Fetch course with ID 1 on component creation
     this.fetchCourseID1Details();
-  },
-  computed: {
-    currentMember() {
-      // Compute the currently active team member
-      return this.TeamMembersList[this.currentMemberIndex] || {};
-    },
-    currentReview() {
-      // Compute the currently active testimonial
-      return this.ReviewsList[this.currentReviewIndex] || {};
-    },
   },
   mounted() {
     // Fetch data for team members, reviews, and courses when the component is mounted
@@ -63,34 +61,35 @@ export default {
           console.error('Error fetching reviews:', error);
         });
     },
-    getTeamMembers() {
-      // Fetch list of team members from the API
-      axios.get('/api/get_team_member')
-        .then((response) => {
-          if (response.data.status === 200) {
-            this.TeamMembersList = response.data.data;
-            console.log("Team Members List:", this.TeamMembersList);
-          }
-        })
-        .catch((error) => {
-          console.error('Error fetching team members:', error);
-        });
+
+    async getTeamMembers() {
+      try {
+        const response = await axios.get('/api/get_team_member');
+        if (response.data.status === 200) {
+          this.TeamMembersList = response.data.data;
+          console.log("Team Members List:", this.TeamMembersList);
+        } else {
+          console.error('Error fetching team members:', response.data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching team members:', error);
+      }
     },
     nextMember() {
-      // Move to the next team member
-      if (this.currentMemberIndex < this.TeamMembersList.length - 1) {
+      // Move to the next member in the list, shifting the current view by 1
+      if (this.currentMemberIndex + this.membersPerSlide < this.TeamMembersList.length) {
         this.currentMemberIndex++;
-      } else {
-        this.currentMemberIndex = 0; // Loop back to the first member
       }
     },
     prevMember() {
-      // Move to the previous team member
+      // Move to the previous member in the list, shifting the current view by 1
       if (this.currentMemberIndex > 0) {
         this.currentMemberIndex--;
-      } else {
-        this.currentMemberIndex = this.TeamMembersList.length - 1; // Loop back to the last member
       }
+    },
+    getVisibleTeamMembers() {
+      // Return the currently visible team members (3 at a time)
+      return this.TeamMembersList.slice(this.currentMemberIndex, this.currentMemberIndex + this.membersPerSlide);
     },
 
     nextReview() {
@@ -485,78 +484,87 @@ export default {
 </section>
 <!-- testimonial-area-end -->
 
-<!-- team-area-start -->
 <section class="team-area pt-100 mb-100">
-  <div class="container">
-    <div class="row align-items-end">
-      <div class="col-lg-6 col-md-8">
-        <div class="tp-section mb-45">
-          <h5 class="tp-section-3-subtitle">Our Team</h5>
-          <h3 class="tp-section-3-title">Meet Our 
-            <span>Teachers
-              <img class="tp-underline-shape-9 wow bounceIn" data-wow-duration="1.5s" data-wow-delay=".4s" src="frontend/img/unlerline/team-2-svg-1.svg" alt="">
-            </span>
-          </h3>
-        </div>
-      </div>
-      <div class="col-lg-6 col-md-4">
-        <div class="tp-team-2-arrow d-flex align-items-center justify-content-md-end mb-55">
-          <!-- Previous button -->
-          <div class="tp-team-2-prev" @click="prevMember">
-            <span>
-              <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 11L1 6L6 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-          </div>
-          <!-- Next button -->
-          <div class="tp-team-2-next" @click="nextMember">
-            <span>
-              <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 11L6 6L1 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
+    <div class="container">
+      <div class="row align-items-end">
+        <div class="col-lg-6 col-md-8">
+          <div class="tp-section mb-45">
+            <h5 class="tp-section-3-subtitle">Our Team</h5>
+            <h3 class="tp-section-3-title">
+              Meet Our 
+              <span>Team
+                <img 
+                  class="tp-underline-shape-9 wow bounceIn" 
+                  data-wow-duration="1.5s" 
+                  data-wow-delay=".4s" 
+                  src="assets/img/unlerline/team-2-svg-1.svg" 
+                  alt="" 
+                  style="visibility: visible; animation-duration: 1.5s; animation-delay: 0.4s; animation-name: bounceIn;"
+                />
+              </span>
+            </h3>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="swiper tp-team-2-active wow fadeInUp" data-wow-delay=".5s">
-      <div class="swiper-wrapper align-items-end">
-        <!-- Use v-for to loop through the team members dynamically -->
-        <div 
-          class="swiper-slide" 
-          v-for="(item, index) in TeamMembersList" 
-          :key="index" 
-          v-show="currentMemberIndex === index">
-          <div class="tp-team-2-item">
-            <div class="tp-team-2-bg"></div>
-            <div class="tp-team-2-social">
-              <span class="tp-team-2-social-wrap">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
-                  <line x1="12" y1="5" x2="12" y2="19"></line>
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
+        <div class="col-lg-6 col-md-4">
+          <div class="tp-team-2-arrow d-flex align-items-center justify-content-md-end mb-55">
+            <!-- Previous Button -->
+            <div class="tp-team-2-prev" @click="prevMember" tabindex="0" role="button" aria-label="Previous slide">
+              <span>
+                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 11L1 6L6 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
               </span>
-              <div class="tp-team-2-social-icon">
-                <a :href="item.facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                <a :href="item.instagram"><i class="fa-brands fa-instagram"></i></a>
-                <a :href="item.linkden"><i class="fa-brands fa-linkedin-in"></i></a>
-              </div>
             </div>
-            <div class="tp-team-2-thumb">
-               <img src="frontend/img/teacher/team-2-thumb-1.png" alt="Team Member Image">
-            </div>
-            <div class="tp-team-2-content">
-              <h4 class="tp-team-2-title"><a href="my-profile.html">{{ item.member_name || 'No Name Available' }}</a></h4>
-              <span>{{ item.member_service || 'No Service Available' }}</span>
+            <!-- Next Button -->
+            <div class="tp-team-2-next" @click="nextMember" tabindex="0" role="button" aria-label="Next slide">
+              <span>
+                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 11L6 6L1 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </span>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- Show 4 team members per slide -->
+      <div class="swiper tp-team-2-active wow fadeInUp" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
+        <div class="swiper-wrapper align-items-end">
+          <!-- Loop through the current 4 team members -->
+          <div v-for="(item, index) in getVisibleTeamMembers()" :key="index" class="swiper-slide" style="width: 333px; margin-right: 30px;">
+            <div class="tp-team-2-item">
+              <div class="tp-team-2-bg strom"></div>
+              <div class="tp-team-2-social">
+                <span class="tp-team-2-social-wrap">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </span>
+                <div class="tp-team-2-social-icon">
+                  <a :href="item.facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                  <a :href="item.instagram"><i class="fa-brands fa-instagram"></i></a>
+                  <a :href="item.linkedin"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+              </div>
+              <div class="tp-team-2-thumb">
+                <img :src="item.member_photo_url" alt="">
+              </div>
+              <div class="tp-team-2-content">
+                <h4 class="tp-team-2-title">
+                  <a href="my-profile.html">{{ item.member_name }}</a>
+                </h4>
+                <span>{{ item.member_service }}</span>
+              </div>
+            </div>
+          </div>   
+        </div>
+      </div>
+      <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
     </div>
-  </div>
 </section>
-<!-- team-area-end -->
+
+  
 
    </Layouts>
 </template>

@@ -27,8 +27,11 @@
                   <h5>Edit Review</h5>
                 </div>
                 <div class="card-body">
-                  <form @submit.prevent="updateReview">
-                    <div class="col-md-6">
+                  <div class="row">
+                  <div v-if="errorMessage" class="alert alert-danger" role="alert">
+                    {{ errorMessage }}
+                  </div>
+                  <div class="col-md-6">
                     <div class="mb-3">
                       <label class="form-label">Student Name</label>
                       <input type="text" v-model="formData.student_name" class="form-control" placeholder="Enter full name">
@@ -36,18 +39,20 @@
                   </div>
                   <div class="col-md-6">
                     <div class="mb-3">
-                      <label class="form-label">Course Name</label>
-                      <input type="text" v-model="formData.course_title" class="form-control" placeholder="Enter email">
+                      <label class="form-label">Course Title</label>
+                      <input type="text" v-model="formData.course_title" class="form-control" placeholder="Enter phone number">
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-12 mt-3">
                     <div class="form-floating">
-                      <textarea type="text" v-model="formData.review_text" class="form-control" id="floatingTextarea"></textarea>
-                      <label for="floatingTextarea"> Review Text</label>
+                      <textarea v-model="formData.review_text" class="form-control" placeholder="Course Tips"></textarea>
+                      <label for="floatingTextarea2">Review Text</label>
                     </div>
                   </div>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                  </form>
+                  <div class="col-md-12 text-end mt-3">
+                    <button @click="updateReview" class="btn btn-primary">Update Review</button>
+                  </div>
+                </div>
                 </div>
               </div>
             </div>
@@ -58,39 +63,63 @@
   </template>
   
   <script setup>
-  import { ref, onMounted } from 'vue';
-  import { useRoute, useRouter } from 'vue-router';
-  import BackendLayouts from '../../BackendLayouts.vue';
+  import { ref, reactive, onMounted } from 'vue';
+  import { useRouter, useRoute } from 'vue-router';
   import axios from 'axios';
+  import BackendLayouts from '../../BackendLayouts.vue';
   
-  const route = useRoute();
   const router = useRouter();
-  const review = ref({});
+  const route = useRoute();
+  const errorMessage = ref(null);
+  const successMessage = ref(null); // Optional success message
+  
+  const formData = reactive({
+    review_text: '',
+    student_name: '',
+    course_title: '',
+  });
+  
   
   onMounted(() => {
     const reviewId = route.params.id;
     axios.get(`/api/get_review/${reviewId}`)
       .then(response => {
-        review.value = response.data.data;
+        const reviewData = response.data.data;
+        formData.student_name = reviewData.student_name;
+        formData.review_text = reviewData.review_text;
+        formData.course_title = reviewData.course_title;
       })
       .catch(error => {
-        console.error('Error fetching review:', error);
+        console.error('Error fetching course:', error);
+        errorMessage.value = 'Error loading review data';
       });
   });
   
-  const updateReview = () => {
+  const updateReview = async () => {
     const reviewId = route.params.id;
-    axios.put(`/api/update_review/${reviewId}`, review.value)
-      .then(response => {
-        if (response.data.status === 200) {
-          router.push('/admin/reviews/list');
-        } else {
-          console.error('Error updating review:', response.data.message);
+  
+    // Create a new FormData instance for file uploads
+    const formDataObj = new FormData();
+    
+      // Append other form fields
+    formDataObj.append('student_name', formData.student_name);
+    formDataObj.append('review_text', formData.review_text);
+    formDataObj.append('course_title', formData.course_title);
+
+    try {
+      // Use PUT request to update the course
+      const response = await axios.post(`/api/update_review/${reviewId}`, formDataObj, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
         }
-      })
-      .catch(error => {
-        console.error('Error updating review:', error);
       });
+      console.log('Edit Review success', response.data);
+      successMessage.value = 'Review  updated successfully!';
+      router.push('/admin/reviews/list'); // Redirect to course list after successful update
+    } catch (error) {
+      console.error('Updating review failed', error);
+      errorMessage.value = error.response?.data?.message || "Updating review failed. Please try again.";
+    }
   };
   </script>
   

@@ -68,7 +68,7 @@ class ProjectsController extends Controller
                 $uniqueName = time() . '-' . Str::random(10) . '.' . $image->getClientOriginalExtension();
                 
                 // Save the image to the public storage
-                $imagePath = $image->storeAs('images', $uniqueName, 'public');
+                $imagePath = $image->storeAs('images/projects_images', $uniqueName, 'public');
     
                 // Create a new ProjectImage record
                 ProjectImage::create([
@@ -139,7 +139,7 @@ class ProjectsController extends Controller
         if ($request->hasFile('image')) {
             foreach ($request->file('image') as $image) {
                 $uniqueName = time() . '-' . Str::random(10) . '.' . $image->getClientOriginalExtension();
-                $imagePath = $image->storeAs('images', $uniqueName, 'public');
+                $imagePath = $image->storeAs('images/projects_images', $uniqueName, 'public');
 
                 ProjectImage::create([
                     'project_id' => $project->id,

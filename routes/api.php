@@ -43,7 +43,7 @@ Route::delete('/delete_team_member/{id}', [TeamController::class, 'destroy']);
 Route::get('/get_reviews', [ReviewsController::class, 'index']);
 Route::post('/add_review', [ReviewsController::class, 'store']);
 Route::get('/get_review/{id}', [ReviewsController::class, 'show']);
-Route::put('/update_review/{id}', [ReviewsController::class, 'update']);
+Route::post('/update_review/{id}', [ReviewsController::class, 'update']);
 Route::delete('/delete_review/{id}', [ReviewsController::class, 'destroy']);
 
 // courses//
