@@ -87,7 +87,7 @@ export default {
                                     <div class="tp-course-filter-pricing list d-flex align-items-center justify-content-between">
                                         
                                        <div class="tp-course-filter-btn">
-                                          <router-link :to="{ path: '/project-details/' + item.id }">Learn More</router-link>
+                                          <router-link :to="{ path: '/project-details/' + item.id }">View Project</router-link>
                                        </div>
                                     </div>
                                  </div>

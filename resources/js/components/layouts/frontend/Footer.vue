@@ -2,8 +2,8 @@
 
   <Talk/>
 
-    <!-- footer-area-start -->
-    <footer>
+   <!-- footer-area-start -->
+      <footer>
          <div class="tp-footer-main tp-footer-inner pt-80 pb-55">
             <div class="container">
                <div class="row">
@@ -17,7 +17,7 @@
                         </div>
                         <div class="tp-footer-contact">
                            <span>Got Questions? Call us</span>
-                           <a href="tel:012345678">+670 413 90 762</a>
+                           <a href="tel:012345678">{{setting?.phone}}</a>
                         </div>
                         <div class="tp-footer-contact-mail">
                            <a href="mailto:sofial@gmail.com">
@@ -39,16 +39,14 @@
                         <div class="tp-footer-widget-link">
                            <ul>
                               <li><router-link to="/about-us">About Us</router-link></li>
-                              <li><a href="#">Courses</a></li>
-                              <li><a href="#">News & Blogs</a></li>
-                              <li><a href="#">Become a Teacher</a></li>
-                              <li><a href="#">Events</a></li>
-                              <li><a href="#">Contact</a></li>
+                              <li><router-link to="/courses">Courses</router-link></li>
+                              <li><router-link to="/projects">Projects</router-link></li>
+                              <li><router-link to="/contact-us">Contact Us</router-link></li>
                            </ul>
                         </div>
                      </div>
                   </div>
-                  <div class="col-xl-4 col-lg-3 col-md-7 col-sm-7">
+                  <div class="col-xl-3 col-lg-3 col-md-7 col-sm-7">
                      <div class="p-footer-widget tp-footer-5-col-4 mb-30">
                         <h4 class="tp-footer-widget-title mb-15">Our Newsletter</h4>
                         <div class="tp-footer-newsletter-wrap">
@@ -86,8 +84,8 @@
                </div>
             </div>
          </div>
-    </footer>
-    <!-- footer-area-end -->
+      </footer>
+   <!-- footer-area-end -->
 
 </template>
 
