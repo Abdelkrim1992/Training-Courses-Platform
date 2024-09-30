@@ -34,23 +34,26 @@
                     <thead>
                       <tr>
                         <th>Full Name</th>
-                        <th>Phone</th>
                         <th>Email</th>
+                        <th>Phone</th>
                         <th>Course Title</th>
                         <th>Message</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="(items, index) in ReservationsList" :key="index">
-                        <td>{{ items.name }}</td>
-                        <td>{{ items.phone }}</td>
-                        <td>{{ items.email }}</td>
-                        <td>{{ items.course_name }}</td>
+                      <tr v-for="(items, index) in ReservationsList" :key="index.id">
+                        <td>{{ items.client_name }}</td>
+                        <td>{{ items.client_email }}</td>
+                        <td>{{ items.client_phone }}</td>
+                        <td>{{ items.course_choose }}</td>
                         <td>{{ items.message }}</td>
                         <td>
-                          <a @click="deleteReservation(items.id)" class="avtar avtar-xs btn-link-secondary">
+                          <a @click="updateReservationStatus(items.id, 'refused')" class="avtar avtar-xs btn-link-secondary">
                             <i class="ti ti-trash f-20"></i>
+                          </a>
+                          <a @click="updateReservationStatus(items.id, 'accepted')" class="avtar avtar-xs btn-link-secondary">
+                            <i class="ti ti-check f-20"></i>
                           </a>
                         </td>
                       </tr>
@@ -68,11 +71,15 @@
 </template>
 
 <script setup>
+
 import axios from 'axios';
 import BackendLayouts from '../../BackendLayouts.vue';
+
 </script>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -80,45 +87,23 @@ export default {
     };
   },
   mounted() {
-    console.log('Component mounted');
-    this.getReservation();
+    this.getPendingReservations();
   },
   methods: {
-    getReservation() {
-      console.log('getReservation method called');
-      axios.get('/api/get_reservation')
-        .then((response) => {
-          console.log('API response:', response);
-          const status = response.data.status;
-
-          if (status === 200) {
-            this.ReservationsList = response.data.data;
-            console.log('ReservationsList updated:', this.ReservationsList);
-          } else {
-            console.warn('Unexpected status:', status);
-          }
+    getPendingReservations() {
+      axios.get('/api/reservations/pending').then((response) => {
+        this.ReservationsList = response.data.data;
+      });
+    },
+    updateReservationStatus(id, status) {
+      axios
+        .put(`/api/reservations/${id}`, { status })
+        .then(() => {
+          this.getPendingReservations(); // Refresh list after updating status
         })
         .catch((error) => {
-          console.error('API request error:', error);
+          console.error('Error updating reservation status:', error);
         });
-    },
-    deleteReservation(id) {
-      if (confirm('Are you sure you want to delete this order?')) {
-        axios.delete(`/api/delete_reservation/${id}`)
-          .then((response) => {
-            const status = response.data.status;
-
-            if (status === 200) {
-              this.getStudents(); // Refresh the student list after deletion
-              alert('Order deleted successfully.');
-            } else {
-              alert('Failed to delete the order.');
-            }
-          })
-          .catch((error) => {
-            console.error('API request error:', error);
-          });
-      }
     },
   },
 };

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('client_name');
             $table->string('client_email');
             $table->string('client_phone');
-            $table->string('course_choosed');
+            $table->string('course_choosed')->nullable();
             $table->text('message');
             $table->enum('status', ['pending', 'accepted', 'refused'])->default('pending');
             $table->timestamps();

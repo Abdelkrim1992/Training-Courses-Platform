@@ -28,7 +28,7 @@ Route::post('/add_setting', [SiteSettingController::class, 'store']);
 Route::post('/update_setting/{id}', [SiteSettingController::class, 'update']);
 
 // Reservations//
-Route::post('/reservations', [ReservationsController::class, 'store']);
+Route::post('/add_reservation', [ReservationsController::class, 'store']);
 Route::get('/reservations/pending', [ReservationsController::class, 'getPendingReservations']);
 Route::put('/reservations/{id}', [ReservationsController::class, 'updateReservationStatus']);
 
