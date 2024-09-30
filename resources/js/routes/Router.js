@@ -24,6 +24,10 @@ import Edit_SiteSetting from '../components/layouts/backend/pages/Edit_SiteSetti
 import CoursesList from '../components/layouts/backend/pages/courses/CoursesList.vue'
 import AddCourse from '../components/layouts/backend/pages/courses/AddCourse.vue'
 import EditCourse from '../components/layouts/backend/pages/courses/EditCourse.vue'
+
+//orders//
+import ReservationsList from '../components/layouts/backend/pages/reservations/ReservationsList.vue'
+
 //students//
 import StudentsList from '../components/layouts/backend/pages/students/StudentsList.vue'
 import AddStudent from '../components/layouts/backend/pages/students/AddStudent.vue'
@@ -159,6 +163,12 @@ const routes =[
         name:'EditCourse',
         path:'/admin/courses/edit-course/:id',
         component: EditCourse,
+    },
+
+    {
+        name:'ReservationsList',
+        path:'/admin/reservations/list',
+        component: ReservationsList,
     },
 
     {

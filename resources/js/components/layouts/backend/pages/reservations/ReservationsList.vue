@@ -1,0 +1,125 @@
+<template>
+  <BackendLayouts>
+    <div class="pc-container">
+      <div class="pc-content">
+        <!-- Breadcrumb start -->
+        <div class="page-header">
+          <div class="page-block">
+            <div class="row align-items-center">
+              <div class="col-md-12">
+                <ul class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <router-link to="/admin/dashboard">Home</router-link>
+                  </li>
+                  <li class="breadcrumb-item" aria-current="page">Reservations List</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Breadcrumb end -->
+
+        <!-- Main Content start -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card table-card">
+              <div class="card-header">
+                <div class="d-sm-flex align-items-center justify-content-between">
+                  <h5 class="mb-3 mb-sm-0">Reservations List</h5>
+                </div>
+              </div>
+              <div class="card-body pt-3">
+                <div class="table-responsive">
+                  <table class="table table-hover" id="pc-dt-simple">
+                    <thead>
+                      <tr>
+                        <th>Full Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Course Title</th>
+                        <th>Message</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(items, index) in ReservationsList" :key="index">
+                        <td>{{ items.name }}</td>
+                        <td>{{ items.phone }}</td>
+                        <td>{{ items.email }}</td>
+                        <td>{{ items.course_name }}</td>
+                        <td>{{ items.message }}</td>
+                        <td>
+                          <a @click="deleteReservation(items.id)" class="avtar avtar-xs btn-link-secondary">
+                            <i class="ti ti-trash f-20"></i>
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Main Content end -->
+      </div>
+    </div>
+  </BackendLayouts>
+</template>
+
+<script setup>
+import axios from 'axios';
+import BackendLayouts from '../../BackendLayouts.vue';
+</script>
+
+<script>
+export default {
+  data() {
+    return {
+      ReservationsList: [],
+    };
+  },
+  mounted() {
+    console.log('Component mounted');
+    this.getReservation();
+  },
+  methods: {
+    getReservation() {
+      console.log('getReservation method called');
+      axios.get('/api/get_reservation')
+        .then((response) => {
+          console.log('API response:', response);
+          const status = response.data.status;
+
+          if (status === 200) {
+            this.ReservationsList = response.data.data;
+            console.log('ReservationsList updated:', this.ReservationsList);
+          } else {
+            console.warn('Unexpected status:', status);
+          }
+        })
+        .catch((error) => {
+          console.error('API request error:', error);
+        });
+    },
+    deleteReservation(id) {
+      if (confirm('Are you sure you want to delete this order?')) {
+        axios.delete(`/api/delete_reservation/${id}`)
+          .then((response) => {
+            const status = response.data.status;
+
+            if (status === 200) {
+              this.getStudents(); // Refresh the student list after deletion
+              alert('Order deleted successfully.');
+            } else {
+              alert('Failed to delete the order.');
+            }
+          })
+          .catch((error) => {
+            console.error('API request error:', error);
+          });
+      }
+    },
+  },
+};
+</script>

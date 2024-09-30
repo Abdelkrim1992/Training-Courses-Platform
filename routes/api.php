@@ -9,6 +9,8 @@ use App\Http\Controllers\backend\TeamController;
 use App\Http\Controllers\backend\ReviewsController;
 use App\Http\Controllers\backend\CoursesController;
 use App\Http\Controllers\backend\ProjectsController;
+use App\Http\Controllers\backend\ReservationsController;
+
 
 
 Route::get('/user', function (Request $request) {
@@ -24,6 +26,11 @@ Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 Route::get('/get_setting/{id}', [SiteSettingController::class, 'show']);
 Route::post('/add_setting', [SiteSettingController::class, 'store']);
 Route::post('/update_setting/{id}', [SiteSettingController::class, 'update']);
+
+// Reservations//
+Route::post('/reservations', [ReservationsController::class, 'store']);
+Route::get('/reservations/pending', [ReservationsController::class, 'getPendingReservations']);
+Route::put('/reservations/{id}', [ReservationsController::class, 'updateReservationStatus']);
 
 // students//
 Route::get('/get_students', [StudentsController::class, 'index']);
