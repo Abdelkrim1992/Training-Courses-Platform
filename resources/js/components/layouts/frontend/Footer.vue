@@ -33,7 +33,7 @@
                         </div>
                      </div>
                   </div>
-                  <div class="col-xl-4 col-lg-3 col-md-6 col-sm-6">
+                  <div class="col-xl-4 col-lg-3 col-md-6 col-sm-6 mt-10">
                      <div class="tp-footer-widget tp-footer-col-2 mb-30">
                         <h4 class="tp-footer-widget-title mb-15">About</h4>
                         <div class="tp-footer-widget-link">
@@ -46,7 +46,7 @@
                         </div>
                      </div>
                   </div>
-                  <div class="col-xl-3 col-lg-3 col-md-7 col-sm-7">
+                  <div class="col-xl-3 col-lg-3 col-md-7 col-sm-7 mt-10 ">
                      <div class="p-footer-widget tp-footer-5-col-4 mb-30">
                         <h4 class="tp-footer-widget-title mb-15">Our Newsletter</h4>
                         <div class="tp-footer-newsletter-wrap">

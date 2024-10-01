@@ -46,7 +46,7 @@
                         <td>{{ items.client_name }}</td>
                         <td>{{ items.client_email }}</td>
                         <td>{{ items.client_phone }}</td>
-                        <td>{{ items.course_choose }}</td>
+                        <td>{{ items.course_choosed }}</td>
                         <td>{{ items.message }}</td>
                         <td>
                           <a @click="updateReservationStatus(items.id, 'refused')" class="avtar avtar-xs btn-link-secondary">

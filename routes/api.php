@@ -30,7 +30,7 @@ Route::post('/update_setting/{id}', [SiteSettingController::class, 'update']);
 // Reservations//
 Route::post('/add_reservation', [ReservationsController::class, 'store']);
 Route::get('/reservations/pending', [ReservationsController::class, 'getPendingReservations']);
-Route::put('/reservations/{id}', [ReservationsController::class, 'updateReservationStatus']);
+Route::put('/reservations/{id}/accept', [ReservationsController::class, 'acceptReservation']);
 
 // students//
 Route::get('/get_students', [StudentsController::class, 'index']);
