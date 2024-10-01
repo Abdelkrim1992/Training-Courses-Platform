@@ -4,7 +4,7 @@
 
    <!-- footer-area-start -->
       <footer>
-         <div class="tp-footer-main tp-footer-inner pt-80 pb-55">
+         <div class="tp-footer-main tp-footer-inner pt-200 pb-50">
             <div class="container">
                <div class="row">
                   <div class="col-xl-4 col-lg-3 col-md-6 col-sm-6">

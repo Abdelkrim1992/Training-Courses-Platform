@@ -68,7 +68,7 @@
                   <div class="row mb-0">
                     <span class="col-form-label col-sm-3 text-sm-end"></span>
                     <div class="col-lg-6 col-sm-7">
-                      <button type="submit" class="btn btn-primary me-2">Apply Changes</button>
+                      <button type="submit" class="btn btn-primary me-2">Update Setting</button>
                       <button type="button" class="btn btn-outline-secondary" @click="cancel">Cancel</button>
                     </div>
                   </div>

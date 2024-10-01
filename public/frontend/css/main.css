@@ -13247,7 +13247,7 @@ a.social-yout {
 
 .tp-cta-3-bg {
   position: relative;
-  background: linear-gradient(180deg, rgba(246, 245, 239, 0) 0%, #F6F5EF 100%);
+  background: linear-gradient(180deg, rgba(246, 245, 239, 0) 0%, #F3F4F8 100%);
 }
 .tp-cta-3-section {
   margin-top: 70px;
@@ -13267,7 +13267,7 @@ a.social-yout {
 .tp-cta-3-border {
   height: 60px;
   width: 2px;
-  background-color: #E4E3DD;
+  background-color: #F6F5EF;
   display: inline-block;
   margin-bottom: 12px;
 }

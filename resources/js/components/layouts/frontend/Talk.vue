@@ -1,39 +1,70 @@
 <template>
-  <section class="talk-area pt-50 pb-25 mt-5">
-    <div class="container">
-      <div class="row g-4">
-        <div class="col-lg-7">
-          <h1 class="text-white text-center">
-            Start the conversation to develop your business skills
-          </h1>
-        </div>
-        <div class="col-lg-5">
-          <div class="contact__form">
-            <h3 class="text-capitalize mb-30 text-center text-white">
-              Get a free consultation
-            </h3>
-            <!-- Success and Error Messages -->
-            <div v-if="formMessage" :class="messageClass">{{ formMessage }}</div>
-
-            <!-- Form Fields -->
-            <form @submit.prevent="add_reservation">
-              <input type="text" v-model="formData.client_name" placeholder="Your name*" required />
-              <div class="row g-3">
-                <div class="col-6">
-                  <input type="email" v-model="formData.client_email" placeholder="Your email*" required />
-                </div>
-                <div class="col-6">
-                  <input type="text" v-model="formData.client_phone" placeholder="Your phone*" required />
-                </div>
-              </div>
-              <textarea v-model="formData.message" placeholder="Message" required></textarea>
-              <button type="submit">Send</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+         <!-- cta-area-start -->
+         <section class="cta-area tp-cta-3-bg">
+            <div class="container">
+               <div class="row align-items-center">
+                  <div class="col-lg-5">
+                     <div class="tp-cta-3-section text-center wow fadeInLeft" data-wow-delay=".3s">
+                        <h3 class="tp-cta-3-title">We <br> are <br> better <br> together.</h3>
+                        <div class="tp-cta-3-border"></div>
+                        <p>Drop your contact details into the form, and <br> we’ll reach out to you!</p>
+                     </div>
+                  </div>
+                  <div class="col-lg-7 ">
+                     <div class="tp-cta-3-wrap wow fadeInRight" data-wow-delay=".3s">
+                      <h3 class="text-capitalize mb-30 text-center">Get a free consultation</h3>
+                                  <!-- Success and Error Messages -->
+                        <div v-if="formMessage" :class="messageClass">{{ formMessage }}</div>
+                        <div class="tp-cta-3-form">
+                           <form @submit.prevent="add_reservation">
+                              <div class="row">
+                                 <div class="col-md-6">
+                                    <div class="tp-cta-3-form-input">
+                                       <input type="text" v-model="formData.client_name" placeholder="Full Name">
+                                    </div>
+                                 </div>
+                                 <div class="col-md-6">
+                                    <div class="tp-cta-3-form-input">
+                                       <input type="text" v-model="formData.client_phone" placeholder="Phone">
+                                    </div>
+                                 </div>
+                                 <div class="col-md-12">
+                                    <div class="tp-cta-3-form-input">
+                                       <input type="email" v-model="formData.client_email" placeholder="Email">
+                                    </div>
+                                 </div>
+                                 <div class="col-md-12">
+                                    <div class="tp-cta-3-form-input">
+                                       <textarea name="message" v-model="formData.message" placeholder="Message...."></textarea>
+                                    </div>
+                                 </div>
+                                 <div class="tp-contact-input-form">
+                                     <div class="row">
+                                        <div class="tp-contact-btn text-center">
+                                           <button class="tp-btn-inner" type="submit">Send</button>
+                                        </div>
+                                     </div>
+                                    </div>
+                              </div>
+                           </form>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="tp-cta-3-shape">
+               <div class="tp-cta-3-shape-1">
+                  <img src="assets/img/cta/cta-3-shape-1.png" alt="">
+                  <div class="tp-cta-3-shape-2">
+                     <img src="assets/img/cta/cta-3-shape-2.png" alt="">
+                  </div>
+                  <div class="tp-cta-3-shape-3">
+                     <img src="assets/img/cta/cta-3-shape-3.png" alt="">
+                  </div>
+               </div>
+            </div>
+         </section>
+         <!-- cta-area-end -->
 </template>
 
 <script setup>

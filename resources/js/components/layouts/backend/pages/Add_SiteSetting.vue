@@ -90,7 +90,7 @@
                     <span class="col-form-label col-sm-3 text-sm-end"></span>
                     <div class="col-lg-6 col-sm-7">
                       <button type="submit" class="btn btn-primary me-2">
-                        {{ formMode === 'add' ? 'Add Setting' : 'Update Setting' }}
+                        {{ formMode === 'add' ? 'Add Setting' : 'Add Setting' }}
                       </button>
                       <router-link to="/admin/dashboard" type="button" class="btn btn-outline-secondary">Cancel</router-link>
                     </div>

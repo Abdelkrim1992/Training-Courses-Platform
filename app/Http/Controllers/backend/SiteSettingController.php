@@ -41,9 +41,6 @@ class SiteSettingController extends Controller
             'email'     => 'required|string|email',
             'phone'     => 'required|string',
             'address'   => 'required|string',
-            'facebook'  => 'required|string',
-            'instagram' => 'required|string',
-            'whatsapp' => 'required|string',
         ]);
     
         // Create a new setting instance
@@ -84,9 +81,6 @@ class SiteSettingController extends Controller
             'email'     => 'required|string|email',
             'phone'     => 'required|string',
             'address'   => 'required|string',
-            'facebook'  => 'required|string',
-            'instagram' => 'required|string',
-            'whatsapp' => 'required|string',
             'image'     => 'nullable|image|max:2048',  // Make sure image is optional and a valid image type
         ]);
     
