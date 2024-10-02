@@ -170,18 +170,18 @@ export default {
 
 
       <!-- tutor area start -->
-      <section class="tp-about-tutor-area pt-50 pb-50 text-center">
+      <section class="tp-about-tutor-area pt-50 pb-50 ">
          <div class="container">
-            <div class="row align-items-end">
+            <div class="row align-items-end justify-content-center text-center">
                <div class="col-lg-6">
-                  <div class="tp-about-tutor-heading mb-130">
-                     <div class="tp-about-tutor-subtitle d-flex align-items-center text-center">
+                  <div class="tp-about-tutor-heading mb-130 ">
+                     <div class="tp-about-tutor-subtitle d-flex align-items-center justify-content-center">
                         <span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                            <path d="M1 10H19" stroke="#2D4CFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                            <path d="M10 19C14.9706 19 19 14.9706 19 10C19 5.02944 14.9706 1 10 1C5.02944 1 1 5.02944 1 10C1 14.9706 5.02944 19 10 19Z" stroke="#2D4CFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                            <path d="M9.9999 1C12.2511 3.46452 13.5304 6.66283 13.5999 10C13.5304 13.3372 12.2511 16.5355 9.9999 19C7.74875 16.5355 6.46942 13.3372 6.3999 10C6.46942 6.66283 7.74875 3.46452 9.9999 1Z" stroke="#2D4CFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                          </svg></span>
-                         <div class="text-center">
+                         <div class=" text-center">
                            <p>Know about Skills Studies</p>
                          </div>
                      </div>
@@ -200,7 +200,7 @@ export default {
                </div>
             </div>
             <div class="row">
-               <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".3s">
+               <div class="col-lg-4 col-md-6 wow fadeInUp mt-15" data-wow-delay=".3s">
                   <div class="tp-tutor-item about text-center mb-30">
                      <div class="tp-tutor-icon">
                         <span><svg xmlns="http://www.w3.org/2000/svg" width="42" height="30" viewBox="0 0 42 30" fill="none">
@@ -213,7 +213,7 @@ export default {
                      </div>
                   </div>
                </div>
-               <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".5s">
+               <div class="col-lg-4 col-md-6 wow fadeInUp mt-15" data-wow-delay=".5s">
                   <div class="tp-tutor-item about text-center mb-30">
                      <div class="tp-tutor-icon">
                         <span><svg xmlns="http://www.w3.org/2000/svg" width="40" height="35" viewBox="0 0 40 35" fill="none">
@@ -226,7 +226,7 @@ export default {
                      </div>
                   </div>
                </div>
-               <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".7s">
+               <div class="col-lg-4 col-md-6 wow fadeInUp mt-15" data-wow-delay=".7s">
                   <div class="tp-tutor-item about text-center mb-30">
                      <div class="tp-tutor-icon">
                         <span><svg xmlns="http://www.w3.org/2000/svg" width="40" height="34" viewBox="0 0 40 34" fill="none">
@@ -579,6 +579,22 @@ export default {
 </template>
 
 <style>
+
+@media (max-width: 768px) {
+  .tp-about-tutor-area .row {
+    justify-content: center;
+  }
+  
+  .tp-about-tutor-heading, .tp-about-tutor-right {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .tp-tutor-item {
+    margin: 0 auto;
+  }
+}
+
 
 @media (max-width: 768px) {
   .tp-team-2-arrow {
