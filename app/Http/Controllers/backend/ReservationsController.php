@@ -28,50 +28,38 @@ class ReservationsController extends Controller
         ]);
     }
 
-    // Get all reservations with status 'pending'
     public function getPendingReservations()
     {
         $reservations = Reservation::where('status', 'pending')->get();
-        return response()->json([
-            'status' => 200,
-            'data' => $reservations,
-        ]);
+        return response()->json(['data' => $reservations], 200);
     }
 
-    // Accept or refuse the reservation
-    public function updateReservationStatus(Request $request, $id)
+    // Accept reservation and move to the student table
+    public function acceptReservation($id)
     {
-        $validatedData = $request->validate([
-            'status' => 'required|in:accepted,refused',
-        ]);
-
+        // Find the reservation by ID
         $reservation = Reservation::findOrFail($id);
 
-        if ($validatedData['status'] === 'accepted') {
-            // Move reservation data to the Student table
-            $student = new Student();
-            $student->name = $reservation->client_name;
-            $student->email = $reservation->client_email;
-            $student->phone = $reservation->client_phone;
-            $student->course_title = $reservation->course_choosed;
-            $student->save();
+        // Move the data to the Student table
+        $student = new Student();
+        $student->name = $reservation->client_name;
+        $student->email = $reservation->client_email;
+        $student->phone = $reservation->client_phone;
+        $student->course_title = $reservation->course_choosed;
+        $student->save();
 
-            // Mark the reservation as accepted
-            $reservation->status = 'accepted';
-            $reservation->save();
+        // Delete the reservation or mark it as accepted
+        $reservation->delete();
 
-            return response()->json([
-                'status' => 200,
-                'message' => 'Reservation accepted and student added!',
-            ]);
-        } elseif ($validatedData['status'] === 'refused') {
-            // Handle refusal with confirmation
-            $reservation->delete();
+        return response()->json(['message' => 'Reservation accepted and moved to the student list'], 200);
+    }
 
-            return response()->json([
-                'status' => 200,
-                'message' => 'Reservation refused and deleted!',
-            ]);
-        }
+    // Remove a reservation from the system
+    public function deleteReservation($id)
+    {
+        $reservation = Reservation::findOrFail($id);
+        $reservation->delete();
+
+        return response()->json(['message' => 'Reservation successfully deleted'], 200);
     }
 }

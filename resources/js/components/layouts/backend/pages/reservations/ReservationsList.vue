@@ -1,110 +1,109 @@
 <template>
-  <BackendLayouts>
-    <div class="pc-container">
-      <div class="pc-content">
-        <!-- Breadcrumb start -->
-        <div class="page-header">
-          <div class="page-block">
-            <div class="row align-items-center">
-              <div class="col-md-12">
-                <ul class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <router-link to="/admin/dashboard">Home</router-link>
-                  </li>
-                  <li class="breadcrumb-item" aria-current="page">Reservations List</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Breadcrumb end -->
+  <div>
+    <!-- Reservation Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Course Title</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="reservation in reservations" :key="reservation.id">
+          <td>{{ reservation.client_name }}</td>
+          <td>{{ reservation.client_email }}</td>
+          <td>{{ reservation.client_phone }}</td>
+          <td>{{ reservation.course_choosed }}</td>
+          <td>
+            <!-- Accept Button -->
+            <button @click="acceptReservation(reservation.id)">Accept</button>
 
-        <!-- Main Content start -->
-        <div class="row">
-          <div class="col-12">
-            <div class="card table-card">
-              <div class="card-header">
-                <div class="d-sm-flex align-items-center justify-content-between">
-                  <h5 class="mb-3 mb-sm-0">Reservations List</h5>
-                </div>
-              </div>
-              <div class="card-body pt-3">
-                <div class="table-responsive">
-                  <table class="table table-hover" id="pc-dt-simple">
-                    <thead>
-                      <tr>
-                        <th>Full Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Course Title</th>
-                        <th>Message</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="(items, index) in ReservationsList" :key="index.id">
-                        <td>{{ items.client_name }}</td>
-                        <td>{{ items.client_email }}</td>
-                        <td>{{ items.client_phone }}</td>
-                        <td>{{ items.course_choosed }}</td>
-                        <td>{{ items.message }}</td>
-                        <td>
-                          <a @click="updateReservationStatus(items.id, 'refused')" class="avtar avtar-xs btn-link-secondary">
-                            <i class="ti ti-trash f-20"></i>
-                          </a>
-                          <a @click="updateReservationStatus(items.id, 'accepted')" class="avtar avtar-xs btn-link-secondary">
-                            <i class="ti ti-check f-20"></i>
-                          </a>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Main Content end -->
-      </div>
+            <!-- Delete Button -->
+            <button @click="confirmDelete(reservation.id)">Remove</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Delete Confirmation Modal -->
+    <div v-if="showDeleteModal" class="modal">
+      <p>Are you sure you want to delete this reservation?</p>
+      <button @click="deleteReservation(deleteId)">Yes</button>
+      <button @click="cancelDelete">No</button>
     </div>
-  </BackendLayouts>
+  </div>
 </template>
-
-<script setup>
-
-import axios from 'axios';
-import BackendLayouts from '../../BackendLayouts.vue';
-
-</script>
 
 <script>
 import axios from 'axios';
-
 export default {
   data() {
     return {
-      ReservationsList: [],
+      reservations: [], // Stores the list of reservations
+      showDeleteModal: false, // Controls the visibility of the delete modal
+      deleteId: null, // Stores the ID of the reservation to be deleted
     };
   },
-  mounted() {
-    this.getPendingReservations();
-  },
   methods: {
-    getPendingReservations() {
-      axios.get('/api/reservations/pending').then((response) => {
-        this.ReservationsList = response.data.data;
-      });
-    },
-    updateReservationStatus(id, status) {
-      axios
-        .put(`/api/reservations/${id}`, { status })
-        .then(() => {
-          this.getPendingReservations(); // Refresh list after updating status
+    fetchReservations() {
+      axios.get('/api/reservations/pending')
+        .then(response => {
+          this.reservations = response.data.data;
         })
-        .catch((error) => {
-          console.error('Error updating reservation status:', error);
+        .catch(error => {
+          console.error('Error fetching reservations:', error);
+        });
+    },
+    acceptReservation(id) {
+      console.log("Accept button clicked:", id); // Debugging log
+      axios.put(`/api/reservations/${id}/accept`)
+        .then(response => {
+          console.log(response.data.message); // Log success message
+          this.fetchReservations(); // Refresh the list after accepting
+        })
+        .catch(error => {
+          console.error('Error accepting reservation:', error);
+        });
+    },
+    confirmDelete(id) {
+      this.showDeleteModal = true; // Show the confirmation modal
+      this.deleteId = id; // Store the ID of the reservation to delete
+    },
+    cancelDelete() {
+      this.showDeleteModal = false; // Hide the modal
+      this.deleteId = null; // Reset the ID
+    },
+    deleteReservation(id) {
+      console.log("Delete button clicked:", id); // Debugging log
+      axios.delete(`/api/reservations/${id}`)
+        .then(response => {
+          console.log(response.data.message); // Log success message
+          this.showDeleteModal = false; // Hide the modal
+          this.fetchReservations(); // Refresh the list after deletion
+        })
+        .catch(error => {
+          console.error('Error deleting reservation:', error);
         });
     },
   },
+  mounted() {
+    this.fetchReservations(); // Fetch reservations on component mount
+  }
 };
 </script>
+
+<style scoped>
+/* Basic styles for the modal */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+</style>

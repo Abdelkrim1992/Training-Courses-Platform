@@ -38,9 +38,9 @@ class CoursesController extends Controller
             'category' => 'required|string|max:255',
             'course_description' => 'required|string',
             'course_tips' => 'required|string',
-            'image' => 'nullable|array', // Expecting an array of images
+            'image' => 'required|array', // Expecting an array of images
             'image.*' => 'image|mimes:jpg,jpeg,png|max:2048', // Validate each image
-            'photo' => 'nullable|array', // Expecting an array of images
+            'photo' => 'required|array', // Expecting an array of images
             'photo.*' => 'image|mimes:jpg,jpeg,png|max:2048', // Validate each image
         ]);
     

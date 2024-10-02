@@ -31,6 +31,7 @@ Route::post('/update_setting/{id}', [SiteSettingController::class, 'update']);
 Route::post('/add_reservation', [ReservationsController::class, 'store']);
 Route::get('/reservations/pending', [ReservationsController::class, 'getPendingReservations']);
 Route::put('/reservations/{id}/accept', [ReservationsController::class, 'acceptReservation']);
+Route::delete('/reservations/{id}', [ReservationsController::class, 'deleteReservation']);
 
 // students//
 Route::get('/get_students', [StudentsController::class, 'index']);
