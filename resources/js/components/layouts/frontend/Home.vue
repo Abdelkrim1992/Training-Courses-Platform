@@ -10,9 +10,9 @@ export default {
     return {
       CoursesList: [],       // Stores courses data
       ReviewsList: [],       // Stores reviews data
-      TeamMembersList: [],      // Team members array
-      currentMemberIndex: 0,    // Track the current index of the first displayed team member
-      membersPerSlide: 3,       // Number of members to display per slide   // Number of members per slide    // Number of members to display per slide
+      TeamMembersList: [], // Stores team members data
+      currentMemberIndex: 0, // Tracks the current index of the first displayed team member
+      membersPerSlide: 3,     // Number of members to display per slide   // Number of members per slide    // Number of members to display per slide
       currentReviewIndex: 0, // Track the current testimonial index
     };
   },
@@ -28,7 +28,13 @@ export default {
     this.getTeamMembers();
     this.getReviews();
     this.getCourses();
+    window.addEventListener("resize", this.checkWindowSize); 
   },
+  
+  beforeDestroy() {
+    window.removeEventListener("resize", this.checkWindowSize); // Remove event listener when component is destroyed
+  },
+
   methods: {
     getCourses() {
       // Fetch list of courses from the API
@@ -59,32 +65,46 @@ export default {
 
     async getTeamMembers() {
       try {
-        const response = await axios.get('/api/get_team_member');
+        const response = await axios.get("/api/get_team_member");
         if (response.data.status === 200) {
           this.TeamMembersList = response.data.data;
           console.log("Team Members List:", this.TeamMembersList);
         } else {
-          console.error('Error fetching team members:', response.data.message);
+          console.error("Error fetching team members:", response.data.message);
         }
       } catch (error) {
-        console.error('Error fetching team members:', error);
+        console.error("Error fetching team members:", error);
       }
     },
+
     nextMember() {
-      // Move to the next member in the list, shifting the current view by 1
+      // Move to the next member in the list, shifting the current view
       if (this.currentMemberIndex + this.membersPerSlide < this.TeamMembersList.length) {
         this.currentMemberIndex++;
       }
     },
+
     prevMember() {
-      // Move to the previous member in the list, shifting the current view by 1
+      // Move to the previous member in the list
       if (this.currentMemberIndex > 0) {
         this.currentMemberIndex--;
       }
     },
+
     getVisibleTeamMembers() {
-      // Return the currently visible team members (3 at a time)
+      // Return the currently visible team members (up to membersPerSlide)
       return this.TeamMembersList.slice(this.currentMemberIndex, this.currentMemberIndex + this.membersPerSlide);
+    },
+
+    checkWindowSize() {
+      // Adjust the number of members per slide based on the window width
+      if (window.innerWidth < 768) {
+        this.membersPerSlide = 1; // Mobile view
+      } else if (window.innerWidth < 1024) {
+        this.membersPerSlide = 2; // Tablet view
+      } else {
+        this.membersPerSlide = 3; // Desktop view
+      }
     },
 
     nextReview() {
@@ -95,6 +115,7 @@ export default {
         this.currentReviewIndex = 0; // Loop back to the first testimonial
       }
     },
+    
     prevReview() {
       // Move to the previous testimonial
       if (this.currentReviewIndex > 0) {
@@ -460,8 +481,7 @@ export default {
                   data-wow-delay=".4s" 
                   src="frontend/img/unlerline/team-2-svg-1.svg" 
                   alt="" 
-                  style="visibility: visible; animation-duration: 1.5s; animation-delay: 0.4s; animation-name: bounceIn;"
-                />
+                  style="visibility: visible; animation-duration: 1.5s; animation-delay: 0.4s; animation-name: bounceIn;">
               </span>
             </h3>
           </div>
@@ -488,11 +508,11 @@ export default {
         </div>
       </div>
 
-      <!-- Show 4 team members per slide -->
+      <!-- Show team members per slide -->
       <div class="swiper tp-team-2-active wow fadeInUp" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
-        <div class="swiper-wrapper align-items-end">
-          <!-- Loop through the current 4 team members -->
-          <div v-for="(item, index) in getVisibleTeamMembers()" :key="index" class="swiper-slide" style="width: 333px; margin-right: 30px;">
+        <div class="swiper-wrapper align-items-end ">
+          <!-- Loop through the visible team members -->
+          <div v-for="(item, index) in getVisibleTeamMembers()" :key="index" class="swiper-slide ">
             <div class="tp-team-2-item">
               <div class="tp-team-2-bg strom"></div>
               <div class="tp-team-2-social">
@@ -521,9 +541,8 @@ export default {
           </div>   
         </div>
       </div>
-      <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
     </div>
-</section>
+  </section>
 
          <!-- brand-area-start -->
          <section class="brand-area mb-65 text-center">
