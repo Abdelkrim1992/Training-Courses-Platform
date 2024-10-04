@@ -8,41 +8,41 @@
 export default {
   data() {
     return {
-      CoursesList: [],       // Stores courses data
-      ReviewsList: [],       // Stores reviews data
-      TeamMembersList: [], // Stores team members data
-      currentMemberIndex: 0, // Tracks the current index of the first displayed team member
-      membersPerSlide: 3,     // Number of members to display per slide   // Number of members per slide    // Number of members to display per slide
-      currentReviewIndex: 0, // Track the current testimonial index
+      CoursesList: [],          // Stores courses data
+      ReviewsList: [],          // Stores reviews data
+      TeamMembersList: [],      // Team members array
+      currentMemberIndex: 0,    // Track the current index of the first displayed team member
+      membersPerSlide: 4,       // Default: Number of members to display per slide (for desktop)
+      currentReviewIndex: 0,    // Track the current testimonial index
+      slideInterval: null,      // Store the interval for automatic sliding
     };
   },
-  computed: {
-    currentTeamMembers() {
-      // Compute the team members for the current slide
-      const startIndex = this.currentSlideIndex * this.membersPerSlide;
-      return this.TeamMembersList.slice(startIndex, startIndex + this.membersPerSlide);
-    },
-  },
   mounted() {
-    // Fetch data for team members, reviews, and courses when the component is mounted
+    // Fetch data when the component is mounted
     this.getTeamMembers();
     this.getReviews();
     this.getCourses();
-    window.addEventListener("resize", this.checkWindowSize); 
-  },
-  
-  beforeDestroy() {
-    window.removeEventListener("resize", this.checkWindowSize); // Remove event listener when component is destroyed
-  },
 
+    // Set initial number of members per slide based on screen size
+    this.updateMembersPerSlide();
+
+    // Set up window resize listener to adjust members per slide
+    window.addEventListener('resize', this.updateMembersPerSlide);
+
+    // Start automatic sliding
+    this.startAutoSlide();
+  },
+  beforeDestroy() {
+    // Clean up resize event listener and stop sliding
+    window.removeEventListener('resize', this.updateMembersPerSlide);
+    clearInterval(this.slideInterval);
+  },
   methods: {
     getCourses() {
-      // Fetch list of courses from the API
       axios.get('/api/get_courses')
         .then((response) => {
           if (response.data.status === 200) {
             this.CoursesList = response.data.data;
-            console.log("Courses List:", this.CoursesList);
           }
         })
         .catch((error) => {
@@ -50,84 +50,74 @@ export default {
         });
     },
     getReviews() {
-      // Fetch list of reviews from the API
       axios.get('/api/get_reviews')
         .then((response) => {
           if (response.data.status === 200) {
             this.ReviewsList = response.data.data;
-            console.log("Reviews List:", this.ReviewsList);
           }
         })
         .catch((error) => {
           console.error('Error fetching reviews:', error);
         });
     },
-
     async getTeamMembers() {
       try {
-        const response = await axios.get("/api/get_team_member");
+        const response = await axios.get('/api/get_team_member');
         if (response.data.status === 200) {
           this.TeamMembersList = response.data.data;
-          console.log("Team Members List:", this.TeamMembersList);
         } else {
-          console.error("Error fetching team members:", response.data.message);
+          console.error('Error fetching team members:', response.data.message);
         }
       } catch (error) {
-        console.error("Error fetching team members:", error);
-      }
-    },
-
-    nextMember() {
-      // Move to the next member in the list, shifting the current view
-      if (this.currentMemberIndex + this.membersPerSlide < this.TeamMembersList.length) {
-        this.currentMemberIndex++;
-      }
-    },
-
-    prevMember() {
-      // Move to the previous member in the list
-      if (this.currentMemberIndex > 0) {
-        this.currentMemberIndex--;
-      }
-    },
-
-    getVisibleTeamMembers() {
-      // Return the currently visible team members (up to membersPerSlide)
-      return this.TeamMembersList.slice(this.currentMemberIndex, this.currentMemberIndex + this.membersPerSlide);
-    },
-
-    checkWindowSize() {
-      // Adjust the number of members per slide based on the window width
-      if (window.innerWidth < 768) {
-        this.membersPerSlide = 1; // Mobile view
-      } else if (window.innerWidth < 1024) {
-        this.membersPerSlide = 2; // Tablet view
-      } else {
-        this.membersPerSlide = 3; // Desktop view
-      }
-    },
-
-    nextReview() {
-      // Move to the next testimonial
-      if (this.currentReviewIndex < this.ReviewsList.length - 1) {
-        this.currentReviewIndex++;
-      } else {
-        this.currentReviewIndex = 0; // Loop back to the first testimonial
+        console.error('Error fetching team members:', error);
       }
     },
     
-    prevReview() {
-      // Move to the previous testimonial
-      if (this.currentReviewIndex > 0) {
-        this.currentReviewIndex--;
+    nextMember() {
+      if (this.currentMemberIndex + this.membersPerSlide < this.TeamMembersList.length) {
+        this.currentMemberIndex++;
       } else {
-        this.currentReviewIndex = this.ReviewsList.length - 1; // Loop back to the last testimonial
+        this.currentMemberIndex = 0; // Loop back to the first slide
+      }
+    },
+    
+    prevMember() {
+      if (this.currentMemberIndex > 0) {
+        this.currentMemberIndex--;
+      } else {
+        this.currentMemberIndex = this.TeamMembersList.length - this.membersPerSlide; // Loop to the last set of members
+      }
+    },
+    
+    getVisibleTeamMembers() {
+      return this.TeamMembersList.slice(this.currentMemberIndex, this.currentMemberIndex + this.membersPerSlide);
+    },
+
+    updateMembersPerSlide() {
+      const screenWidth = window.innerWidth;
+      if (screenWidth < 768) {
+        // Mobile view: show 1 member per slide
+        this.membersPerSlide = 1;
+      } else {
+        // Desktop view: show 4 members per slide
+        this.membersPerSlide = 4;
       }
     },
 
+    startAutoSlide() {
+      // Automatically move to the next slide every 5 seconds
+      this.slideInterval = setInterval(() => {
+        this.nextMember();
+      }, 5000);
+    },
+    
+    stopAutoSlide() {
+      clearInterval(this.slideInterval);
+    },
   },
 };
 </script>
+
 
 
 
@@ -481,7 +471,8 @@ export default {
                   data-wow-delay=".4s" 
                   src="frontend/img/unlerline/team-2-svg-1.svg" 
                   alt="" 
-                  style="visibility: visible; animation-duration: 1.5s; animation-delay: 0.4s; animation-name: bounceIn;">
+                  style="visibility: visible; animation-duration: 1.5s; animation-delay: 0.4s; animation-name: bounceIn;"
+                />
               </span>
             </h3>
           </div>
@@ -508,11 +499,11 @@ export default {
         </div>
       </div>
 
-      <!-- Show team members per slide -->
+      <!-- Show 4 team members per slide -->
       <div class="swiper tp-team-2-active wow fadeInUp" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
-        <div class="swiper-wrapper align-items-end ">
-          <!-- Loop through the visible team members -->
-          <div v-for="(item, index) in getVisibleTeamMembers()" :key="index" class="swiper-slide ">
+        <div class="swiper-wrapper align-items-end">
+          <!-- Loop through the current 4 team members -->
+          <div v-for="(item, index) in getVisibleTeamMembers()" :key="index" class="swiper-slide" style="width: 333px; margin-right: 30px;">
             <div class="tp-team-2-item">
               <div class="tp-team-2-bg strom"></div>
               <div class="tp-team-2-social">
@@ -533,7 +524,7 @@ export default {
               </div>
               <div class="tp-team-2-content">
                 <h4 class="tp-team-2-title">
-                  <a href="my-profile.html">{{ item.member_name }}</a>
+                  <a href="#">{{ item.member_name }}</a>
                 </h4>
                 <span>{{ item.member_service }}</span>
               </div>
@@ -541,8 +532,9 @@ export default {
           </div>   
         </div>
       </div>
+      <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
     </div>
-  </section>
+</section>
 
          <!-- brand-area-start -->
          <section class="brand-area mb-65 text-center">
@@ -598,6 +590,18 @@ export default {
 </template>
 
 <style>
+
+@media (max-width: 767px) {
+  .swiper-slide {
+    width: 100% !important; /* Full width for mobile */
+  }
+}
+
+@media (min-width: 768px) {
+  .swiper-slide {
+    width: calc(33.33% - 30px) !important; /* Three slides for desktop, minus margin */
+  }
+}
 
 @media (max-width: 768px) {
   .tp-about-tutor-area .row {

@@ -2,7 +2,7 @@
 
          <!-- footer-area-start -->
          <footer>
-         <div class="tp-footer-2 text-center">
+         <div class="tp-footer-2 ">
             <div class="tp-footer-main pt-70 pb-55">
                <div class="container">
                   <div class="row">
@@ -28,7 +28,7 @@
                            </div>
                         </div>
                      </div>
-                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                     <div class="col-xl-3 col-lg-4 col-md-6 ">
                         <div class="tp-footer-widget tp-footer-2-col-2 mb-30">
                            <h4 class="tp-footer-widget-title mb-15">About</h4>
                            <div class="tp-footer-widget-link">
@@ -84,8 +84,8 @@
             </div>
             <div class="tp-footer-bottom">
                <div class="container">
-                  <div class="row align-items-center">
-                     <div class="col-lg-3 col-md-4">
+                  <div class="row ">
+                     <div class="col-lg-3 ">
                         <div class="tp-footer-bottom-social text-center">
                            <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
                            <a href="#"><i class="fa-brands fa-twitter"></i></a>
