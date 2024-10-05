@@ -15,8 +15,31 @@ export default {
       membersPerSlide: 4,       // Default: Number of members to display per slide (for desktop)
       currentReviewIndex: 0,    // Track the current testimonial index
       slideInterval: null,      // Store the interval for automatic sliding
+
+      partnersList: [
+        { name: "Company A", logo_url: "frontend/img/brand/brand-2-logo-1.png" },
+        { name: "Company B", logo_url: "frontend/img/brand/brand-2-logo-1.png" },
+        { name: "Company C", logo_url: "frontend/img/brand/brand-2-logo-1.png" },
+        { name: "Company D", logo_url: "frontend/img/brand/brand-2-logo-1.png" },
+        { name: "Company E", logo_url: "frontend/img/brand/brand-2-logo-1.png" },
+      ],
+      currentSlideIndex: 0, // Track the index of the current visible logos
+      logosPerSlide: 4, // Default: number of logos to display per slide
+      slideWidth: 150, // Width of each partner logo (adjust according to your needs)
+      autoScrollInterval: null,
     };
   },
+
+  sliderStyle() {
+      const totalWidth = this.partnersList.length * this.slideWidth;
+      const offset = -this.currentSlideIndex * this.slideWidth;
+      return {
+        width: `${totalWidth}px`,
+        transform: `translateX(${offset}px)`,
+        transition: 'transform 0.5s ease-in-out',
+      };
+    },
+
   mounted() {
     // Fetch data when the component is mounted
     this.getTeamMembers();
@@ -31,11 +54,18 @@ export default {
 
     // Start automatic sliding
     this.startAutoSlide();
+
+        this.updateLogosPerSlide();
+        window.addEventListener('resize', this.updateLogosPerSlide);
+        this.startAutoScroll();
   },
   beforeDestroy() {
     // Clean up resize event listener and stop sliding
     window.removeEventListener('resize', this.updateMembersPerSlide);
     clearInterval(this.slideInterval);
+    
+    clearInterval(this.autoScrollInterval);
+    window.removeEventListener('resize', this.updateLogosPerSlide);
   },
   methods: {
     getCourses() {
@@ -49,6 +79,7 @@ export default {
           console.error('Error fetching courses:', error);
         });
     },
+
     getReviews() {
       axios.get('/api/get_reviews')
         .then((response) => {
@@ -60,6 +91,7 @@ export default {
           console.error('Error fetching reviews:', error);
         });
     },
+
     async getTeamMembers() {
       try {
         const response = await axios.get('/api/get_team_member');
@@ -72,7 +104,6 @@ export default {
         console.error('Error fetching team members:', error);
       }
     },
-    
     nextMember() {
       if (this.currentMemberIndex + this.membersPerSlide < this.TeamMembersList.length) {
         this.currentMemberIndex++;
@@ -80,7 +111,6 @@ export default {
         this.currentMemberIndex = 0; // Loop back to the first slide
       }
     },
-    
     prevMember() {
       if (this.currentMemberIndex > 0) {
         this.currentMemberIndex--;
@@ -88,11 +118,9 @@ export default {
         this.currentMemberIndex = this.TeamMembersList.length - this.membersPerSlide; // Loop to the last set of members
       }
     },
-    
     getVisibleTeamMembers() {
       return this.TeamMembersList.slice(this.currentMemberIndex, this.currentMemberIndex + this.membersPerSlide);
     },
-
     updateMembersPerSlide() {
       const screenWidth = window.innerWidth;
       if (screenWidth < 768) {
@@ -103,16 +131,35 @@ export default {
         this.membersPerSlide = 4;
       }
     },
-
     startAutoSlide() {
       // Automatically move to the next slide every 5 seconds
       this.slideInterval = setInterval(() => {
         this.nextMember();
       }, 5000);
     },
-    
     stopAutoSlide() {
       clearInterval(this.slideInterval);
+    },
+
+    updateLogosPerSlide() {
+      const screenWidth = window.innerWidth;
+      if (screenWidth < 768) {
+        this.logosPerSlide = 1; // Show 1 logo on mobile
+      } else {
+        this.logosPerSlide = 4; // Show 4 logos on desktop
+      }
+    },
+    startAutoScroll() {
+      this.autoScrollInterval = setInterval(() => {
+        this.nextSlide();
+      }, 3000); // Change slide every 3 seconds
+    },
+    nextSlide() {
+      if (this.currentSlideIndex + this.logosPerSlide < this.partnersList.length) {
+        this.currentSlideIndex++;
+      } else {
+        this.currentSlideIndex = 0; // Reset to the beginning when the end is reached
+      }
     },
   },
 };
@@ -179,9 +226,40 @@ export default {
    </div>
 <!-- hero-area-end -->
 
+<!-- testimonial-area-start -->
+<section class="testimonial-area pb-50 text-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xxl-6 col-lg-8">
+        <div class="tp-testimonial-section">
+          <div class="tp-section text-center mt-50">
+            <h3 class="tp-section-3-title">
+              Our Partners
+            </h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="partners-slider-wrapper mt-70">
+        <!-- Display partner logos -->
+        <div class="partners-slider" :style="sliderStyle">
+          <div
+            v-for="(partner, index) in partnersList"
+            :key="index"
+            class="partner-logo"
+          >
+            <img :src="partner.logo_url" :alt="partner.name" />
+          </div>
+        </div>
+      </div>
+
+  </div>
+</section>
+<!-- testimonial-area-end -->
 
       <!-- tutor area start -->
-      <section class="tp-about-tutor-area pt-50 pb-50 ">
+      <section class="tp-about-tutor-area pt-50 ">
          <div class="container">
             <div class="row align-items-end justify-content-center text-center">
                <div class="col-lg-6">
@@ -262,13 +340,12 @@ export default {
 
 
 <!-- category-area-start -->
-   <section class="category-area mb-50 ">
+   <section class="category-area mb-50 mt-50 ">
       <div class="container">
          <div class="row justify-content-center">
             <div class="col-xl-8 col-lg-10">
                <div class="tp-section mb-40 text-center wow fadeInUp" data-wow-delay=".4s">
-                  <h5 class="tp-section-3-subtitle">Top Services</h5>
-                  <h3 class="tp-section-3-title">Most demanding 
+                  <h3 class="tp-section-3-title">Most Popular 
               <span>Services
                 <img 
                   class="tp-underline-shape-9 wow bounceIn" 
@@ -283,92 +360,15 @@ export default {
                </div>
             </div>
          </div>
-         <div class="row">
-            <div class="col-lg-3 col-md-4 col-sm-6">
-               <a href="course-categories.html" class="tp-category-item mb-25 wow fadeInUp" data-wow-delay=".3s">
-                  <div class="tp-category-icon">
-                     <span class="cat-purple"><img src="frontend/img/icon/category/cat-2-icon-1.svg" alt=""></span>
+         <div class="row mt-20">
+            <div class="col-lg-4 col-md-4 col-sm-6">
+               <a href="course-categories.html" class="tp-category-item text-center mb-25 wow fadeInUp" data-wow-delay=".3s">
+                  <div class="tp-course-thumb">
+                     <img src="frontend/img/bg/course-thumb-1.jpg">
                   </div>
-                  <div class="tp-category-content">
+                  <div class="tp-category-content mt-20">
                      <h4 class="tp-category-title">Development</h4>
                      <span>Code with Confident</span>
-                  </div>
-               </a>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-               <a href="course-categories.html" class="tp-category-item mb-25 wow fadeInUp" data-wow-delay=".3s">
-                  <div class="tp-category-icon">
-                     <span class="cat-green"><img src="frontend/img/icon/category/cat-2-icon-2.svg" alt=""></span>
-                  </div>
-                  <div class="tp-category-content">
-                     <h4 class="tp-category-title">UI/UX Design</h4>
-                     <span>Design with Confident</span>
-                  </div>
-               </a>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-               <a href="course-categories.html" class="tp-category-item mb-25 wow fadeInUp" data-wow-delay=".3s">
-                  <div class="tp-category-icon">
-                     <span class="cat-purple"><img src="frontend/img/icon/category/cat-2-icon-3.svg" alt=""></span>
-                  </div>
-                  <div class="tp-category-content">
-                     <h4 class="tp-category-title">Lifestyle</h4>
-                     <span>New Skills, New You</span>
-                  </div>
-               </a>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-               <a href="course-categories.html" class="tp-category-item mb-25 wow fadeInUp" data-wow-delay=".3s">
-                  <div class="tp-category-icon">
-                     <span class="cat-blue"><img src="frontend/img/icon/category/cat-2-icon-4.svg" alt=""></span>
-                  </div>
-                  <div class="tp-category-content">
-                     <h4 class="tp-category-title">Business</h4>
-                     <span>Improve your business</span>
-                  </div>
-               </a>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-               <a href="course-categories.html" class="tp-category-item mb-25 wow fadeInUp" data-wow-delay=".5s">
-                  <div class="tp-category-icon">
-                     <span class="cat-pink"><img src="frontend/img/icon/category/cat-2-icon-5.svg" alt=""></span>
-                  </div>
-                  <div class="tp-category-content">
-                     <h4 class="tp-category-title">Photography</h4>
-                     <span>Major or Minor</span>
-                  </div>
-               </a>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-               <a href="course-categories.html" class="tp-category-item mb-25 wow fadeInUp" data-wow-delay=".5s">
-                  <div class="tp-category-icon">
-                     <span class="cat-l-purple"><img src="frontend/img/icon/category/cat-2-icon-6.svg" alt=""></span>
-                  </div>
-                  <div class="tp-category-content">
-                     <h4 class="tp-category-title">Music</h4>
-                     <span>Control your Wallet</span>
-                  </div>
-               </a>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-               <a href="course-categories.html" class="tp-category-item mb-25 wow fadeInUp" data-wow-delay=".5s">
-                  <div class="tp-category-icon">
-                     <span class="cat-yellow"><img src="frontend/img/icon/category/cat-2-icon-7.svg" alt=""></span>
-                  </div>
-                  <div class="tp-category-content">
-                     <h4 class="tp-category-title">Teaching</h4>
-                     <span>High Education Level</span>
-                  </div>
-               </a>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-               <a href="course-categories.html" class="tp-category-item mb-25 wow fadeInUp" data-wow-delay=".5s">
-                  <div class="tp-category-icon">
-                     <span class="cat-lgreen"><img src="frontend/img/icon/category/cat-2-icon-8.svg" alt=""></span>
-                  </div>
-                  <div class="tp-category-content">
-                     <h4 class="tp-category-title">Development</h4>
-                     <span>Improve your business</span>
                   </div>
                </a>
             </div>
@@ -456,7 +456,7 @@ export default {
 </section>
 <!-- testimonial-area-end -->
 
-<section class="team-area pt-100 mb-100">
+<section class="team-area pt-100 mb-40">
     <div class="container">
       <div class="row align-items-end">
         <div class="col-lg-6 col-md-8">
@@ -535,55 +535,6 @@ export default {
       <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
     </div>
 </section>
-
-         <!-- brand-area-start -->
-         <section class="brand-area mb-65 text-center">
-            <div class="container">
-               <div class="row">
-                  <div class="col-lg-4">
-                     <div class="tp-brand-2-content mb-40">
-                        <h4 class="tp-brand-2-title">Who will <br>  You Learn 
-                           <span>With?
-                              <img class="tp-underline-shape-10 wow bounceIn" data-wow-duration="1.5s" data-wow-delay=".4s" src="frontend/img/unlerline/brand-2-svg-1.svg" alt="">
-                           </span>
-                        </h4>
-                        <p>You can list your partners or instructors's <br> brands here to show off your site's</p>
-                        
-                     </div>
-                  </div>
-                  <div class="col-lg-8">
-                     <div class="tp-brand-2-wrapper">
-                        <div class="tp-brand-2-item">
-                           <img src="frontend/img/brand/brand-2-logo-1.png" alt="">
-                        </div>
-                        <div class="tp-brand-2-item">
-                           <img src="frontend/img/brand/brand-2-logo-2.png" alt="">
-                        </div>
-                        <div class="tp-brand-2-item">
-                           <img src="frontend/img/brand/brand-2-logo-3.png" alt="">
-                        </div>
-                        <div class="tp-brand-2-item">
-                           <img src="frontend/img/brand/brand-2-logo-4.png" alt="">
-                        </div>
-                        <div class="tp-brand-2-item">
-                           <img src="frontend/img/brand/brand-2-logo-5.png" alt="">
-                        </div>
-                        <div class="tp-brand-2-item">
-                           <img src="frontend/img/brand/brand-2-logo-6.png" alt="">
-                        </div>
-                        <div class="tp-brand-2-item">
-                           <img src="frontend/img/brand/brand-2-logo-7.png" alt="">
-                        </div>
-                        <div class="tp-brand-2-item">
-                           <img src="frontend/img/brand/brand-2-logo-8.png" alt="">
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </section>
-         <!-- brand-area-end -->
-
   
 
    </Layouts>
@@ -667,4 +618,31 @@ export default {
     }
 }
 
+</style>
+
+<style scoped>
+.partners-area {
+  padding: 50px 0;
+}
+.partners-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.partners-slider-wrapper {
+  overflow: hidden;
+  width: 100%;
+}
+.partners-slider {
+  display: flex;
+  align-items: center;
+}
+.partner-logo {
+  width: 150px; /* Adjust logo width */
+  margin-right: 30px; /* Adjust margin between logos */
+  flex-shrink: 0;
+}
+.partner-logo img {
+  width: 100%;
+  object-fit: contain;
+}
 </style>

@@ -23,8 +23,8 @@
                     <li class="text-center">
                       <router-link to="/about-us">About Us</router-link>
                     </li>
-                    <li class="text-center">
-                      <router-link to="/courses">Courses</router-link>
+                    <li>
+                      <router-link to="/courses">Training Courses</router-link>
                     </li>
                     <li class="text-center">
                       <router-link to="/projects">Projects</router-link>
@@ -71,7 +71,7 @@
             <router-link to="/about-us">About Us</router-link>
           </li>
           <li>
-            <router-link to="/courses">Courses</router-link>
+            <router-link to="/training-courses">Training Courses</router-link>
           </li>
           <li>
             <router-link to="/projects">Projects</router-link>
@@ -81,11 +81,6 @@
           </li>
         </ul>
       </nav>
-      <div class="company-info" style="margin-top: 70px;">
-        <h3>About the Company</h3>
-        <p>We are a leading provider of online education, offering a wide range of courses designed to help you achieve your goals.</p>
-        <p>Contact us for more information on our services and how we can assist you in your learning journey.</p>
-      </div>
     </div>
 
     <!-- Overlay -->
