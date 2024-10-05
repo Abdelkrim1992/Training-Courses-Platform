@@ -44,6 +44,27 @@
           </li>
           <!-- End Projects Dropdown -->
 
+          <!-- Projects Dropdown -->
+          <li class="dropdown pc-h-itemu pc-item">
+            <a href="#" class="pc-link" @click.prevent="toggleDropdown('services')" data-bs-toggle="dropdown" role="button"
+              aria-haspopup="false" aria-expanded="false">
+              <span class="pc-micon">
+                <i class="ph-duotone ph-circles-four"></i>
+              </span>
+              <span class="pc-mtext">Services</span>
+              <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+            </a>
+            <ul v-if="dropdowns.services" class="pc-submenu">
+              <li v-for="(item, index) in services" :key="index" class="pc-item d-flex justify-content-between align-items-center">
+                <router-link class="pc-link" :to="item.link">
+                  <span>{{ item.name }}</span>
+                </router-link>
+                
+              </li>
+            </ul>
+          </li>
+          <!-- End Projects Dropdown -->
+
           <!-- Courses Dropdown -->
           <li class="dropdown pc-h-itemu pc-item">
             <a href="#" class="pc-link" @click.prevent="toggleDropdown('courses')" data-bs-toggle="dropdown" role="button"
@@ -161,6 +182,7 @@ export default {
       dropdowns: {
         courses: false,
         students: false,
+        services: false,
         projects: false,
         team: false,
         review: false,
@@ -176,6 +198,10 @@ export default {
       projects: [
         { name: 'Projects List', link: '/admin/projects/list' },
         { name: 'Add Project', link: '/admin/projects/add-project' },
+      ],
+      services: [
+        { name: 'Services List', link: '/admin/services/list' },
+        { name: 'Add Service', link: '/admin/services/add-service' },
       ],
       team: [
         { name: 'Member List', link: '/admin/team/list' },

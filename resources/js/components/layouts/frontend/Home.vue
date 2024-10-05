@@ -8,7 +8,8 @@
 export default {
   data() {
     return {
-      CoursesList: [],          // Stores courses data
+      CoursesList: [], 
+      ServicesList: [],         // Stores courses data
       ReviewsList: [],          // Stores reviews data
       TeamMembersList: [],      // Team members array
       currentMemberIndex: 0,    // Track the current index of the first displayed team member
@@ -45,6 +46,7 @@ export default {
     this.getTeamMembers();
     this.getReviews();
     this.getCourses();
+    this.getServices();
 
     // Set initial number of members per slide based on screen size
     this.updateMembersPerSlide();
@@ -79,7 +81,17 @@ export default {
           console.error('Error fetching courses:', error);
         });
     },
-
+    getServices(){
+      axios.get('/api/get_services')
+      .then((response) => {
+        if(response.data.status === 200){
+          this.ServicesList = response.data.data;
+        }
+      })
+      .catch((error)=>{
+        console.error('error fetshing services, error');
+      });
+    },
     getReviews() {
       axios.get('/api/get_reviews')
         .then((response) => {
@@ -361,14 +373,14 @@ export default {
             </div>
          </div>
          <div class="row mt-20">
-            <div class="col-lg-4 col-md-4 col-sm-6">
-               <a href="course-categories.html" class="tp-category-item text-center mb-25 wow fadeInUp" data-wow-delay=".3s">
+            <div class=" col-lg-4 col-md-4 col-sm-6 " v-for="(items, index) in ServicesList" :key="index">
+               <a href="#" class="tp-category-item text-center mb-25 wow fadeInUp" data-wow-delay=".3s">
                   <div class="tp-course-thumb">
-                     <img src="frontend/img/bg/course-thumb-1.jpg">
+                     <img :src="items.services_image_url">
                   </div>
                   <div class="tp-category-content mt-20">
-                     <h4 class="tp-category-title">Development</h4>
-                     <span>Code with Confident</span>
+                     <h4 class="tp-category-title">{{items.servces_title}}</h4>
+                     <span>{{items.short_description}}</span>
                   </div>
                </a>
             </div>
@@ -456,7 +468,7 @@ export default {
 </section>
 <!-- testimonial-area-end -->
 
-<section class="team-area pt-100 mb-40">
+<section class="team-area pt-100 mb-100">
     <div class="container">
       <div class="row align-items-end">
         <div class="col-lg-6 col-md-8">

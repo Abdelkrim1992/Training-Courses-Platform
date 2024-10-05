@@ -9,6 +9,7 @@ use App\Http\Controllers\backend\TeamController;
 use App\Http\Controllers\backend\ReviewsController;
 use App\Http\Controllers\backend\CoursesController;
 use App\Http\Controllers\backend\ProjectsController;
+use App\Http\Controllers\backend\ServicesController;
 use App\Http\Controllers\backend\ReservationsController;
 
 
@@ -62,6 +63,7 @@ Route::get('/get_course/{id}', [CoursesController::class, 'show']);
 Route::post('/update_course/{id}', [CoursesController::class, 'update']);
 Route::delete('/delete_course/{id}', [CoursesController::class, 'destroy']);
 
+
 // project//
 Route::get('/get_projects', [ProjectsController::class, 'index']);
 Route::post('/upload_image', [ProjectsController::class, 'uploadImage']);
@@ -69,3 +71,11 @@ Route::post('/add_project', [ProjectsController::class, 'store']);
 Route::get('/get_project/{id}', [ProjectsController::class, 'show']);
 Route::post('/update_project/{id}', [ProjectsController::class, 'update']);
 Route::delete('/delete_project/{id}', [ProjectsController::class, 'destroy']);
+
+// project//
+Route::get('/get_services', [ServicesController::class, 'index']);
+Route::post('/upload_image', [ServicesController::class, 'uploadImage']);
+Route::post('/add_service', [ServicesController::class, 'store']);
+Route::get('/get_service/{id}', [ServicesController::class, 'show']);
+Route::post('/update_service/{id}', [ServicesController::class, 'update']);
+Route::delete('/delete_service/{id}', [ServicesController::class, 'destroy']);

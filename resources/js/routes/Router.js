@@ -20,19 +20,27 @@ import Login from '../components/layouts/auth/Login.vue'
 import Dashboard from '../components/layouts/backend/Dashboard.vue'
 import Add_SiteSetting from '../components/layouts/backend/pages/Add_SiteSetting.vue'
 import Edit_SiteSetting from '../components/layouts/backend/pages/Edit_SiteSetting.vue'
+
 //courses//
 import CoursesList from '../components/layouts/backend/pages/courses/CoursesList.vue'
 import AddCourse from '../components/layouts/backend/pages/courses/AddCourse.vue'
 import EditCourse from '../components/layouts/backend/pages/courses/EditCourse.vue'
 
+//services//
+import ServicesList from '../components/layouts/backend/pages/services/ServicesList.vue'
+import AddService from '../components/layouts/backend/pages/services/AddService.vue'
+import EditService from '../components/layouts/backend/pages/services/EditService.vue'
+
 //students//
 import StudentsList from '../components/layouts/backend/pages/students/StudentsList.vue'
 import AddStudent from '../components/layouts/backend/pages/students/AddStudent.vue'
 import EditStudent from '../components/layouts/backend/pages/students/EditStudent.vue'
+
 //project//
 import ProjectsList from '../components/layouts/backend/pages/projects/ProjectsList.vue'
 import AddProject from '../components/layouts/backend/pages/projects/AddProject.vue'
 import EditProject from '../components/layouts/backend/pages/projects/EditProject.vue'
+
 //team//
 import TeamMembersList from '../components/layouts/backend/pages/team/TeamMembersList.vue'
 import AddTeamMember from '../components/layouts/backend/pages/team/AddTeamMember.vue'
@@ -160,6 +168,24 @@ const routes =[
         name:'EditCourse',
         path:'/admin/courses/edit-course/:id',
         component: EditCourse,
+    },
+
+    {
+        name:'ServicesList',
+        path:'/admin/services/list',
+        component: ServicesList,
+    },
+
+    {
+        name:'AddService',
+        path:'/admin/services/add-service',
+        component: AddService,
+    },
+
+    {
+        name:'EditService',
+        path:'/admin/services/edit-service/:id',
+        component: EditService,
     },
 
     {
