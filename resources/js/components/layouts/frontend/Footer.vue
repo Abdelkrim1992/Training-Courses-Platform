@@ -1,8 +1,8 @@
 <template>
 
          <!-- footer-area-start -->
-         <footer>
-         <div class="tp-footer-2 ">
+      <footer>
+         <div class="tp-footer-2 lightblue-bg">
             <div class="tp-footer-main pt-70 pb-55">
                <div class="container">
                   <div class="row">
@@ -82,7 +82,7 @@
                   </div>
                </div>
             </div>
-            <div class="tp-footer-bottom">
+            <div class="tp-footer-bottom lightblue-bg">
                <div class="container">
                   <div class="row ">
                      <div class="col-lg-3 ">
@@ -93,7 +93,7 @@
                            <a href="#"><i class="fa-brands fa-youtube"></i></a>
                         </div>
                      </div>
-                     <div class="col-lg-6 col-md-5">
+                     <div class="col-lg-6 col-md-5 ">
                         <div class="tp-footer-copyright text-start text-center">
                            <span>© 2024 <a href="#">{{setting?.site_name}}</a>. All rights reserved.</span>
                         </div>

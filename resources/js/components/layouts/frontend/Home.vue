@@ -273,34 +273,41 @@ export default {
       <!-- tutor area start -->
       <section class="tp-about-tutor-area pt-50 ">
          <div class="container">
-            <div class="row align-items-end justify-content-center text-center">
-               <div class="col-lg-6">
-                  <div class="tp-about-tutor-heading mb-130 ">
-                     <div class="tp-about-tutor-subtitle d-flex align-items-center justify-content-center">
-                        <span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                           <path d="M1 10H19" stroke="#2D4CFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                           <path d="M10 19C14.9706 19 19 14.9706 19 10C19 5.02944 14.9706 1 10 1C5.02944 1 1 5.02944 1 10C1 14.9706 5.02944 19 10 19Z" stroke="#2D4CFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                           <path d="M9.9999 1C12.2511 3.46452 13.5304 6.66283 13.5999 10C13.5304 13.3372 12.2511 16.5355 9.9999 19C7.74875 16.5355 6.46942 13.3372 6.3999 10C6.46942 6.66283 7.74875 3.46452 9.9999 1Z" stroke="#2D4CFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                         </svg></span>
-                         <div class=" text-center">
-                           <p>Know about Skills Studies</p>
-                         </div>
-                     </div>
-                     <h3 class="tp-about-tutor-title text-center">We create unique <br>
-                     digital media experiences.</h3>
+            <div class="row align-items-end justify-content-center ">
+                <h3 class="tp-section-3-title text-center">About 
+              <span>Skills Studies
+                <img 
+                  class="tp-underline-shape-9 wow bounceIn" 
+                  data-wow-duration="1.5s" 
+                  data-wow-delay=".4s" 
+                  src="frontend/img/unlerline/team-2-svg-1.svg" 
+                  alt="" 
+                  style="visibility: visible; animation-duration: 1.5s; animation-delay: 0.4s; animation-name: bounceIn;"
+                />
+              </span> 
+                </h3>
+               <div class="col-lg-6 mt-50">
+                  <div class="tp-about-tutor-heading mb-70">
+                    <div class="tp-about-tutor-title">
+                        <img src="frontend/img/about/main-image.png.webp" width="100%" max-width="100%" >
+                    </div>
                   </div>
                </div>
                <div class="col-lg-6">
-                  <div class="tp-about-tutor-right d-flex justify-content-lg-end mb-130">
+                  <div class="tp-about-tutor-right d-flex justify-content-lg-end mb-200">
                      <div class="tp-about-tutor-content text-center">
-                        <p>Online courses from the world's leading experts. <br>
+                    <h3 class="tp-about-tutor-title ">We create unique <br>
+                     digital media experiences.
+                    </h3>
+                    <p class="mt-30">Online courses from the world's leading experts. <br>
                            Lorem ipsum is simply dummy of the printing and <br>
-                           typesetting industry lorem</p>
+                           typesetting industry lorem
+                    </p>
                      </div>
                   </div>
                </div>
             </div>
-            <div class="row">
+            <div class="row mt-30">
                <div class="col-lg-4 col-md-6 wow fadeInUp mt-15" data-wow-delay=".3s">
                   <div class="tp-tutor-item about text-center mb-30">
                      <div class="tp-tutor-icon">
@@ -376,10 +383,10 @@ export default {
             <div class=" col-lg-4 col-md-4 col-sm-6 " v-for="(items, index) in ServicesList" :key="index">
                <a href="#" class="tp-category-item text-center mb-25 wow fadeInUp" data-wow-delay=".3s">
                   <div class="tp-course-thumb">
-                     <img :src="items.services_image_url">
+                     <img :src="items.service_image_url">
                   </div>
                   <div class="tp-category-content mt-20">
-                     <h4 class="tp-category-title">{{items.servces_title}}</h4>
+                     <h4 class="tp-category-title">{{items.service_title}}</h4>
                      <span>{{items.short_description}}</span>
                   </div>
                </a>
@@ -399,8 +406,8 @@ export default {
           <div class="tp-section text-center mt-50">
             <h3 class="tp-section-3-title">
               Student Say
-              About               
-              <span>Skills Studies
+              About Our            
+              <span>Services
                 <img 
                   class="tp-underline-shape-9 wow bounceIn" 
                   data-wow-duration="1.5s" 
