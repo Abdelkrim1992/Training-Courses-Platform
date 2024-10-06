@@ -31,9 +31,9 @@ class ProjectsController extends Controller
     {
         // Validate input with custom messages
         $request->validate([
-            'project_description' => 'required|string|max:2000',
-            'project_tasks' => 'required|string|max:2000',
-            'short_description' => 'required|string|max:2000',
+            'project_description' => 'required|string',
+            'project_tasks' => 'required|string',
+            'short_description' => 'required|string',
             'project_name' => 'required|string|max:255',
             'domaine' => 'required|string|max:255',
             'city' => 'required|string|max:255',

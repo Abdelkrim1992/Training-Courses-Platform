@@ -87,7 +87,7 @@
   
   <script setup>
   
-  import Footer from '../frontend/footer.vue'
+  import Footer from '../frontend/Footer.vue'
   import Header from '../frontend/Header.vue'
   
   </script>
@@ -97,7 +97,7 @@
    data() {
      return {
         project: null,
-       projectId: this.$route.params.id,
+        projectId: this.$route.params.id,
      };
    },
    created() {

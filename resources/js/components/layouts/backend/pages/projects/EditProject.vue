@@ -62,17 +62,22 @@
                       <label for="floatingTextarea2">Short Description</label>
                     </div>
                   </div>
-                  <div class="col-md-12 mt-4 ">
-                    <div class="form-floating">
-                      <textarea v-model="formData.project_description" class="form-control" placeholder="Enter Full Description"></textarea>
-                      <label for="floatingTextarea2">Full Description</label>
-                    </div>
-                  </div>
+                  <!-- Project Description (Rich Text Editor) -->
                   <div class="col-md-12 mt-4">
                     <div class="mb-3">
-                      <div class="form-floating">
-                        <textarea v-model="formData.project_tasks" class="form-control" placeholder="Enter Project Tasks"></textarea>
-                        <label for="floatingTextarea2">Project Tasks</label>
+                      <label for="floatingTextarea2">Project Description</label>
+                      <div class="form-floating mt-2">
+                        <ejs-richtexteditor v-model="formData.project_description" id="projectTasks"></ejs-richtexteditor>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Project Description (Rich Text Editor) -->
+                  <div class="col-md-12 mt-4">
+                    <div class="mb-3">
+                      <label for="floatingTextarea2">Project Tasks</label>
+                      <div class="form-floating mt-2">
+                        <ejs-richtexteditor v-model="formData.project_tasks" id="projectTasks"></ejs-richtexteditor>
                       </div>
                     </div>
                   </div>
@@ -181,5 +186,19 @@ const edit_project = async () => {
     console.error('Updating project failed', error);
     errorMessage.value = error.response?.data?.message || "Updating course failed. Please try again.";
   }
+};
+</script>
+
+<script>
+import { RichTextEditorComponent, Toolbar, Link, Image, HtmlEditor, Table } from '@syncfusion/ej2-vue-richtexteditor';
+
+export default {
+  name: 'AddProject',
+  components: {
+    'ejs-richtexteditor': RichTextEditorComponent,
+  },
+  provide: {
+    richtexteditor: [Toolbar, Link, Image, HtmlEditor, Table],
+  },
 };
 </script>

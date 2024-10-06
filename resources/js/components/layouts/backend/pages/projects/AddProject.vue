@@ -7,7 +7,9 @@
             <div class="row align-items-center">
               <div class="col-md-12">
                 <ul class="breadcrumb">
-                  <li class="breadcrumb-item"><router-link to="/admin/dashboard">Home</router-link></li>
+                  <li class="breadcrumb-item">
+                    <router-link to="/admin/dashboard">Home</router-link>
+                  </li>
                   <li class="breadcrumb-item" aria-current="page">Add Project</li>
                 </ul>
               </div>
@@ -23,61 +25,78 @@
               </div>
               <div class="card-body">
                 <div class="row">
+                  <!-- Display error message -->
                   <div v-if="errorMessage" class="alert alert-danger" role="alert">
                     {{ errorMessage }}
                   </div>
+
+                  <!-- Project Name -->
                   <div class="col-md-6">
                     <div class="mb-3">
                       <label class="form-label">Project Name</label>
-                      <input type="text" v-model="formData.project_name" class="form-control" placeholder="Enter project name">
+                      <input type="text" v-model="formData.project_name" class="form-control" placeholder="Enter project name" />
                     </div>
                   </div>
+
+                  <!-- City -->
                   <div class="col-md-6">
                     <div class="mb-3">
                       <label class="form-label">City</label>
-                      <input type="text" v-model="formData.city" class="form-control" placeholder="Enter project city">
+                      <input type="text" v-model="formData.city" class="form-control" placeholder="Enter project city" />
                     </div>
                   </div>
+
+                  <!-- Start Date -->
                   <div class="col-md-6">
                     <div class="mb-3">
                       <label class="form-label">Started Date</label>
-                      <input v-model="formData.started_date" class="form-control" placeholder="Enter started date" />
+                      <input type="date" v-model="formData.started_date" class="form-control" />
                     </div>
                   </div>
+
+                  <!-- Deadline -->
                   <div class="col-md-6">
                     <div class="mb-3">
-                      <label class="form-label">Dead Line</label>
-                      <input v-model="formData.dead_line" class="form-control" placeholder="Enter end date" />
+                      <label class="form-label">Deadline</label>
+                      <input type="date" v-model="formData.dead_line" class="form-control" />
                     </div>
                   </div>
+
+                  <!-- Domain -->
                   <div class="col-md-6">
                     <div class="mb-3">
                       <label class="form-label">Domain</label>
-                      <input type="text" v-model="formData.domaine" class="form-control" placeholder="Enter domaine">
+                      <input type="text" v-model="formData.domaine" class="form-control" placeholder="Enter domain" />
                     </div>
                   </div>
+
+                  <!-- Short Description -->
                   <div class="col-md-12">
                     <div class="form-floating">
                       <textarea v-model="formData.short_description" class="form-control" placeholder="Enter short description"></textarea>
                       <label for="floatingTextarea2">Short Description</label>
                     </div>
                   </div>
+
+                  <!-- Full Description (Rich Text Editor) -->
                   <div class="col-md-12 mt-4">
                     <label for="floatingTextarea2">Full Description</label>
                     <div class="form-floating mt-2">
-                      <ejs-richtexteditor id="default" ref="rteInstance">
-                      </ejs-richtexteditor>
-                      
+                      <ejs-richtexteditor v-model="formData.project_description" id="projectDescription"></ejs-richtexteditor>
                     </div>
                   </div>
+
+                  <!-- Project Tasks (Rich Text Editor) -->
                   <div class="col-md-12 mt-4">
-                   <div class="mb-3">
-                    <div class="form-floating">
-                      <textarea v-model="formData.project_tasks" class="form-control" placeholder="Course Description"></textarea>
+                    <div class="mb-3">
                       <label for="floatingTextarea2">Project Tasks</label>
-                   </div>
+                      <div class="form-floating mt-2">
+                        <ejs-richtexteditor v-model="formData.project_tasks" id="projectTasks"></ejs-richtexteditor>
+                      </div>
+                    </div>
                   </div>
-                  </div>
+
+                  <!-- Project Logo Upload -->
                   <div class="col-md-6">
                     <div class="mb-3">
                       <label class="form-label">Project Logo</label>
@@ -86,6 +105,7 @@
                   </div>
                 </div>
 
+                <!-- Submit Button -->
                 <div class="mt-3">
                   <button @click="add_project" class="btn btn-primary">Add Project</button>
                 </div>
@@ -107,6 +127,7 @@ import BackendLayouts from '../../BackendLayouts.vue';
 const router = useRouter();
 const errorMessage = ref(null);
 
+// Form data for the project
 const formData = reactive({
   project_name: '',
   project_description: '',
@@ -116,20 +137,19 @@ const formData = reactive({
   project_tasks: '',
   short_description: '',
   domaine: '',
-  image: [], // For course images
+  image: [], // For project logo
 });
 
-// Handle course image upload
+// Handle project logo upload
 const handleFileUpload = (event) => {
-  formData.image = Array.from(event.target.files); // Convert FileList to Array for course images
+  formData.image = Array.from(event.target.files);
 };
 
-// Add course
+// Submit project data
 const add_project = async () => {
-
   const formDataObj = new FormData();
 
-  // Append other form fields
+  // Append form data
   formDataObj.append('project_name', formData.project_name);
   formDataObj.append('project_description', formData.project_description);
   formDataObj.append('city', formData.city);
@@ -139,7 +159,7 @@ const add_project = async () => {
   formDataObj.append('project_tasks', formData.project_tasks);
   formDataObj.append('short_description', formData.short_description);
 
-  // Append course images
+  // Append project logo
   formData.image.forEach(file => {
     formDataObj.append('image[]', file);
   });
@@ -147,31 +167,26 @@ const add_project = async () => {
   try {
     const response = await axios.post('/api/add_project', formDataObj, {
       headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+        'Content-Type': 'multipart/form-data',
+      },
     });
-    console.log('Add course success', response.data);
+    console.log('Add project success', response.data);
     router.push('/admin/projects/list');
   } catch (error) {
     console.error('Adding project failed', error.response.data);
-    errorMessage.value = error.response.data.message || "Adding project failed. Please try again.";
+    errorMessage.value = error.response.data.message || 'Adding project failed. Please try again.';
   }
 };
 </script>
 
 <script>
-import { RichTextEditorComponent, Toolbar, Link, Image, HtmlEditor, Table } from "@syncfusion/ej2-vue-richtexteditor";
+import { RichTextEditorComponent, Toolbar, Link, Image, HtmlEditor, Table } from '@syncfusion/ej2-vue-richtexteditor';
 
 export default {
-  name: "App",
+  name: 'AddProject',
   components: {
-    "ejs-richtexteditor": RichTextEditorComponent,
+    'ejs-richtexteditor': RichTextEditorComponent,
   },
-
-  data: function () {
-    return {};
-  },
-  methods: {},
   provide: {
     richtexteditor: [Toolbar, Link, Image, HtmlEditor, Table],
   },

@@ -54,23 +54,24 @@
                           <li class="list-group-item px-0 py-2">
                             <div class="d-flex align-items-center">
                               <div class="flex-grow-1 me-2">
-                                <p class="mb-0">Budjet</p>
+                                <p class="mb-0">Started Date</p>
                               </div>
                               <div class="flex-shrink-0">
-                                <p class="text-muted mb-0">{{ item.budjet }} Dhs</p>
+                                <p class="text-muted mb-0">{{ item.started_date }}</p>
                               </div>
                             </div>
                           </li>
                           <li class="list-group-item px-0 py-2">
                             <div class="d-flex align-items-center">
                               <div class="flex-grow-1 me-2">
-                                <p class="mb-0">Dead Line</p>
+                                <p class="mb-0">End Date</p>
                               </div>
                               <div class="flex-shrink-0">
                                 <p class="text-muted mb-0">{{ item.dead_line }}</p>
                               </div>
                             </div>
                           </li>
+                          
                         </ul>
                         <router-link :to="{path:'/admin/projects/edit-project/'+ item.id}" class="btn btn-sm btn-outline-primary mb-2">Edit project</router-link>
                       </div>
