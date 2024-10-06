@@ -86,15 +86,6 @@
           </li>
           <!-- End Courses Dropdown -->
 
-          <li class="pc-item">
-            <router-link to="/admin/reservations/list" class="pc-link">
-              <span class="pc-micon">
-                <i class="ph-duotone ph-globe"></i>
-              </span>
-              <span class="pc-mtext">Online Reservations</span>
-            </router-link>
-          </li>
-
           <!-- Students Dropdown -->
           <li class="dropdown pc-h-itemu pc-item">
             <a href="#" class="pc-link" @click.prevent="toggleDropdown('students')" data-bs-toggle="dropdown" role="button"

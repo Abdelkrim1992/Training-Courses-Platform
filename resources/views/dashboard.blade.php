@@ -32,6 +32,8 @@
   <link rel="stylesheet" href="{{asset('backend/fonts/material.css')}}" >
   <!-- [Template CSS Files] -->
   <link rel="stylesheet" href="{{asset('backend/css/style.css')}}" id="main-style-link" >
+  
+  <link href="https://cdn.syncfusion.com/ej2/material.css" rel="stylesheet">
 
 
       @vite('resources/css/app.css')
@@ -77,6 +79,7 @@
 <script src="{{asset('backend/js/pcoded.js')}}"></script>
 <script src="{{asset('backend/js/plugins/feather.min.js')}}"></script>
 <script src="{{asset('backend/js/plugins/datepicker-full.min.js')}}"></script>
+<script src="{{asset('backend/js/plugins/ckeditor/classic/ckeditor.js')}}"></script>
 
 
 

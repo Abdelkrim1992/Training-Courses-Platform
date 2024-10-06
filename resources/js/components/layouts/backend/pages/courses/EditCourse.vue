@@ -74,6 +74,12 @@
                       <label for="floatingTextarea2">Course Tips</label>
                     </div>
                   </div>
+                  <div class="col-md-12 mt-3">
+                    <div class="form-floating">
+                      <textarea v-model="formData.teacher_summery" class="form-control" placeholder="Course Tips"></textarea>
+                      <label for="floatingTextarea2">Teacher Summery</label>
+                    </div>
+                  </div>
                   <div class="col-md-6 mt-3">
                     <div class="mb-3">
                       <label class="form-label">Course Logo</label>
@@ -119,6 +125,7 @@ const formData = reactive({
   duration: '',
   date: '',
   course_description: '',
+  teacher_summery:'',
   course_tips: '',
   image: [] ,
   photo: [] 
@@ -153,6 +160,7 @@ onMounted(() => {
       formData.date = new Date(courseData.date); // Ensure this is a Date object
       formData.course_description = courseData.course_description;
       formData.course_tips = courseData.course_tasks;
+      formData.teacher_summery = courseData.teacher_summery;
     })
     .catch(error => {
       console.error('Error fetching course:', error);
@@ -177,6 +185,7 @@ const edit_course = async () => {
   formDataObj.append('date', formData.date);
   formDataObj.append('course_description', formData.course_description);
   formDataObj.append('course_tips', formData.course_tips);
+  formDataObj.append('teacher_summery', formData.teacher_summery);
 
   for (const key in formData) {
     if (Array.isArray(formData[key])) {

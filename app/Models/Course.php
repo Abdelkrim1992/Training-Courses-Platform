@@ -17,6 +17,7 @@ class Course extends Model
         'course_description',
         'course_tips',
         'category',
+        'teacher_summery',
     ]);
 
     public function courseImage()

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('course_tips')->nullable();
             $table->date('date')->nullable();
             $table->string('duration')->nullable();
+            $table->text('teacher_summery')->nullable();
             $table->timestamps();
         });
     }

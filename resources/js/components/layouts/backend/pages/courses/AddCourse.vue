@@ -75,6 +75,12 @@
                       <label for="floatingTextarea2">Course Tips</label>
                     </div>
                   </div>
+                  <div class="col-md-12 mt-4">
+                    <div class="form-floating">
+                      <textarea v-model="formData.teacher_summery" class="form-control" placeholder="Course Tips"></textarea>
+                      <label for="floatingTextarea2">Teacher Summery</label>
+                    </div>
+                  </div>
                   <div class="col-md-6 mt-4">
                     <div class="mb-3">
                       <label class="form-label">Course Logo</label>
@@ -119,6 +125,7 @@ const formData = reactive({
   date: '', // v-model here binds the date
   category: '',
   course_tips: '',
+  teacher_summery:'',
   course_description: '',
   image: [], // For course images
   photo: []  // For teacher photo
@@ -158,6 +165,7 @@ const add_course = async () => {
   formDataObj.append('category', formData.category);
   formDataObj.append('course_tips', formData.course_tips);
   formDataObj.append('course_description', formData.course_description);
+  formDataObj.append('teacher_summery', formData.teacher_summery);
 
   // Append course images
   formData.image.forEach(file => {

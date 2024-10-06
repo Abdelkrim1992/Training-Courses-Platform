@@ -71,7 +71,7 @@
             <router-link to="/about-us">About Us</router-link>
           </li>
           <li>
-            <router-link to="/training-courses">Training Courses</router-link>
+            <router-link to="/courses">Training Courses</router-link>
           </li>
           <li>
             <router-link to="/projects">Projects</router-link>

@@ -34,12 +34,6 @@
                   </div>
                   <div class="col-md-6">
                     <div class="mb-3">
-                      <label class="form-label">Budjet</label>
-                      <input type="text" v-model="formData.budjet" class="form-control" placeholder="Enter budjet">
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="mb-3">
                       <label class="form-label">City</label>
                       <input type="text" v-model="formData.city" class="form-control" placeholder="Enter project city">
                     </div>
@@ -69,9 +63,11 @@
                     </div>
                   </div>
                   <div class="col-md-12 mt-4">
-                    <div class="form-floating">
-                      <textarea v-model="formData.project_description" class="form-control" placeholder="Enter full description"></textarea>
-                      <label for="floatingTextarea2">Full Description</label>
+                    <label for="floatingTextarea2">Full Description</label>
+                    <div class="form-floating mt-2">
+                      <ejs-richtexteditor id="default" ref="rteInstance">
+                      </ejs-richtexteditor>
+                      
                     </div>
                   </div>
                   <div class="col-md-12 mt-4">
@@ -115,7 +111,6 @@ const formData = reactive({
   project_name: '',
   project_description: '',
   city: '',
-  budjet: '', // v-model here binds the date
   dead_line: '',
   started_date: '',
   project_tasks: '',
@@ -138,7 +133,6 @@ const add_project = async () => {
   formDataObj.append('project_name', formData.project_name);
   formDataObj.append('project_description', formData.project_description);
   formDataObj.append('city', formData.city);
-  formDataObj.append('budjet', formData.budjet);
   formDataObj.append('domaine', formData.domaine);
   formDataObj.append('dead_line', formData.dead_line);
   formDataObj.append('started_date', formData.started_date);
@@ -162,5 +156,24 @@ const add_project = async () => {
     console.error('Adding project failed', error.response.data);
     errorMessage.value = error.response.data.message || "Adding project failed. Please try again.";
   }
+};
+</script>
+
+<script>
+import { RichTextEditorComponent, Toolbar, Link, Image, HtmlEditor, Table } from "@syncfusion/ej2-vue-richtexteditor";
+
+export default {
+  name: "App",
+  components: {
+    "ejs-richtexteditor": RichTextEditorComponent,
+  },
+
+  data: function () {
+    return {};
+  },
+  methods: {},
+  provide: {
+    richtexteditor: [Toolbar, Link, Image, HtmlEditor, Table],
+  },
 };
 </script>

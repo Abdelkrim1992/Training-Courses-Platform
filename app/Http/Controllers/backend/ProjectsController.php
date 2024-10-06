@@ -37,7 +37,6 @@ class ProjectsController extends Controller
             'project_name' => 'required|string|max:255',
             'domaine' => 'required|string|max:255',
             'city' => 'required|string|max:255',
-            'budjet' => 'required|integer',
             'started_date' => 'required|string',
             'dead_line' => 'required|string',
             'image' => 'nullable|array', // Expecting an array of images
@@ -56,7 +55,6 @@ class ProjectsController extends Controller
         $project->city = $request->city;
         $project->dead_line = $request->dead_line;
         $project->started_date = $request->started_date;
-        $project->budjet = $request->budjet;
         
         // Save the project to the database
         $project->save();
@@ -112,7 +110,6 @@ class ProjectsController extends Controller
             'city' => 'required|string|max:255',
             'short_description' => 'required|string|max:2000',
             'domaine' => 'required|string|max:255',
-            'budjet' => 'required|integer',
             'dead_line' => 'required|string',
             'started_date' => 'required|string',
             'image' => 'nullable|array', // Expecting an array of images
@@ -132,7 +129,6 @@ class ProjectsController extends Controller
         $project->short_description = $request->short_description;
         $project->dead_line = $request->dead_line;
         $project->started_date = $request->started_date;
-        $project->budjet = $request->budjet;
         
 
         // Save each image
