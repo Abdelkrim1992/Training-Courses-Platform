@@ -11,35 +11,15 @@ export default {
       CoursesList: [], 
       ServicesList: [],         // Stores courses data
       ReviewsList: [],          // Stores reviews data
+
       TeamMembersList: [],      // Team members array
       currentMemberIndex: 0,    // Track the current index of the first displayed team member
       membersPerSlide: 4,       // Default: Number of members to display per slide (for desktop)
+
       currentReviewIndex: 0,    // Track the current testimonial index
       slideInterval: null,      // Store the interval for automatic sliding
-
-      partnersList: [
-        { name: "Company A", logo_url: "frontend/img/brand/brand-2-logo-1.png" },
-        { name: "Company B", logo_url: "frontend/img/brand/brand-2-logo-1.png" },
-        { name: "Company C", logo_url: "frontend/img/brand/brand-2-logo-1.png" },
-        { name: "Company D", logo_url: "frontend/img/brand/brand-2-logo-1.png" },
-        { name: "Company E", logo_url: "frontend/img/brand/brand-2-logo-1.png" },
-      ],
-      currentSlideIndex: 0, // Track the index of the current visible logos
-      logosPerSlide: 4, // Default: number of logos to display per slide
-      slideWidth: 150, // Width of each partner logo (adjust according to your needs)
-      autoScrollInterval: null,
     };
   },
-
-  sliderStyle() {
-      const totalWidth = this.partnersList.length * this.slideWidth;
-      const offset = -this.currentSlideIndex * this.slideWidth;
-      return {
-        width: `${totalWidth}px`,
-        transform: `translateX(${offset}px)`,
-        transition: 'transform 0.5s ease-in-out',
-      };
-    },
 
   mounted() {
     // Fetch data when the component is mounted
@@ -53,13 +33,6 @@ export default {
 
     // Set up window resize listener to adjust members per slide
     window.addEventListener('resize', this.updateMembersPerSlide);
-
-    // Start automatic sliding
-    this.startAutoSlide();
-
-        this.updateLogosPerSlide();
-        window.addEventListener('resize', this.updateLogosPerSlide);
-        this.startAutoScroll();
   },
   beforeDestroy() {
     // Clean up resize event listener and stop sliding
@@ -143,36 +116,7 @@ export default {
         this.membersPerSlide = 4;
       }
     },
-    startAutoSlide() {
-      // Automatically move to the next slide every 5 seconds
-      this.slideInterval = setInterval(() => {
-        this.nextMember();
-      }, 5000);
-    },
-    stopAutoSlide() {
-      clearInterval(this.slideInterval);
-    },
 
-    updateLogosPerSlide() {
-      const screenWidth = window.innerWidth;
-      if (screenWidth < 768) {
-        this.logosPerSlide = 1; // Show 1 logo on mobile
-      } else {
-        this.logosPerSlide = 4; // Show 4 logos on desktop
-      }
-    },
-    startAutoScroll() {
-      this.autoScrollInterval = setInterval(() => {
-        this.nextSlide();
-      }, 3000); // Change slide every 3 seconds
-    },
-    nextSlide() {
-      if (this.currentSlideIndex + this.logosPerSlide < this.partnersList.length) {
-        this.currentSlideIndex++;
-      } else {
-        this.currentSlideIndex = 0; // Reset to the beginning when the end is reached
-      }
-    },
   },
 };
 </script>
@@ -239,35 +183,57 @@ export default {
 <!-- hero-area-end -->
 
 <!-- testimonial-area-start -->
-<section class="testimonial-area pb-50 text-center">
+<section class="testimonial-area mt-50 text-center">
   <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-xxl-6 col-lg-8">
-        <div class="tp-testimonial-section">
-          <div class="tp-section text-center mt-50">
-            <h3 class="tp-section-3-title">
-              Our Partners
-            </h3>
+    <div class="row mt-20">
+      <h4 class="tp-section-3-title">Our Partners</h4>
+      <div class="slider mt-50">
+        <div class="slide-track">
+          <!-- First set of logos -->
+          <div class="slide">
+            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 1">
+          </div>
+          <div class="slide">
+            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 2">
+          </div>
+          <div class="slide">
+            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 3">
+          </div>
+          <div class="slide">
+            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 4">
+          </div>
+          <div class="slide">
+            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 5">
+          </div>
+          <div class="slide">
+            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 6">
+          </div>
+          
+          <!-- Duplicate set of logos for smooth looping -->
+          <div class="slide">
+            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 1">
+          </div>
+          <div class="slide">
+            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 2">
+          </div>
+          <div class="slide">
+            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 3">
+          </div>
+          <div class="slide">
+            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 4">
+          </div>
+          <div class="slide">
+            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 5">
+          </div>
+          <div class="slide">
+            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 6">
           </div>
         </div>
       </div>
     </div>
-
-    <div class="partners-slider-wrapper mt-70">
-        <!-- Display partner logos -->
-        <div class="partners-slider" :style="sliderStyle">
-          <div
-            v-for="(partner, index) in partnersList"
-            :key="index"
-            class="partner-logo"
-          >
-            <img :src="partner.logo_url" :alt="partner.name" />
-          </div>
-        </div>
-      </div>
-
   </div>
 </section>
+
 <!-- testimonial-area-end -->
 
       <!-- tutor area start -->
@@ -640,28 +606,40 @@ export default {
 </style>
 
 <style scoped>
-.partners-area {
-  padding: 50px 0;
+
+@keyframes scroll{
+  from{
+    transform: translateX(0);
+  } 
+  to{
+    transform: translateX(-35%);
+  }
 }
-.partners-title {
-  text-align: center;
-  margin-bottom: 30px;
+
+.slider {
+  overflow: hidden; /* Hides the extra logos that move out of the container */
+  white-space: nowrap; /* Ensures logos remain in a single line */
+  background: white;
+  position: relative;
+
 }
-.partners-slider-wrapper {
-  overflow: hidden;
+
+.slider .slide-track {
+  display: flex; /* Makes sure all logos are aligned in one row */
+  width: calc(200%); /* Twice the width for smooth looping */
+  animation: scroll 15s linear infinite; /* Continuous scroll */
+}
+
+.slider .slide {
+  flex: 0 0 auto; /* Prevents the slides from shrinking */
+  width: 150px; /* Set a specific width for each logo */
+  height: 100px; /* Set a specific height for each logo */
+  margin-right: 40px; /* Adjust space between logos */
+}
+
+.slider .slide img {
   width: 100%;
+  height: auto; /* Ensures the logo keeps its aspect ratio */
 }
-.partners-slider {
-  display: flex;
-  align-items: center;
-}
-.partner-logo {
-  width: 150px; /* Adjust logo width */
-  margin-right: 30px; /* Adjust margin between logos */
-  flex-shrink: 0;
-}
-.partner-logo img {
-  width: 100%;
-  object-fit: contain;
-}
+
 </style>
