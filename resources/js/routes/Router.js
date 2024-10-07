@@ -31,6 +31,11 @@ import ServicesList from '../components/layouts/backend/pages/services/ServicesL
 import AddService from '../components/layouts/backend/pages/services/AddService.vue'
 import EditService from '../components/layouts/backend/pages/services/EditService.vue'
 
+//partners//
+import PartnersList from '../components/layouts/backend/pages/partners/PartnersList.vue'
+import AddPartner from '../components/layouts/backend/pages/partners/AddPartner.vue'
+import EditPartner from '../components/layouts/backend/pages/partners/EditPartner.vue'
+
 //students//
 import StudentsList from '../components/layouts/backend/pages/students/StudentsList.vue'
 import AddStudent from '../components/layouts/backend/pages/students/AddStudent.vue'
@@ -168,6 +173,24 @@ const routes =[
         name:'EditCourse',
         path:'/admin/courses/edit-course/:id',
         component: EditCourse,
+    },
+
+    {
+        name:'PartnersList',
+        path:'/admin/partners/list',
+        component: PartnersList,
+    },
+
+    {
+        name:'AddPartner',
+        path:'/admin/partners/add-partner',
+        component: AddPartner,
+    },
+
+    {
+        name:'EditPartner',
+        path:'/admin/partners/edit-partner/:id',
+        component: EditPartner,
     },
 
     {

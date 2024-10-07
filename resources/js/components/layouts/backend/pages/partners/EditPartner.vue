@@ -8,7 +8,7 @@
               <div class="col-md-12">
                 <ul class="breadcrumb">
                   <li class="breadcrumb-item"><router-link to="/admin/dashboard">Home</router-link></li>
-                  <li class="breadcrumb-item" aria-current="page">Edit Service</li>
+                  <li class="breadcrumb-item" aria-current="page">Edit Partner</li>
                 </ul>
               </div>
             </div>
@@ -19,7 +19,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h5 class="mb-0">Service Information</h5>
+                <h5 class="mb-0">Partner Information</h5>
               </div>
               <div class="card-body">
                 <div class="row">
@@ -28,8 +28,8 @@
                   </div>
                   <div class="col-md-6">
                     <div class="mb-3">
-                      <label class="form-label">Service Name</label>
-                      <input type="text" v-model="formData.service_title" class="form-control" placeholder="Enter service name">
+                      <label class="form-label">Partner Name</label>
+                      <input type="text" v-model="formData.partner_title" class="form-control" placeholder="Enter partner name">
                     </div>
                   </div>
                   <div class="col-md-12">
@@ -40,14 +40,14 @@
                   </div>
                   <div class="col-md-6 mt-3">
                     <div class="mb-3">
-                      <label class="form-label">Service Logo</label>
+                      <label class="form-label">Partner Logo</label>
                       <input type="file" @change="handleFileUpload" class="form-control" accept="image/*" />
                     </div>
                   </div>
                 </div>
 
                 <div class="mt-3">
-                  <button @click="edit_service" class="btn btn-primary">Update Service</button>
+                  <button @click="edit_partner" class="btn btn-primary">Update Partner</button>
                 </div>
               </div>
             </div>
@@ -69,8 +69,7 @@ const route = useRoute();
 const errorMessage = ref(null);
 const successMessage = ref(null); // Optional success message
 const formData = reactive({
-  service_title: '',
-  short_description: '',
+  partner_name: '',
   image: [] ,
 });
 
@@ -80,28 +79,26 @@ const handleFileUpload = (event) => {
 
 
 onMounted(() => {
-  const serviceId = route.params.id;
-  axios.get(`/api/get_service/${serviceId}`)
+  const partnerId = route.params.id;
+  axios.get(`/api/get_partner/${partnerId}`)
     .then(response => {
-      const ServiceData = response.data.data;
-      formData.service_name = ServiceData.service_title;
-      formData.short_description = ServiceData.short_description;
+      const PartnerData = response.data.data;
+      formData.partner_name = PartnerData.partner_name;
     })
     .catch(error => {
       console.error('Error fetching course:', error);
-      errorMessage.value = 'Error loading service data';
+      errorMessage.value = 'Error loading partner data';
     });
 });
 
-const edit_service = async () => {
-  const serviceId = route.params.id;
+const edit_partner = async () => {
+  const partnerId = route.params.id;
 
   // Create a new FormData instance for file uploads
   const formDataObj = new FormData();
   
   // Append data fields
-  formDataObj.append('service_title', formData.service_title);
-  formDataObj.append('short_description', formData.short_description);
+  formDataObj.append('partner_name', formData.partner_name);
 
   for (const key in formData) {
     if (Array.isArray(formData[key])) {
@@ -113,16 +110,16 @@ const edit_service = async () => {
 
   try {
     // Use PUT request to update the course
-    const response = await axios.post(`/api/update_service/${serviceId}`, formDataObj, {
+    const response = await axios.post(`/api/update_partner/${partnerId}`, formDataObj, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     });
-    console.log('Edit service success', response.data);
-    successMessage.value = 'service updated successfully!';
-    router.push('/admin/services/list'); // Redirect to course list after successful update
+    console.log('Edit partner success', response.data);
+    successMessage.value = 'partner updated successfully!';
+    router.push('/admin/partners/list'); // Redirect to course list after successful update
   } catch (error) {
-    console.error('Updating service failed', error);
+    console.error('Updating partner failed', error);
     errorMessage.value = error.response?.data?.message || "Updating course failed. Please try again.";
   }
 };

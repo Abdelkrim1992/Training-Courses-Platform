@@ -11,6 +11,7 @@ use App\Http\Controllers\backend\CoursesController;
 use App\Http\Controllers\backend\ProjectsController;
 use App\Http\Controllers\backend\ServicesController;
 use App\Http\Controllers\backend\ReservationsController;
+use App\Http\Controllers\backend\PartnerController;
 
 
 
@@ -28,18 +29,19 @@ Route::get('/get_setting/{id}', [SiteSettingController::class, 'show']);
 Route::post('/add_setting', [SiteSettingController::class, 'store']);
 Route::post('/update_setting/{id}', [SiteSettingController::class, 'update']);
 
-// Reservations//
-Route::post('/add_reservation', [ReservationsController::class, 'store']);
-Route::get('/reservations/pending', [ReservationsController::class, 'getPendingReservations']);
-Route::put('/reservations/{id}/accept', [ReservationsController::class, 'acceptReservation']);
-Route::delete('/reservations/{id}', [ReservationsController::class, 'deleteReservation']);
-
 // students//
 Route::get('/get_students', [StudentsController::class, 'index']);
 Route::post('/add_student', [StudentsController::class, 'store']);
 Route::get('/get_student/{id}', [StudentsController::class, 'show']);
 Route::put('/update_student/{id}', [StudentsController::class, 'update']);
 Route::delete('/delete_student/{id}', [StudentsController::class, 'destroy']);
+
+// partners//
+Route::get('/get_partners', [PartnerController::class, 'index']);
+Route::post('/add_partner', [PartnerController::class, 'store']);
+Route::get('/get_partner/{id}', [PartnerController::class, 'show']);
+Route::put('/update_partner/{id}', [PartnerController::class, 'update']);
+Route::delete('/delete_partner/{id}', [PartnerController::class, 'destroy']);
 
 // team//
 Route::get('/get_team_member', [TeamController::class, 'index']);
