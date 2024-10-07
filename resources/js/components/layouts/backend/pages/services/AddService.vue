@@ -33,10 +33,9 @@
                     </div>
                   </div>
                   <div class="col-md-12">
-                    <label for="floatingTextarea2 ">Short Description</label>
-                    <div class="form-floating mt-2">
-                      <froala id="edit" :tag="'textarea'" :config="config" v-model:value="formData.short_description"></froala> 
-                      
+                    <div class="form-floating">
+                      <textarea v-model="formData.short_description" class="form-control" placeholder="Enter short description"></textarea>
+                      <label for="floatingTextarea2">Short Description</label>
                     </div>
                   </div>
                   <div class="col-md-6 mt-3">
@@ -47,7 +46,7 @@
                   </div>
                 </div>
 
-                <div class="mt-2">
+                <div class="mt-3">
                   <button @click="add_service" class="btn btn-primary">Add Service</button>
                 </div>
               </div>
@@ -107,22 +106,3 @@ const add_service = async () => {
   }
 };
 </script>
-
-<script>
-  
-  export default {
-    name: 'AddCourse',
-    data () {
-      return {
-        config: {
-          events: {
-            initialized: function () {
-              console.log('initialized')
-            }
-          }
-        },
-        model: 'Edit Your Content Here!'
-      }
-    }
-  }
-  </script>

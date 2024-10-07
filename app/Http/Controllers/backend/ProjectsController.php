@@ -104,11 +104,11 @@ class ProjectsController extends Controller
     {
         // Validate input
         $request->validate([
-            'project_description' => 'required|string|max:2000',
-            'project_tasks' => 'required|string|max:2000',
+            'project_description' => 'required',
+            'project_tasks' => 'required|string',
             'project_name' => 'required|string|max:255',
             'city' => 'required|string|max:255',
-            'short_description' => 'required|string|max:2000',
+            'short_description' => 'required|string|max:200',
             'domaine' => 'required|string|max:255',
             'dead_line' => 'required|string',
             'started_date' => 'required|string',

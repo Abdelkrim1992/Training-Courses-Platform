@@ -34,6 +34,14 @@ export default {
     // Set up window resize listener to adjust members per slide
     window.addEventListener('resize', this.updateMembersPerSlide);
   },
+
+  computed: {
+    currentReview() {
+      // Compute the current review to display based on the index
+      return this.ReviewsList[this.currentReviewIndex] || {};
+    }
+  },
+
   beforeDestroy() {
     // Clean up resize event listener and stop sliding
     window.removeEventListener('resize', this.updateMembersPerSlide);
@@ -75,6 +83,23 @@ export default {
         .catch((error) => {
           console.error('Error fetching reviews:', error);
         });
+    },
+
+    nextReview() {
+      // Move to the next review, loop back to the first review if at the end
+      if (this.currentReviewIndex < this.ReviewsList.length - 1) {
+        this.currentReviewIndex++;
+      } else {
+        this.currentReviewIndex = 0;  // Loop back to the first review
+      }
+    },
+    prevReview() {
+      // Move to the previous review, loop back to the last review if at the start
+      if (this.currentReviewIndex > 0) {
+        this.currentReviewIndex--;
+      } else {
+        this.currentReviewIndex = this.ReviewsList.length - 1;  // Loop back to the last review
+      }
     },
 
     async getTeamMembers() {
@@ -123,10 +148,9 @@ export default {
 
 
 
-
-
 <template >
    <Layouts>
+
    <!-- hero-area-start -->
    <div class="tp-hero-area lightblue-bg tp-hero-2-bg">
       <div class="container custom-container">
@@ -136,8 +160,8 @@ export default {
                   <div class="tp-hero-2-content">
                      <span class="tp-hero-2-subtitle wow fadeInUp" data-wow-delay=".3s">Keep Learning</span>
                      <h2 class="tp-hero-2-title wow fadeInUp" data-wow-delay=".5s">Best  
-                         <span>Offline <img class="wow bounceIn" data-wow-duration="1.5s" data-wow-delay=".4s" src="frontend/img/unlerline/hero-2-svg-1.svg" alt=""></span> 
-                   Training Courses</h2>
+                         <span>Training <img class="wow bounceIn" data-wow-duration="1.5s" data-wow-delay=".4s" src="frontend/img/unlerline/hero-2-svg-1.svg" alt=""></span> 
+                   Courses Agency</h2>
                      <p class=" wow fadeInUp" data-wow-delay=".7s">Acquire global knowledge and build your <br> professional skills</p>
                      <div class="tp-hero-2-btn wow fadeInUp" data-wow-delay=".9s">
                         <a class="tp-btn-border" href="https://wa.me/message/FBO52GTDTUCCE1">Get Started With Us 
@@ -262,12 +286,11 @@ export default {
                <div class="col-lg-6">
                   <div class="tp-about-tutor-right d-flex justify-content-lg-end mb-200">
                      <div class="tp-about-tutor-content text-center">
-                    <h3 class="tp-about-tutor-title ">We create unique <br>
-                     digital media experiences.
+                    <h3 class="tp-about-tutor-title ">
+                      We provide training courses <br> and educational programs.
                     </h3>
-                    <p class="mt-30">Online courses from the world's leading experts. <br>
-                           Lorem ipsum is simply dummy of the printing and <br>
-                           typesetting industry lorem
+                    <p class="mt-30">Expert-led courses designed to enhance your skills and knowledge. <br>
+                      Engaging, hands-on learning experiences to help you <br> succeed in your career. 
                     </p>
                      </div>
                   </div>
@@ -353,7 +376,7 @@ export default {
                   </div>
                   <div class="tp-category-content mt-20">
                      <h4 class="tp-category-title">{{items.service_title}}</h4>
-                     <span v-html="items.short_description"></span>
+                     <span >{{ items.short_description }}</span>
                   </div>
                </a>
             </div>
@@ -405,7 +428,7 @@ export default {
               <div class="tp-testimonial-2-avatar-info">
                 <h3 class="text-center">{{ currentReview.student_name }}</h3>
                 <h6 class="text-center mt-3">{{ currentReview.course_title }}</h6>
-                <div class="tp-testimonial-2-avatar-rating">
+                <div class="tp-testimonial-2-avatar-rating text-center">
                                  <i class="fa-solid fa-star"></i>
                                  <i class="fa-solid fa-star"></i>
                                  <i class="fa-solid fa-star"></i>
@@ -413,8 +436,8 @@ export default {
                                  <i class="fa-solid fa-star"></i>
                  </div>
               </div>
-              <div class="tp-testimonial-2-content p-relative">
-                <p>{{ currentReview.review_text }}</p>
+              <div class="tp-testimonial-2-content text-center p-relative">
+                <p v-html="currentReview.review_text"></p>
                 <div class="tp-testimonial-2-shape">
                   <div class="shape-1">
                     <img src="frontend/img/testimonial/testimonial-shape-1.png" alt="">
@@ -520,7 +543,7 @@ export default {
       <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
     </div>
 </section>
-  
+
 
    </Layouts>
 </template>
@@ -641,5 +664,6 @@ export default {
   width: 100%;
   height: auto; /* Ensures the logo keeps its aspect ratio */
 }
+
 
 </style>

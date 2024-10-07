@@ -31,7 +31,7 @@ class ServicesController extends Controller
         // Validate input with custom messages
         $request->validate([
             'service_title' => 'required|string|max:2000',
-            'short_description' => 'required|string|max:2000',
+            'short_description' => 'required|string',
             'image' => 'nullable|array', // Expecting an array of images
             'image.*' => 'image|mimes:jpg,jpeg,png|max:2048', // Validate each image
         ]);
@@ -91,15 +91,8 @@ class ServicesController extends Controller
     {
         // Validate input
         $request->validate([
-            'service_description' => 'required|string|max:2000',
-            'service_tasks' => 'required|string|max:2000',
-            'service_name' => 'required|string|max:255',
-            'city' => 'required|string|max:255',
+            'service_title' => 'required|string|max:255',
             'short_description' => 'required|string|max:2000',
-            'domaine' => 'required|string|max:255',
-            'budjet' => 'required|integer',
-            'dead_line' => 'required|string',
-            'started_date' => 'required|string',
             'image' => 'nullable|array', // Expecting an array of images
         ]);
 

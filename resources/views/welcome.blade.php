@@ -21,7 +21,7 @@
       <link rel="stylesheet" href="{{asset('frontend/css/font-awesome-pro.css')}}">
       <link rel="stylesheet" href="{{asset('frontend/css/spacing.css')}}">
       <link rel="stylesheet" href="{{asset('frontend/css/main.css')}}">
-
+      
       @vite('resources/css/app.css')
       @vite('resources/js/app.js')
     </head>
@@ -52,5 +52,6 @@
       <script src="{{asset('frontend/js/flatpickr.js')}}"></script>      
       <script src="{{asset('frontend/js/ajax-form.js')}}"></script>
       <script src="{{asset('frontend/js/main.js')}}"></script>
+      <script src="https://unpkg.com/vue-chat-scroll@alpha/dist/vue-chat-scroll.js"></script>
     </body>
 </html>

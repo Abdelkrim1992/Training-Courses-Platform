@@ -1,6 +1,6 @@
 <template>
 
-         <!-- footer-area-start -->
+      <!-- footer-area-start -->
       <footer>
          <div class="tp-footer-2 lightblue-bg">
             <div class="tp-footer-main pt-70 pb-55">
@@ -12,7 +12,8 @@
                               <a href="#"><img :src="setting?.setting_logo_url" alt=""></a>
                            </div>
                            <div class="tp-footer-widget-content">
-                              <p>Acadia education theme, built specifically for the education centers which is teaching and involve learners.</p>
+                              <p>Expert-led courses designed to enhance your skills and knowledge.
+<br/> Engaging, hands-on learning experiences to help you succeed in your career.</p>
                            </div>
                            <div class="tp-footer-contact">
                               <div class="tp-footer-btn">
@@ -28,32 +29,15 @@
                            </div>
                         </div>
                      </div>
-                     <div class="col-xl-3 col-lg-4 col-md-6 ">
+                     <div class="col-xl-6 col-lg-4 col-md-6 ">
                         <div class="tp-footer-widget tp-footer-2-col-2 mb-30">
                            <h4 class="tp-footer-widget-title mb-15">About</h4>
                            <div class="tp-footer-widget-link">
                               <ul>
-                                 <li><a href="about.html">About Us</a></li>
-                                 <li><a href="course-with-filter.html">Courses</a></li>
-                                 <li><a href="blog-standard.html">News & Blogs</a></li>
-                                 <li><a href="become-instructor.html">Become a Teacher</a></li>
+                                 <li><router-link to="/about-us">About Us</router-link></li>
+                                 <li><router-link to="/courses">Training Courses</router-link></li>
                                  <li><a href="event.html">Events</a></li>
-                                 <li><a href="contact.html">Contact</a></li>
-                              </ul>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                        <div class="tp-footer-widget tp-footer-2-col-3 mb-30">
-                           <h4 class="tp-footer-widget-title mb-15">Quick links</h4>
-                           <div class="tp-footer-widget-link">
-                              <ul>
-                                 <li><a href="student-profile.html">Students</a></li>
-                                 <li><a href="university-admission-overview.html">Addmition</a></li>
-                                 <li><a href="university-leadership.html">Faculty & Staffs</a></li>
-                                 <li><a href="#">Media Relations</a></li>
-                                 <li><a href="#">Alumni</a></li>
-                                 <li><a href="university-schedule.html">Visit</a></li>
+                                 <li><router-link to="contact-us">Contact Us</router-link></li>
                               </ul>
                            </div>
                         </div>
@@ -64,6 +48,8 @@
                            <div class="tp-footer-contact">
                               <span>Got Questions? Call us</span>
                               <a href="tel:012345678">{{setting?.phone}}</a>
+                              <span >Address : </span>
+                              <a class="mt-2">{{setting?.address}}</a>
                            </div>
                            <div class="tp-footer-contact-mail mb-20">
                               <a href="mailto:acadia@gmail.com">
@@ -87,10 +73,9 @@
                   <div class="row ">
                      <div class="col-lg-3 ">
                         <div class="tp-footer-bottom-social text-center">
-                           <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                           <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                           <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                           <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                           <a :href="setting?.facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                           <a :href="setting?.instagram"><i class="fa-brands fa-instagram"></i></a>
+                           <a :href="setting?.whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
                         </div>
                      </div>
                      <div class="col-lg-6 col-md-5 ">
