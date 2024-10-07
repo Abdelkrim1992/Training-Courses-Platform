@@ -11,6 +11,7 @@ export default {
       CoursesList: [], 
       ServicesList: [],         // Stores courses data
       ReviewsList: [],          // Stores reviews data
+      PartnersList : [],
 
       TeamMembersList: [],      // Team members array
       currentMemberIndex: 0,    // Track the current index of the first displayed team member
@@ -27,6 +28,7 @@ export default {
     this.getReviews();
     this.getCourses();
     this.getServices();
+    this.getPartners();
 
     // Set initial number of members per slide based on screen size
     this.updateMembersPerSlide();
@@ -62,6 +64,8 @@ export default {
           console.error('Error fetching courses:', error);
         });
     },
+
+
     getServices(){
       axios.get('/api/get_services')
       .then((response) => {
@@ -73,6 +77,20 @@ export default {
         console.error('error fetshing services, error');
       });
     },
+
+    getPartners(){
+      axios.get('/api/get_partners')
+      .then((response) => {
+        if(response.data.status === 200){
+          this.PartnersList = response.data.data;
+        }
+      })
+      .catch((error)=>{
+        console.error('error fetshing services, error');
+      });
+    },
+
+
     getReviews() {
       axios.get('/api/get_reviews')
         .then((response) => {
@@ -84,7 +102,6 @@ export default {
           console.error('Error fetching reviews:', error);
         });
     },
-
     nextReview() {
       // Move to the next review, loop back to the first review if at the end
       if (this.currentReviewIndex < this.ReviewsList.length - 1) {
@@ -101,6 +118,7 @@ export default {
         this.currentReviewIndex = this.ReviewsList.length - 1;  // Loop back to the last review
       }
     },
+
 
     async getTeamMembers() {
       try {
@@ -142,6 +160,8 @@ export default {
       }
     },
 
+
+
   },
 };
 </script>
@@ -151,7 +171,7 @@ export default {
 <template >
    <Layouts>
 
-   <!-- hero-area-start -->
+<!-- hero-area-start -->
    <div class="tp-hero-area lightblue-bg tp-hero-2-bg">
       <div class="container custom-container">
          <div class="tp-hero-2-wrap">
@@ -206,59 +226,29 @@ export default {
    </div>
 <!-- hero-area-end -->
 
-<!-- testimonial-area-start -->
+<!-- partners -->
 <section class="testimonial-area mt-50 text-center">
   <div class="container">
     <div class="row mt-20">
       <h4 class="tp-section-3-title">Our Partners</h4>
       <div class="slider mt-50">
-        <div class="slide-track">
+        <div class="slide-track" >
           <!-- First set of logos -->
-          <div class="slide">
-            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 1">
+          <div class="slide" v-for="(items, index) in PartnersList" :key="index">
+            <img :src="items.partner_image_url" alt="Partner Logo 1">
           </div>
-          <div class="slide">
-            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 2">
+          <div class="slide" v-for="(items, index) in PartnersList" :key="index">
+            <img :src="items.partner_image_url" alt="Partner Logo 1">
           </div>
-          <div class="slide">
-            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 3">
-          </div>
-          <div class="slide">
-            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 4">
-          </div>
-          <div class="slide">
-            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 5">
-          </div>
-          <div class="slide">
-            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 6">
-          </div>
-          
-          <!-- Duplicate set of logos for smooth looping -->
-          <div class="slide">
-            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 1">
-          </div>
-          <div class="slide">
-            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 2">
-          </div>
-          <div class="slide">
-            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 3">
-          </div>
-          <div class="slide">
-            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 4">
-          </div>
-          <div class="slide">
-            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 5">
-          </div>
-          <div class="slide">
-            <img src="frontend/img/logo/logo-black.png" alt="Partner Logo 6">
+          <div class="slide" v-for="(items, index) in PartnersList" :key="index">
+            <img :src="items.partner_image_url" alt="Partner Logo 1">
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
-
-<!-- testimonial-area-end -->
+<!-- partners -->
 
       <!-- tutor area start -->
       <section class="tp-about-tutor-area pt-50 ">
@@ -635,7 +625,7 @@ export default {
     transform: translateX(0);
   } 
   to{
-    transform: translateX(-35%);
+    transform: translateX(-50%);
   }
 }
 
