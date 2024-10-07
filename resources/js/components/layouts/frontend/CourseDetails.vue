@@ -117,12 +117,11 @@
                             <div id="info">
                                <h4 class="tp-course-details-2-main-title">About Course</h4>
                                <div class="tp-course-details-2-text mb-60">
-                                 <p>{{course.course_description}}</p>
+                                 <p v-html="course.course_description"></p>
                                </div>
                                <h4 class="tp-course-details-2-main-title">What will you Learn?</h4>
                                <div class="tp-course-details-2-list">
-                                  <ul>
-                                    {{course.course_tips}}
+                                  <ul v-html="course.course.course_tips">
                                   </ul>
                                </div>
                             </div>
@@ -141,11 +140,7 @@
                                          </svg> 4.4 Rating</span>
                                      </div>
                                      <div class="tp-course-details-2-instructor-text">
-                                        <p>I am also the founder of a large local design organization, Salt Lake <br>
-                                           Designers, where I and other local influencers help cultivate the talents <br>
-                                           of up and coming UX designers through workshops and panel discussions.</p>
-                                        <p>Undon Xie is a brilliant educator, whose life was spent for computer <br>
-                                           science and love of nature.</p>
+                                        <p course.teacher_summery></p>
                                      </div>
                                      <div class="tp-course-details-2-instructor-social">
                                         <a href="#"><span><svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">

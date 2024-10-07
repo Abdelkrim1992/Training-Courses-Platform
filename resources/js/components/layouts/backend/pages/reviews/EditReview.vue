@@ -44,9 +44,9 @@
                     </div>
                   </div>
                   <div class="col-md-12 mt-3">
-                    <div class="form-floating">
-                      <textarea v-model="formData.review_text" class="form-control" placeholder="Course Tips"></textarea>
-                      <label for="floatingTextarea2">Review Text</label>
+                    <label for="floatingTextarea2">Review Text</label>
+                    <div class="form-floating mt-2">
+                      <froala id="edit" :tag="'textarea'" :config="config" v-model:value="formData.review_text"></froala>
                     </div>
                   </div>
                   <div class="col-md-12 text-end mt-3">
@@ -123,3 +123,21 @@
   };
   </script>
   
+  <script>
+  
+  export default {
+    name: 'EditReview',
+    data () {
+      return {
+        config: {
+          events: {
+            initialized: function () {
+              console.log('initialized')
+            }
+          }
+        },
+        model: 'Edit Your Content Here!'
+      }
+    }
+  }
+  </script>

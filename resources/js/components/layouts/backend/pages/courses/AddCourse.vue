@@ -64,21 +64,22 @@
                     </div>
                   </div>
                   <div class="col-md-12">
-                    <div class="form-floating">
-                      <textarea v-model="formData.course_description" class="form-control" placeholder="Course Description"></textarea>
-                      <label for="floatingTextarea2">Course Description</label>
+                    <label for="floatingTextarea2">Course Description</label>
+                    <div class="form-floating mt-2">
+                      <froala id="edit" :tag="'textarea'" :config="config" v-model:value="formData.course_description"></froala>
                     </div>
                   </div>
                   <div class="col-md-12 mt-4">
-                    <div class="form-floating">
-                      <textarea v-model="formData.course_tips" class="form-control" placeholder="Course Tips"></textarea>
-                      <label for="floatingTextarea2">Course Tips</label>
+                    <label for="floatingTextarea2">Course Tips</label>
+                    <div class="form-floating mt-2">
+                      <froala id="edit" :tag="'textarea'" :config="config" v-model:value="formData.course_tips"></froala> 
                     </div>
                   </div>
                   <div class="col-md-12 mt-4">
-                    <div class="form-floating">
-                      <textarea v-model="formData.teacher_summery" class="form-control" placeholder="Course Tips"></textarea>
-                      <label for="floatingTextarea2">Teacher Summery</label>
+                    <label for="floatingTextarea2">Teacher Summery</label>
+                    <div class="form-floating mt-2">
+                      <froala id="edit" :tag="'textarea'" :config="config" v-model:value="formData.teacher_summery"></froala>
+                      
                     </div>
                   </div>
                   <div class="col-md-6 mt-4">
@@ -196,3 +197,23 @@ const add_course = async () => {
   }
 };
 </script>
+
+
+<script>
+  
+  export default {
+    name: 'AddCourse',
+    data () {
+      return {
+        config: {
+          events: {
+            initialized: function () {
+              console.log('initialized')
+            }
+          }
+        },
+        model: 'Edit Your Content Here!'
+      }
+    }
+  }
+  </script>

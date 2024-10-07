@@ -353,7 +353,7 @@ export default {
                   </div>
                   <div class="tp-category-content mt-20">
                      <h4 class="tp-category-title">{{items.service_title}}</h4>
-                     <span>{{items.short_description}}</span>
+                     <span v-html="items.short_description"></span>
                   </div>
                </a>
             </div>

@@ -58,12 +58,12 @@
                            <div id="info">
                               <h4 class="tp-course-details-2-main-title">About Course</h4>
                               <div class="tp-course-details-2-text mb-60">
-                                <p>{{project.project_description}}</p>
+                                <p v-html="project.project_description"></p>
                               </div>
                               <h4 class="tp-course-details-2-main-title">What will you Learn?</h4>
                               <div class="tp-course-details-2-list">
-                                 <ul>
-                                    {{project.project_tasks}}
+                                 <ul v-html="project.project_tasks">
+                                    
                                  </ul>
                               </div>
                            </div>

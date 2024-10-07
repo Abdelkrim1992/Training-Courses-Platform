@@ -29,60 +29,16 @@
                   <div class="col-md-6">
                     <div class="mb-3">
                       <label class="form-label">Service Name</label>
-                      <input type="text" v-model="formData.service_name" class="form-control" placeholder="Enter service name">
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="mb-3">
-                      <label class="form-label">Budget</label>
-                      <input type="text" v-model="formData.budjet" class="form-control" placeholder="Enter budget">
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="mb-3">
-                      <label class="form-label">City</label>
-                      <input type="text" v-model="formData.city" class="form-control" placeholder="Enter service city">
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="mb-3">
-                      <label class="form-label">Started Date</label>
-                      <input v-model="formData.started_date" class="form-control" placeholder="Enter started date"/>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="mb-3">
-                      <label class="form-label">Dead Line</label>
-                      <input v-model="formData.dead_line" class="form-control" placeholder="Enter end date"/>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="mb-3">
-                      <label class="form-label">Domaine</label>
-                      <input type="text" v-model="formData.domaine" class="form-control" placeholder="Enter domaine">
+                      <input type="text" v-model="formData.service_title" class="form-control" placeholder="Enter service name">
                     </div>
                   </div>
                   <div class="col-md-12">
-                    <div class="form-floating">
-                      <textarea v-model="formData.short_description" class="form-control" placeholder="Enter Short Description"></textarea>
-                      <label for="floatingTextarea2">Short Description</label>
+                    <label for="floatingTextarea2">Short Description</label>
+                    <div class="form-floating mt-2">
+                      <froala id="edit" :tag="'textarea'" :config="config" v-model:value="formData.short_description"></froala> 
                     </div>
                   </div>
-                  <div class="col-md-12 mt-4 ">
-                    <div class="form-floating">
-                      <textarea v-model="formData.service_description" class="form-control" placeholder="Enter Full Description"></textarea>
-                      <label for="floatingTextarea2">Full Description</label>
-                    </div>
-                  </div>
-                  <div class="col-md-12 mt-4">
-                    <div class="mb-3">
-                      <div class="form-floating">
-                        <textarea v-model="formData.service_tasks" class="form-control" placeholder="Enter Service Tasks"></textarea>
-                        <label for="floatingTextarea2">Service Tasks</label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
+                  <div class="col-md-6 mt-3">
                     <div class="mb-3">
                       <label class="form-label">Service Logo</label>
                       <input type="file" @change="handleFileUpload" class="form-control" accept="image/*" />
@@ -178,3 +134,22 @@ const edit_service = async () => {
   }
 };
 </script>
+
+<script>
+  
+  export default {
+    name: 'AddCourse',
+    data () {
+      return {
+        config: {
+          events: {
+            initialized: function () {
+              console.log('initialized')
+            }
+          }
+        },
+        model: 'Edit Your Content Here!'
+      }
+    }
+  }
+  </script>

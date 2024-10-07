@@ -82,7 +82,7 @@ export default {
                                        <router-link :to="{ path: '/project-details/' + item.id }">{{item.project_name}}</router-link>
                                     </h4>
                                     <div class="tp-course-filter-p">
-                                       <p>{{item.short_description}}</p>
+                                       <p v-html="item.short_description"></p>
                                     </div>
                                     <div class="tp-course-filter-pricing list d-flex align-items-center justify-content-between">
                                         

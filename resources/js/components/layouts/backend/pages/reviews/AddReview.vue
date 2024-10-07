@@ -68,10 +68,10 @@ const add_review = () => {
                       <input type="text" v-model="formData.course_title" class="form-control" placeholder="Enter email">
                     </div>
                   </div>
-                  <div class="col-md-6">
-                    <div class="form-floating">
-                      <textarea type="text" v-model="formData.review_text" class="form-control" id="floatingTextarea"></textarea>
-                      <label for="floatingTextarea"> Review Text</label>
+                  <div class="col-md-12">
+                    <label for="floatingTextarea"> Review Text</label>
+                    <div class="form-floating mt-2 mb-3">
+                      <froala id="edit" :tag="'textarea'" :config="config" v-model:value="formData.review_text"></froala>
                     </div>
                   </div>
                   <div class="col-md-12 text-end">
@@ -86,3 +86,23 @@ const add_review = () => {
     </div>
   </BackendLayouts>
 </template>
+
+
+<script>
+  
+  export default {
+    name: 'AddReview',
+    data () {
+      return {
+        config: {
+          events: {
+            initialized: function () {
+              console.log('initialized')
+            }
+          }
+        },
+        model: 'Edit Your Content Here!'
+      }
+    }
+  }
+  </script>

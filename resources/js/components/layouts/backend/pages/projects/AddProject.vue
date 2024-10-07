@@ -73,7 +73,7 @@
                   <!-- Short Description -->
                   <div class="col-md-12">
                     <div class="form-floating">
-                      <textarea v-model="formData.short_description" class="form-control" placeholder="Enter short description"></textarea>
+                      <froala id="edit" :tag="'textarea'" :config="config" v-model:value="formData.short_description"></froala>
                       <label for="floatingTextarea2">Short Description</label>
                     </div>
                   </div>
@@ -82,7 +82,7 @@
                   <div class="col-md-12 mt-4">
                     <label for="floatingTextarea2">Full Description</label>
                     <div class="form-floating mt-2">
-                      <ejs-richtexteditor v-model="formData.project_description" id="projectDescription"></ejs-richtexteditor>
+                      <froala id="edit" :tag="'textarea'" :config="config" v-model:value="formData.project_description"></froala>
                     </div>
                   </div>
 
@@ -91,7 +91,7 @@
                     <div class="mb-3">
                       <label for="floatingTextarea2">Project Tasks</label>
                       <div class="form-floating mt-2">
-                        <ejs-richtexteditor v-model="formData.project_tasks" id="projectTasks"></ejs-richtexteditor>
+                        <froala id="edit" :tag="'textarea'" :config="config" v-model:value="formData.project_tasks"></froala>                      
                       </div>
                     </div>
                   </div>
@@ -180,15 +180,20 @@ const add_project = async () => {
 </script>
 
 <script>
-import { RichTextEditorComponent, Toolbar, Link, Image, HtmlEditor, Table } from '@syncfusion/ej2-vue-richtexteditor';
-
-export default {
-  name: 'AddProject',
-  components: {
-    'ejs-richtexteditor': RichTextEditorComponent,
-  },
-  provide: {
-    richtexteditor: [Toolbar, Link, Image, HtmlEditor, Table],
-  },
-};
-</script>
+  
+  export default {
+    name: 'AppProject',
+    data () {
+      return {
+        config: {
+          events: {
+            initialized: function () {
+              console.log('initialized')
+            }
+          }
+        },
+        model: 'Edit Your Content Here!'
+      }
+    }
+  }
+  </script>
