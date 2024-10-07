@@ -42,19 +42,19 @@
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <label class="col-form-label col-sm-3 text-sm-end">Facebook</label>
+                    <label class="col-form-label col-sm-3 text-sm-end">Facebook Link </label>
                     <div class="col-lg-6 col-sm-7">
                       <input v-model="setting.facebook" type="text" class="form-control" placeholder="Enter Facebook link">
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <label class="col-form-label col-sm-3 text-sm-end">Instagram</label>
+                    <label class="col-form-label col-sm-3 text-sm-end">Instagram Link</label>
                     <div class="col-lg-6 col-sm-7">
                       <input v-model="setting.instagram" type="text" class="form-control" placeholder="Enter Instagram link">
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <label class="col-form-label col-sm-3 text-sm-end">Whatsapp</label>
+                    <label class="col-form-label col-sm-3 text-sm-end">Whatsapp Link</label>
                     <div class="col-lg-6 col-sm-7">
                       <input v-model="setting.whatsapp" type="text" class="form-control" placeholder="Enter Whatsapp link">
                     </div>

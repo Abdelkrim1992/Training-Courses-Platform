@@ -48,7 +48,7 @@
                       <tr v-for="(items, index) in ReviewsList" :key="index">
                         <td>{{ items.student_name }}</td>
                         <td>{{ items.course_title }}</td>
-                        <td>{{ items.review_text }}</td>
+                        <td v-html="items.review_text"></td>
                         <td>
                           <router-link :to="{path:'/admin/reviews/edit-review/'+ items.id}" class="avtar avtar-xs btn-link-secondary">
                             <i class="ti ti-edit f-20"></i>
