@@ -37,7 +37,7 @@
                       <div class="card-body p-2">
                         <div class="position-relative">
                           <!-- Display the course image from the courseImage relationship -->
-                          <img :src="item.course_image_url" alt="Course Image" class="img-fluid w-100" v-if="item.course_image_url" />
+                          <img :src="item.course_image_url" alt="Course Image" class="img-fluid w-100 rounded-md" v-if="item.course_image_url" />
                         </div>
                         <ul class="list-group list-group-flush my-2">
                           <li class="list-group-item px-0 py-2">
@@ -81,7 +81,7 @@
                             <div class="d-flex align-items-center">
                               <div class="flex-grow-1 me-2">
                                 <!-- Label for date -->
-                                <p class="mb-0">Date</p>
+                                <p class="mb-0">Started Date</p>
                               </div>
                               <div class="flex-shrink-0">
                                 <!-- Display the course date -->
@@ -90,7 +90,7 @@
                             </div>
                           </li>
                         </ul>
-                        <router-link :to="{path:'/admin/courses/edit-course/'+ item.id}" class="btn btn-sm btn-outline-primary mb-2">Edit</router-link>
+                        <router-link :to="{path:'/admin/courses/edit-course/'+ item.id}" class="btn btn-sm btn-outline-primary mb-2">Edit course</router-link>
                       </div>
                     </div>
                   </div>

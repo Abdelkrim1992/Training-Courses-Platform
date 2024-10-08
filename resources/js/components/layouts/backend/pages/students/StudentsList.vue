@@ -38,7 +38,7 @@
                   <table class="table table-hover" id="pc-dt-simple">
                     <thead>
                       <tr>
-                        <th>Name</th>
+                        <th>Student Name</th>
                         <th>Mobile</th>
                         <th>Email</th>
                         <th>Course</th>
