@@ -33,6 +33,7 @@ class CoursesController extends Controller
         $request->validate([
             'course_title' => 'required|string|max:255',
             'teacher_name' => 'required|string|max:255',
+            'teacher_summery' => 'required|string|max:255',
             'duration' => 'required|string|max:255',
             'date' => 'required|date',
             'category' => 'required|string|max:255',
@@ -48,6 +49,7 @@ class CoursesController extends Controller
         $course = new Course();
         $course->course_title = $request->course_title;
         $course->teacher_name = $request->teacher_name;
+        $course->teacher_summery = $request->teacher_summery;
         $course->course_description = $request->course_description;
         $course->course_tips = $request->course_tips;
         $course->category = $request->category;
@@ -119,6 +121,7 @@ if ($request->hasFile('photo')) {
         $request->validate([
             'course_title' => 'required|string|max:255',
             'teacher_name' => 'required|string|max:255',
+            'teacher_summery' => 'required|string|max:255',
             'duration' => 'required|string|max:255',
             'date' => 'required|date',
             'category' => 'required|string|max:255',
@@ -139,6 +142,7 @@ if ($request->hasFile('photo')) {
         $course->course_title = $request->course_title;
         $course->teacher_name = $request->teacher_name;
         $course->course_description = $request->course_description;
+        $course->teacher_summery = $request->teacher_summery;
         $course->course_tips = $request->course_tips;
         $course->category = $request->category;
         $course->duration = $request->duration;

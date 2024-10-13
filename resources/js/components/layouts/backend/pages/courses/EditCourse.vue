@@ -162,7 +162,7 @@ onMounted(() => {
       formData.duration = courseData.duration;
       formData.date = new Date(courseData.date); // Ensure this is a Date object
       formData.course_description = courseData.course_description;
-      formData.course_tips = courseData.course_tasks;
+      formData.course_tips = courseData.course_tips;
       formData.teacher_summery = courseData.teacher_summery;
     })
     .catch(error => {
@@ -206,8 +206,7 @@ const edit_course = async () => {
       }
     });
     console.log('Edit course success', response.data);
-    successMessage.value = 'course updated successfully!';
-    router.push('/admin/courses/list'); // Redirect to course list after successful update
+    successMessage.value = 'Course updated successfully!';
   } catch (error) {
     console.error('Updating course failed', error);
     errorMessage.value = error.response?.data?.message || "Updating course failed. Please try again.";

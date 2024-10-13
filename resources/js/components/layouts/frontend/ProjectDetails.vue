@@ -13,7 +13,6 @@
                            </svg></router-link></span>
                            <span>Projects  /  {{project.project_name}}</span>
                         </div>
-
                         <div class="tp-course-details-2-header">
                            <span class="tp-course-details-2-category">{{project.domaine}}</span>
                            <h3 class="tp-course-details-2-title">{{project.project_name}}</h3>
@@ -39,7 +38,6 @@
          </section>
          <!-- course details breadcrumb end -->
 
-
          <!-- course details area start -->
          <section class="tp-course-details-2-area pt-50 pb-80">
             <div class="container">
@@ -63,7 +61,6 @@
                               <h4 class="tp-course-details-2-main-title">What will you Learn?</h4>
                               <div class="tp-course-details-2-list">
                                  <ul v-html="project.project_tasks">
-                                    
                                  </ul>
                               </div>
                            </div>

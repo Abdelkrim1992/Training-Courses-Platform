@@ -171,6 +171,7 @@ const add_project = async () => {
       },
     });
     console.log('Add project success', response.data);
+    successMessage.value = 'Course updated successfully!';
     router.push('/admin/projects/list');
   } catch (error) {
     console.error('Adding project failed', error.response.data);
