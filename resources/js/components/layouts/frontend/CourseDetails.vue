@@ -1,8 +1,8 @@
 <template>
    <Header/>
  
-   <section class="tp-breadcrumb__area pt-110 pb-90 p-relative z-index-1">
-     <div class="tp-breadcrumb__bg details3" ></div>
+   <section class="tp-breadcrumb__area pt-50 pb-90 p-relative z-index-1" >
+     <div class="tp-breadcrumb__bg details3" :style="{backgroundImage: `url(${course.course_image_url})`}"></div>
      <div class="container current">
        <div class="row">
          <div class="col-sm-12">
@@ -47,7 +47,7 @@
            </div>
          </div>
        
-         <div class="col-lg-5">
+         <div class="col-lg-5 ">
            <div class="tp-course-details-3-widget">
              <div class="tp-course-details-2-widget-thumb p-relative">
                <img :src="course.course_image_url" alt="Course Image">
@@ -64,7 +64,7 @@
            </div>
          </div>
  
-         <div class="col-lg-7 mt-70">
+         <div class="col-lg-7 ">
            <div class="tp-course-details-3-list">
              <div class="tp-course-details-3-list-item d-flex align-items-center justify-content-between">
                <span>Duration of course</span>
@@ -78,9 +78,13 @@
                <span>Start Date</span>
                <span class="width">{{ course.date }}</span>
              </div>
+             <div class="tp-course-details-3-list-item d-flex align-items-center justify-content-between">
+                            <span>Certificate after completing</span>
+                            <span class="width">Yes</span>
+             </div>
            </div>
  
-           <div class="tp-course-details-3-main">
+           <div class="tp-course-details-3-main ">
              <div class="tp-course-details-2-nav d-flex align-items-center">
                <nav>
                  <ul id="course_details2_nav">
@@ -139,9 +143,9 @@
          <div v-for="(item, index) in CoursesList" :key="index" class="col-lg-4 col-md-6">
            <div class="tp-course-item p-relative fix mb-30">
              <div class="tp-course-thumb">
-               <router-link :to="{ path: '/course-details/' + item.id }">
+               <a :href="`/course-details/${item.id} `">
                  <img class="course-pink" :src="item.course_image_url" alt="Course Image">
-               </router-link>
+               </a>
              </div>
              <div class="tp-course-content">
                <div class="tp-course-tag mb-10">
@@ -168,7 +172,7 @@
                  </span>
                </div>
                <h4 class="tp-course-title">
-                 <router-link :to="{ path: '/course-details/' + item.id }">{{ item.course_title }}</router-link>
+                 <a :href="`/course-details/${item.id}`">{{ item.course_title }}</a>
                </h4>
                <div class="tp-course-rating d-flex align-items-end justify-content-between">
                  <div class="tp-course-rating-star">
@@ -253,4 +257,4 @@
  };
 
  </script>
- 
+    
