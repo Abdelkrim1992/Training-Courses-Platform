@@ -2,6 +2,7 @@
 
 import Layouts from '../frontend/Layouts.vue';
 
+
 </script>
 
 <script>
@@ -105,7 +106,7 @@ export default {
     <div class="tp-course-item p-relative fix mb-30">
       <!-- Course Teacher -->
       <div class="tp-course-teacher mb-15">
-        <span><img src="frontend/img/teacher/teacher-1.png" alt="">{{ item.teacher_name }}</span>
+        <span><img :src="item.teacher_photo_url" v-if="item.teacher_photo_url" alt="">{{ item.teacher_name }}</span>
       </div>
 
       <!-- Course Image -->
@@ -152,7 +153,7 @@ export default {
         <!-- Course Rating -->
         <div class="tp-course-rating d-flex align-items-end justify-content-between">
           <div class="tp-course-rating-star">
-            <p>5.0<span> /5</span></p>
+            <p>4.8<span> /5</span></p>
             <div class="tp-course-rating-icon">
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>

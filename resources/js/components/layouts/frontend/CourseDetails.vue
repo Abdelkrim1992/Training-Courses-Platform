@@ -1,7 +1,7 @@
 <template>
    <Header/>
  
-   <section class="tp-breadcrumb__area pt-50 pb-90 p-relative z-index-1" >
+   <section class="tp-breadcrumb__area pt-30 pb-90 p-relative z-index-1" >
      <div class="tp-breadcrumb__bg details3" :style="{backgroundImage: `url(${course.course_image_url})`}"></div>
      <div class="container current">
        <div class="row">
@@ -9,10 +9,10 @@
            <div class="tp-breadcrumb__content">
              <div class="tp-breadcrumb__list inner-after">
                <span class="white"><router-link to="/">Home</router-link></span>
-               <span class="white">Course Grid</span>
+               <span class="white"><router-link to="/courses">Courses</router-link></span>
              </div>
  
-             <div class="tp-course-details-2-header">
+             <div class="tp-course-details-2-header ">
                <h3 class="tp-course-details-3-title">{{ course.course_title }}</h3>
                <div class="tp-course-details-3-meta-wrapper d-flex align-items-center flex-wrap">
                  <div class="tp-course-details-2-meta">
@@ -55,7 +55,7 @@
              <div class="tp-course-details-3-widget-content">
                <div class="tp-contact-input-form">
                  <div class="row">
-                   <div class="tp-contact-btn text-center mt-5">
+                   <div class="tp-contact-btn text-center ">
                      <router-link class="tp-btn-inner" to="/contact-us">Book Now</router-link>
                    </div>
                  </div>
@@ -79,8 +79,8 @@
                <span class="width">{{ course.date }}</span>
              </div>
              <div class="tp-course-details-3-list-item d-flex align-items-center justify-content-between">
-                            <span>Certificate after completing</span>
-                            <span class="width">Yes</span>
+                  <span>Certificate after completing</span>
+                  <span class="width">Yes</span>
              </div>
            </div>
  
