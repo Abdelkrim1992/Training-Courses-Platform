@@ -1,6 +1,6 @@
 <script setup>
 
-import Layouts from '../frontend/layouts.vue';
+import Layouts from '../frontend/Layouts.vue';
 
 </script>
 

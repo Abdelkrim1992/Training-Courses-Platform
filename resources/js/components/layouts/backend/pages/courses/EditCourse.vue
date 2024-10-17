@@ -117,7 +117,6 @@ import axios from 'axios';
 import Datepicker from 'vue3-datepicker';
 import BackendLayouts from '../../BackendLayouts.vue';
 
-const router = useRouter();
 const route = useRoute();
 const errorMessage = ref(null);
 const successMessage = ref(null); // Optional success message

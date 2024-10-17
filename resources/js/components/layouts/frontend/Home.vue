@@ -360,7 +360,7 @@ export default {
          </div>
          <div class="row mt-20">
             <div class=" col-lg-4 col-md-4 col-sm-6 " v-for="(items, index) in ServicesList" :key="index">
-               <a href="#" class="tp-category-item text-center mb-25 wow fadeInUp" data-wow-delay=".3s">
+               <router-link href="#" class="tp-category-item text-center mb-25 wow fadeInUp" data-wow-delay=".3s">
                   <div class="tp-course-thumb">
                      <img :src="items.service_image_url">
                   </div>
@@ -368,7 +368,7 @@ export default {
                      <h4 class="tp-category-title">{{items.service_title}}</h4>
                      <span >{{ items.short_description }}</span>
                   </div>
-               </a>
+               </router-link>
             </div>
          </div>
       </div>
