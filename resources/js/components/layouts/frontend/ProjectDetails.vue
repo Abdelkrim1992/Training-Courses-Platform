@@ -84,8 +84,8 @@
   
   <script setup>
   
-  import Footer from '../frontend/Footer.vue'
-  import Header from '../frontend/Header.vue'
+  import Footer from '../frontend/sections/Footer.vue'
+  import Header from '../frontend/sections/Header.vue'
   
   </script>
  

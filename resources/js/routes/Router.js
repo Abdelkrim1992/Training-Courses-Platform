@@ -293,7 +293,7 @@ router.beforeEach((to, from, next) => {
     const isAuthenticated = localStorage.getItem('token');
 
     // Allow access to home page and other public routes without authentication
-    if (to.path === '/' || to.path === '/about' || to.path === '/contact') {
+    if (to.path === '/' || to.path === '/about-us' || to.path === '/courses' || to.path === '/contact-us') {
         next(); // Allow access to public pages
     } 
     // Ensure that login, register, and home are accessible without authentication

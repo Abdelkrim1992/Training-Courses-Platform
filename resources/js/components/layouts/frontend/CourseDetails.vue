@@ -197,8 +197,8 @@
  </template>
  
  <script setup>
- import Header from '../frontend/Header.vue';
- import Footer from '../frontend/Footer.vue';
+ import Header from '../frontend/sections/Header.vue';
+ import Footer from '../frontend/sections/Footer.vue';
  import { ref, onMounted } from 'vue';
  import axios from 'axios';
  import { useRoute } from 'vue-router';
@@ -212,7 +212,7 @@
  onMounted(async () => {
   await fetchSettingDetails(); // Fetch settings when the component mounts
   await fetchCourseDetails(); // Fetch the course details when the component mounts
-  getCourses();
+  await getCourses();
 });
  
  // Fetch Course Details
