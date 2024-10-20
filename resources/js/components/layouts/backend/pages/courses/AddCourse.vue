@@ -151,7 +151,7 @@ const handleFileUpload_photo = (event) => {
   formData.photo = Array.from(event.target.files); // Convert FileList to Array for teacher photo
 };
 
-// Add course
+  // Add course
 const add_course = async () => {
   // Ensure the date is properly formatted before sending the request
   formData.date = formatDate(formData.date);
@@ -190,7 +190,7 @@ const add_course = async () => {
     // Redirect to course list after success (with delay if needed)
     setTimeout(() => {
       router.push('/admin/courses/list');
-    }, 2000); // Delay of 2 seconds to display success message
+    }, 200); // Delay of 2 seconds to display success message
   } catch (error) {
     console.error('Adding course failed', error.response.data);
     errorMessage.value = error.response.data.message || "Adding course failed. Please try again.";

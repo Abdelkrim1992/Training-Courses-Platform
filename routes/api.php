@@ -12,17 +12,14 @@ use App\Http\Controllers\backend\ProjectsController;
 use App\Http\Controllers\backend\ServicesController;
 use App\Http\Controllers\backend\ReservationsController;
 use App\Http\Controllers\backend\PartnerController;
-
-
+use App\Http\Middleware\BlockRegisterIfUserExists;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-
-//auth
 Route::post('/login', [UserController::class, 'login'])->name('login');
-Route::post('/register', [UserController::class, 'register']);
+Route::post('/register', [UserController::class, 'register'])->middleware(BlockRegisterIfUserExists::class);
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
 Route::get('/get_setting/{id}', [SiteSettingController::class, 'show']);

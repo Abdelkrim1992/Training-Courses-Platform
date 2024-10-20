@@ -8,5 +8,8 @@ import 'froala-editor/css/froala_editor.pkgd.min.css';
 import 'froala-editor/js/plugins.pkgd.min.js';
 import VueFroala from 'vue-froala-wysiwyg';
 
+import { createPinia } from 'pinia';
 
-createApp(App).use(Router).use(VueFroala).mount('#app');
+createPinia();
+
+createApp(App).use(Router).use(VueFroala).mount('#app').use(createPinia());

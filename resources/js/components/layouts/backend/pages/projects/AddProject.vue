@@ -72,9 +72,10 @@
 
                   <!-- Short Description -->
                   <div class="col-md-12">
-                    <div class="form-floating">
+                    <label for="floatingTextarea2">Short Description</label>
+                    <div class="form-floating mt-2">
                       <froala id="edit" :tag="'textarea'" :config="config" v-model:value="formData.short_description"></froala>
-                      <label for="floatingTextarea2">Short Description</label>
+                      
                     </div>
                   </div>
 
@@ -126,6 +127,7 @@ import BackendLayouts from '../../BackendLayouts.vue';
 
 const router = useRouter();
 const errorMessage = ref(null);
+const successMessage = ref(null);
 
 // Form data for the project
 const formData = reactive({

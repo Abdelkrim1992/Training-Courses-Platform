@@ -21,7 +21,7 @@ const validateAndLogin = async () => {
 
   try {
     // Send a login request to the server
-    const response = await axios.post('/auth/login', {
+    const response = await axios.post('/api/login', {
       email: email.value,
       password: password.value
     });
@@ -81,15 +81,6 @@ const validateAndLogin = async () => {
                 <div v-if="showErrorPassword" class="invalid-feedback">
                   Password is required.
                 </div>
-              </div>
-              <div class="d-flex mt-1 justify-content-between align-items-center">
-                <div class="form-check">
-                  <input class="form-check-input input-primary" type="checkbox" id="customCheckc1">
-                  <label class="form-check-label text-muted" for="customCheckc1">Remember me?</label>
-                </div>
-                <a href="../pages/forgot-password-v1.html">
-                  <h6 class="f-w-400 mb-0">Forgot Password?</h6>
-                </a>
               </div>
               <!-- Login button -->
               <div class="d-grid mt-4">

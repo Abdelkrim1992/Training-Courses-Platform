@@ -18,3 +18,5 @@ Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
 
 // Frontend Client Routes (Public)
 Route::view('/{any}', 'welcome')->where('any', '^(?!admin|auth).*$');
+
+
