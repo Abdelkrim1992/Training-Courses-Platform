@@ -13,8 +13,10 @@
 
 <template >
 
+
    <Layouts>
 
+      
       <Hero/>
 
       <Partners/>
@@ -26,6 +28,8 @@
       <Reviews/>
 
       <Team/>
+
+
 
    </Layouts>
    
