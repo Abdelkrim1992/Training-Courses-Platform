@@ -60,21 +60,10 @@ import EditReview from '../components/layouts/backend/pages/reviews/EditReview.v
 
 import {createRouter, createWebHistory} from 'vue-router';
 import Swal from 'sweetalert2';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '../components/layouts/auth/stores/auth.store'
 
-const checkUserType=(to,from,next)=>{
-    const user = JSON.parse(localStorage.getItem('user'));
-    if(user.role == 'admin'){
-    console.log('ok');
-    next();
-    }else{
-    Swal.fire({
-    icon: "error",
-    title: "Oops…",
-    text: "You are not authorized to access this page!",
-    });
-    next('/');
-    }
-}
+const route = useRouter();
 
 
 const routes =[
@@ -142,7 +131,6 @@ const routes =[
         name:'Dashboard',
         path:'/admin/dashboard',
         component: Dashboard,
-        beforeEnter:checkUserType,
     },
 
     {
@@ -284,13 +272,14 @@ const routes =[
     },
 ]
 
-const router = createRouter({
+export const router = createRouter({
     history: createWebHistory(),
     routes,
 })
 
 router.beforeEach((to, from, next) => {
-    const isAuthenticated = localStorage.getItem('token');
+    const authStore = useAuthStore();
+    const isAuthenticated = authStore.token;
 
     // Allow access to home page and other public routes without authentication
     if (to.path === '/' || to.path === '/about-us' || to.path === '/courses' || to.path === '/contact-us') {

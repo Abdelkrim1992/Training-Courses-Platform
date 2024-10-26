@@ -39,36 +39,28 @@ class UserController extends Controller
     }
     }
 
-    public function login(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
+    public function login(Request $request) {
 
-        if (!Auth::attempt($credentials)) {
-            return response()->json([
-                'status' => false,
-                'error' => 'Invalid credentials'], 401);
-        }
-
-        $user = Auth::user();
-        $token = $user->createToken('authToken')->plainTextToken;
-
-        return response()->json([
-            'status' => 'success',
-            'user' => $user,
-            'authorisation' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
+        $request->validate([
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string',
         ]);
+
+        $credentials = $request->only('email', 'password');
+    
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            $token = $user->createToken('API Token')->plainTextToken;
+            
+            return response()->json(['token' => $token]);
+        }
+    
+        return response()->json(['error' => 'Unauthorized'], 401);
     }
-
-    public function logout(Request $request)
-    {
-        $user = $request->user();
-        $user->tokens()->delete();
-        Auth::logout();
-
-        return redirect('/auth/login')->with('status', 'Logged out successfully');
+    
+    public function logout() {
+        Auth::user()->tokens()->delete();
+        return response()->json(['message' => 'Logged out']);
     }
     
 }

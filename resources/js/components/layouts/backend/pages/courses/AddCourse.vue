@@ -79,7 +79,6 @@
                     <label for="floatingTextarea2">Teacher Summery</label>
                     <div class="form-floating mt-2">
                       <froala id="edit" :tag="'textarea'" :config="config" v-model:value="formData.teacher_summery"></froala>
-                      
                     </div>
                   </div>
                   <div class="col-md-6 mt-4">

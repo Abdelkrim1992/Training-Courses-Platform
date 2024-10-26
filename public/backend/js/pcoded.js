@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
   
   // remove pre-loader start
   setTimeout(function () {
-    document.querySelector('.loader-bg').remove();
+    document.querySelector('.loader-bg');
   }, 400);
 
   // remove pre-loader end

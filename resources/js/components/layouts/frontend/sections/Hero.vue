@@ -4,12 +4,12 @@
       <div class="container custom-container">
          <div class="tp-hero-2-wrap">
             <div class="row align-items-end">
-               <div class="col-xxl-5 col-xl-6 col-lg-7 col-md-12">
-                  <div class="tp-hero-2-content">
-                     <span class="tp-hero-2-subtitle wow fadeInUp" data-wow-delay=".3s">Keep Learning</span>
+               <div class="tp-hero-2-content" style=" display: space-between;">
+                     <div class="col-lg-6 col-md-6 col-sm-3 " >
+                        <span class="tp-hero-2-subtitle wow fadeInUp" data-wow-delay=".3s">Keep Learning</span>
                      <h2 class="tp-hero-2-title wow fadeInUp" data-wow-delay=".5s">Best  
-                         <span>Training <img class="wow bounceIn" data-wow-duration="1.5s" data-wow-delay=".4s" src="frontend/img/unlerline/hero-2-svg-1.svg" alt=""></span> 
-                   Courses Agency</h2>
+                     <span>Training <img class="wow bounceIn w-auto" data-wow-duration="1.5s" data-wow-delay=".4s" src="frontend/img/unlerline/hero-2-svg-1.svg" alt=""></span> 
+                   <br/> Courses Agency</h2>
                      <p class=" wow fadeInUp" data-wow-delay=".7s">Acquire global knowledge and build your <br> professional skills</p>
                      <div class="tp-hero-2-btn wow fadeInUp" data-wow-delay=".9s">
                         <a class="tp-btn-border" href="https://wa.me/message/FBO52GTDTUCCE1">Get Started With Us 
@@ -21,8 +21,9 @@
                            </span>
                         </a>
                      </div>
+                     </div>
+                     
                   </div>
-               </div>
             </div>
             <div class="tp-hero-2-thumb">
                <img src="frontend/img/hero/hero-2-thumb-1.png" alt="">
