@@ -1,7 +1,7 @@
 <template>
   <!-- [ Sidebar Menu ] start -->
-  <nav class="pc-sidebar">
-    <div class="navbar-wrapper">
+  <nav class="pc-sidebar" >
+    <div class="navbar-wrapper" style=" overflow: auto;">
       <div class="m-header">
         <router-link to="/admin/dashboard" class="b-brand text-primary mt-2">
           <!-- ========   Change your logo from here   ============ -->
