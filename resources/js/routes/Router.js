@@ -59,11 +59,7 @@ import EditReview from '../components/layouts/backend/pages/reviews/EditReview.v
 
 
 import {createRouter, createWebHistory} from 'vue-router';
-import Swal from 'sweetalert2';
-import { useRouter } from 'vue-router';
 import { useAuthStore } from '../components/layouts/auth/stores/auth.store'
-
-const route = useRouter();
 
 
 const routes =[

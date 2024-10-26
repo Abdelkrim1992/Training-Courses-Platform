@@ -43,8 +43,6 @@
     <body data-pc-preset="preset-1" data-pc-sidebar-theme="light" data-pc-sidebar-caption="true" data-pc-direction="ltr" data-pc-theme="light">  
 
 	@if(Request::is('admin/*'))
-        <link rel="stylesheet" href="{{ asset('backend/css/style.css') }}">
-        <script src="{{ asset('backend/js/plugins/datepicker-full.min.js') }}"></script>
         <script>
   // Initialization for the datepicker in admin pages
   document.addEventListener('DOMContentLoaded', function () {
@@ -59,7 +57,7 @@
   });
 </script>
   @else
-        <link rel="stylesheet" href="{{ asset('frontend/css/main.css') }}">
+        <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
   @endif
 
   
@@ -79,7 +77,6 @@
 <script src="{{asset('backend/js/pcoded.js')}}"></script>
 <script src="{{asset('backend/js/plugins/feather.min.js')}}"></script>
 <script src="{{asset('backend/js/plugins/datepicker-full.min.js')}}"></script>
-<script src="{{asset('backend/js/plugins/ckeditor/classic/ckeditor.js')}}"></script>
 
 
 
@@ -104,13 +101,6 @@
 
 
 <script>preset_change("preset-1");</script>
-
-  <!-- [Page Specific JS] start -->
-  <!-- bootstrap-datepicker -->
-  <script src="{{('backend/js/plugins/datepicker-full.min.js')}}"></script>
-  <script src="{{('backend/js/plugins/apexcharts.min.js')}}"></script>
-  <script src="{{('backend/js/plugins/peity-vanilla.min.js')}}"></script>
-  <script src="{{('backend/js/pages/course-dashboard.js')}}"></script>
 
     </body>
 </html>
