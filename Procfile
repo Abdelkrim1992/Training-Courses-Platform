@@ -1,1 +1,0 @@
-web: php artisan serve --host=${HOST} --port=${PORT}
