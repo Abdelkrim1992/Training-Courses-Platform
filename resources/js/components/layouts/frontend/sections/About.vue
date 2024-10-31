@@ -1,6 +1,6 @@
 <template>
           <!-- tutor area start -->
-          <section class="tp-about-tutor-area pt-50 ">
+          <section class="tp-about-tutor-area pt-40 ">
          <div class="container">
             <div class="row align-items-end justify-content-center ">
                 <h3 class="tp-section-3-title text-center">About 
@@ -15,25 +15,26 @@
                 />
               </span> 
                 </h3>
-               <div class="col-lg-6 mt-50">
-                  <div class="tp-about-tutor-heading mb-70">
-                    <div class="tp-about-tutor-title">
-                        <img src="frontend/img/about/main-image.png.webp" width="100%" max-width="100%" >
-                    </div>
-                  </div>
-               </div>
-               <div class="col-lg-6">
-                  <div class="tp-about-tutor-right d-flex justify-content-lg-end mb-200">
-                     <div class="tp-about-tutor-content text-center">
-                    <h3 class="tp-about-tutor-title ">
-                      We provide training courses <br> and educational programs.
-                    </h3>
-                    <p class="mt-30">Expert-led courses designed to enhance your skills and knowledge. <br>
-                      Engaging, hands-on learning experiences to help you <br> succeed in your career. 
-                    </p>
-                     </div>
-                  </div>
-               </div>
+                <div class="container mt-30">
+   <div class="row align-items-center mb-40">
+      <!-- Image Column -->
+      <div class="col-lg-6 col-md-6 col-sm-12 text-center mb-4 mb-md-0">
+         <img src="frontend/img/about/main-image.png.webp" class="img-fluid tp-about-tutor-image" alt="Main Image">
+      </div>
+
+      <!-- Content Column -->
+      <div class="col-lg-6 col-md-6 col-sm-12 text-center">
+         <h3 class="tp-about-tutor-title">
+            We provide training courses <br> and educational programs.
+         </h3>
+         <p class="mt-3">
+            Expert-led courses designed to enhance your skills and knowledge. <br>
+            Engaging, hands-on learning experiences to help you <br> succeed in your career.
+         </p>
+      </div>
+   </div>
+                </div>
+
             </div>
             <div class="row mt-30">
                <div class="col-lg-4 col-md-6 wow fadeInUp mt-15" data-wow-delay=".3s">

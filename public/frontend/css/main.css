@@ -12899,6 +12899,14 @@ a.social-yout {
   color: #031F42;
   letter-spacing: -1px;
 }
+.tp-about-tutor-image {
+  width: 60vh;
+}
+@media only screen and (max-width: 600px) {
+  .tp-about-tutor-image {
+    width: 30vh;
+  }
+}
 @media only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px) {
   .tp-about-tutor-title {
     font-size: 44px;
