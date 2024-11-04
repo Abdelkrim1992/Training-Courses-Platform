@@ -8,5 +8,12 @@ import 'froala-editor/css/froala_editor.pkgd.min.css';
 import 'froala-editor/js/plugins.pkgd.min.js';
 import VueFroala from 'vue-froala-wysiwyg';
 import { createPinia } from 'pinia';
+import './firebase';
 
-createApp(App).use(Router).use(createPinia()).use(VueFroala).mount('#app');
+
+const app = createApp(App);
+
+app.use(Router)
+   .use(createPinia())
+   .use(VueFroala)
+   .mount('#app');

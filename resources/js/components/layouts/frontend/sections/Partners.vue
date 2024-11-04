@@ -2,7 +2,7 @@
   <!-- partners -->
   <section class="testimonial-area mt-50 text-center">
     <div class="container">
-      <div class="row mt-20">
+      <div class="row mt-40">
         <h4 class="tp-section-3-title">Our Partners</h4>
         <div class="slider mt-50">
           <div class="slide-track">

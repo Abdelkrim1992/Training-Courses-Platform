@@ -24,6 +24,18 @@ export default defineConfig({
             '@': fileURLToPath(new URL('./resources', import.meta.url))
         },
     },
+    server:{
+        proxy : {
+            '/api' : {
+                target : "http://127.0.0.1:8000",
+                changeOrigin : true,
+                headers : {
+                    Accept : "application/json", 
+                    "Content-Type" : "application/json"
+                }
+            }
+        }
+    },
     build: {
         rollupOptions: {
           output: {

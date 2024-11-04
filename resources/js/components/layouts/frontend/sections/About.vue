@@ -1,6 +1,6 @@
 <template>
           <!-- tutor area start -->
-          <section class="tp-about-tutor-area pt-40 ">
+          <section class="tp-about-tutor-area pt-60 ">
          <div class="container">
             <div class="row align-items-end justify-content-center ">
                 <h3 class="tp-section-3-title text-center">About 
@@ -45,7 +45,7 @@
                          </svg></span>
                      </div>
                      <div class="tp-tutor-content">
-                        <h4 class="tp-tutor-title"><a href="#">Professional Educators</a></h4>
+                        <h4 class="tp-tutor-title"><a href="#">Pro Educators</a></h4>
                         <p>Get one-on-one help from our subject matter experts.</p>
                      </div>
                   </div>

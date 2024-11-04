@@ -3,45 +3,33 @@
     <div class="auth-wrapper">
       <div class="auth-form">
         <div class="card my-5">
-          <!-- Form with @submit.prevent to handle login -->
-          <form @submit.prevent="onSubmit">
-            <div class="card-body">
-              <div class="text-center">
-                <img src="/backend/images/authentication/img-auth-login.png" alt="images" class="img-fluid mb-3">
-                <h4 class="f-w-500 mb-3">Login with your email</h4>
-              </div>
-              <!-- Email input field with validation -->
+          <div class="card-body">
+            <div class="text-center">
+              
+            </div>
+
+            <!-- Error Message -->
+            <div v-if="error" class="alert alert-danger text-center" role="alert">
+              {{ error }}
+            </div>
+
+            <!-- Success Message -->
+            <div v-if="successMessage" class="alert alert-success text-center" role="alert">
+              {{ successMessage }}
+            </div>
+
+            <form @submit.prevent="loginUser">
               <div class="mb-3">
-                <input
-                  type="email"
-                  class="form-control"
-                  v-model="email"
-                  placeholder="Email Address"
-                  :class="{'is-invalid': showErrorEmail}"
-                >
-                <div v-if="showErrorEmail" class="invalid-feedback">
-                  Email is required.
-                </div>
+                <input type="email" v-model="formData.email" class="form-control" placeholder="Email Address" />
               </div>
-              <!-- Password input field with validation -->
               <div class="mb-3">
-                <input
-                  type="password"
-                  class="form-control"
-                  v-model="password"
-                  placeholder="Password"
-                  :class="{'is-invalid': showErrorPassword}"
-                >
-                <div v-if="showErrorPassword" class="invalid-feedback">
-                  Password is required.
-                </div>
+                <input type="password" v-model="formData.password" class="form-control" placeholder="Password" />
               </div>
-              <!-- Login button -->
               <div class="d-grid mt-4">
                 <button type="submit" class="btn btn-primary">Login</button>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -49,14 +37,54 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useAuthStore } from './stores/auth.store'
-
-const email = ref('');
-const password = ref('');
+import { reactive, ref } from 'vue';
+import { useAuthStore } from '../../../stores/auth.store';
+import { useRouter } from 'vue-router';
+// Set up form data
+const formData = reactive({
+  email: '',
+  password: '',
+});
+const router = useRouter();
 const authStore = useAuthStore();
+const successMessage = ref("");
 
-const onSubmit = () => {
-  authStore.login(email.value, password.value);
-}
+// Register user and handle response
+const loginUser = async () => {
+  try {
+    await authStore.login(formData);
+    successMessage.value = "Registration successful! You can now log in.";
+    router.push('/admin/dashboard')
+  } catch (e) {
+    console.error("Error during registration:", e);
+  }
+};
 </script>
+
+<style scoped>
+.auth-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.auth-wrapper {
+  max-width: 400px;
+  width: 100%;
+}
+
+.card {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.alert {
+  margin-bottom: 1rem;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+</style>

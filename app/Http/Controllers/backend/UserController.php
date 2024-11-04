@@ -20,22 +20,25 @@ class UserController extends Controller
     } else  {
         // Your existing registration logic for creating a user
     $request->validate([
-        'name' => 'required|string|max:255',
         'email' => 'required|string|email|max:255',
         'password' => 'required|string',
     ]);
 
-    $user = new User();
-    $user->name = $request->name;
-    $user->email = $request->email;
-    $user->password = Hash::make($request->password);
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => $request->password,
+    ]);
+
     $user->save();
+
+    $token = $user->createToken('authToken')->plainTextToken;
 
     return response()->json([
         'status' => 200,
         'message' => 'Registration successful.',
         'user' => $user,
-    ], 201); // HTTP 201 Created
+    ], 200); // HTTP 201 Created
     }
     }
 

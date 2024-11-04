@@ -59,7 +59,7 @@ import EditReview from '../components/layouts/backend/pages/reviews/EditReview.v
 
 
 import {createRouter, createWebHistory} from 'vue-router';
-import { useAuthStore } from '../components/layouts/auth/stores/auth.store'
+import { useAuthStore } from '../stores/auth.store';
 
 
 const routes =[
@@ -269,13 +269,13 @@ const routes =[
 ]
 
 export const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHistory(import.meta.env.BASE_URL),
     routes,
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, next) => {
     const authStore = useAuthStore();
-    const isAuthenticated = authStore.token;
+    const isAuthenticated = authStore.user;
 
     // Allow access to home page and other public routes without authentication
     if (to.path === '/' || to.path === '/about-us' || to.path === '/courses' || to.path === '/contact-us') {
