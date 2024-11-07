@@ -5,9 +5,8 @@
         <div class="card my-5">
           <div class="card-body">
             <div class="text-center">
-              
+              <h4 class="f-w-500 mb-3">Login with your email</h4>
             </div>
-
             <!-- Error Message -->
             <div v-if="error" class="alert alert-danger text-center" role="alert">
               {{ error }}
@@ -58,34 +57,4 @@ const loginUser = async () => {
       }
 };
 
-
-
 </script>
-
-<style scoped>
-.auth-main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #f8f9fa;
-}
-
-.auth-wrapper {
-  max-width: 400px;
-  width: 100%;
-}
-
-.card {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.alert {
-  margin-bottom: 1rem;
-}
-
-.btn-primary {
-  background-color: #007bff;
-  border-color: #007bff;
-}
-</style>
