@@ -59,7 +59,6 @@ import EditReview from '../components/layouts/backend/pages/reviews/EditReview.v
 
 
 import {createRouter, createWebHistory} from 'vue-router';
-import { useAuthStore } from '../stores/auth.store';
 
 
 const routes =[
@@ -127,144 +126,216 @@ const routes =[
         name:'Dashboard',
         path:'/admin/dashboard',
         component: Dashboard,
+        meta : {
+            requiresAuth : true
+        }
     },
 
     {
         name:'Add_SiteSetting',
         path:'/admin/setting/add-setting',
         component: Add_SiteSetting,
+        meta : {
+            requiresAuth : true
+        }
     },
 
     {
         name:'Edit_SiteSetting',
         path:'/admin/setting/edit-setting',
         component: Edit_SiteSetting,
+        meta : {
+            requiresAuth : true
+        }
     },
 
     {
         name:'CoursesList',
         path:'/admin/courses/list',
         component: CoursesList,
+        meta : {
+            requiresAuth : true
+        }
     },
 
     {
         name:'AddCourse',
         path:'/admin/courses/add-course',
         component: AddCourse,
+        meta : {
+            requiresAuth : true
+        }
     },
 
     {
         name:'EditCourse',
         path:'/admin/courses/edit-course/:id',
         component: EditCourse,
+        meta : {
+            requiresAuth : true
+        }
     },
 
     {
         name:'PartnersList',
         path:'/admin/partners/list',
         component: PartnersList,
+        meta : {
+            requiresAuth : true
+        }
     },
 
     {
         name:'AddPartner',
         path:'/admin/partners/add-partner',
         component: AddPartner,
+        meta : {
+            requiresAuth : true
+        }
     },
 
     {
         name:'EditPartner',
         path:'/admin/partners/edit-partner/:id',
         component: EditPartner,
+        meta : {
+            requiresAuth : true
+        }
     },
 
     {
         name:'ServicesList',
         path:'/admin/services/list',
         component: ServicesList,
+        meta : {
+            requiresAuth : true
+        }
     },
 
     {
         name:'AddService',
         path:'/admin/services/add-service',
         component: AddService,
+        meta : {
+            requiresAuth : true
+        }
     },
 
     {
         name:'EditService',
         path:'/admin/services/edit-service/:id',
         component: EditService,
+        meta : {
+            requiresAuth : true
+        }
     },
 
     {
         name:'StudentsList',
         path:'/admin/students/list',
         component: StudentsList,
+        meta : {
+            requiresAuth : true
+        }
     },
 
     {
         name:'AddStudent',
         path:'/admin/students/add-student',
         component: AddStudent,
+        meta : {
+            requiresAuth : true
+        }
     },
 
     {
         name:'EditStudent',
         path:'/admin/students/edit-student/:id',
         component: EditStudent,
+        meta : {
+            requiresAuth : true
+        }
     },
 
     {
         name:'ProjectsList',
         path:'/admin/projects/list',
         component: ProjectsList,
+        meta : {
+            requiresAuth : true
+        }
     },
 
     {
         name:'AddProject',
         path:'/admin/projects/add-project',
         component: AddProject,
+        meta : {
+            requiresAuth : true
+        }
     },
 
     {
         name:'EditProject',
         path:'/admin/projects/edit-project/:id',
         component: EditProject,
+        meta : {
+            requiresAuth : true
+        }
     },
 
     {
         name:'TeamMembersList',
         path:'/admin/team/list',
         component: TeamMembersList,
+        meta : {
+            requiresAuth : true
+        }
     },
 
     {
         name:'AddTeamMember',
         path:'/admin/team/add-member',
         component: AddTeamMember,
+        meta : {
+            requiresAuth : true
+        }
     },
 
     {
         name:'EditTeamMember',
         path:'/admin/team/edit-member/:id',
         component: EditTeamMember,
+        meta : {
+            requiresAuth : true
+        }
     },
     
     {
         name:'ReviewsList',
         path:'/admin/reviews/list',
         component: ReviewsList,
+        meta : {
+            requiresAuth : true
+        }
     },
 
     {
         name:'AddReview',
         path:'/admin/reviews/add-review',
         component: AddReview,
+        meta : {
+            requiresAuth : true
+        }
     },
 
     {
         name:'EditReview',
         path:'/admin/reviews/edit-review/:id',
         component: EditReview,
+        meta : {
+            requiresAuth : true
+        }
     },
 ]
 
@@ -273,25 +344,13 @@ export const router = createRouter({
     routes,
 })
 
-router.beforeEach((to, next) => {
-    const authStore = useAuthStore();
-    const isAuthenticated = authStore.user;
-
-    // Allow access to home page and other public routes without authentication
-    if (to.path === '/' || to.path === '/about-us' || to.path === '/courses' || to.path === '/contact-us') {
-        next(); // Allow access to public pages
-    } 
-    // Ensure that login, register, and home are accessible without authentication
-    else if (!isAuthenticated && (to.path === '/auth/login' || to.path === '/auth/register')) {
-        next();
-    } 
-    // If trying to access admin routes without authentication, redirect to login
-    else if (!isAuthenticated && to.path.startsWith('/admin')) {
-        next('/auth/login');
-    } 
-    // For authenticated users or other routes, allow access
-    else {
-        next();
+// Route Guard for Authentication
+router.beforeEach((to, from, next) => {
+    const isAuthenticated = localStorage.getItem('auth');
+    if (!isAuthenticated && to.path !== '/auth/login' && to.path !== '/auth/register') {
+    next('/auth/login');
+    } else {
+    next();
     }
 });
 

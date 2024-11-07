@@ -12,7 +12,7 @@ Route::prefix('auth')->group(function () {
 });
 
 // Admin Routes (Require Authentication)
-Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
+Route::prefix('admin')->group(function () {
     Route::view('/{any}', 'dashboard')->where('any', '.*');
 });
 

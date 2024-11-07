@@ -37,28 +37,29 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue';
+import { reactive } from 'vue';
 import { useAuthStore } from '../../../stores/auth.store';
 import { useRouter } from 'vue-router';
+
 // Set up form data
 const formData = reactive({
   email: '',
   password: '',
 });
-const router = useRouter();
+
 const authStore = useAuthStore();
-const successMessage = ref("");
+const router = useRouter()
 
 // Register user and handle response
 const loginUser = async () => {
-  try {
-    await authStore.login(formData);
-    successMessage.value = "Registration successful! You can now log in.";
-    router.push('/admin/dashboard')
-  } catch (e) {
-    console.error("Error during registration:", e);
-  }
+      await authStore.login(formData);
+      if (authStore.user) {
+        router.push({ name: 'Dashboard' });
+      }
 };
+
+
+
 </script>
 
 <style scoped>

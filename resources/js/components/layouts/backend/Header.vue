@@ -1,20 +1,14 @@
 <script setup>
-import axios from 'axios';
+import { useAuthStore } from '../../../stores/auth.store';
 
-const logout = async () => {
-  try {
-    axios.post('/auth/logout');
+    const authStore = useAuthStore();
+    const user = authStore.user;
 
-    // Clear the token and user data from localStorage
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    const logout = async () => {
+      await authStore.logout();
+    };
 
-    // Redirect to the login page
-    window.location.href = '/auth/login';
-  } catch (error) {
-    console.error('Logout failed:', error);
-  }
-};
+    
 </script>
 
 

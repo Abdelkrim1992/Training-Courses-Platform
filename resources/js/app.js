@@ -10,7 +10,6 @@ import VueFroala from 'vue-froala-wysiwyg';
 import { createPinia } from 'pinia';
 import './firebase';
 
-
 const app = createApp(App);
 
 app.use(Router)
