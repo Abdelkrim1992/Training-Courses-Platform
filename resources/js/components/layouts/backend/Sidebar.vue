@@ -1,14 +1,14 @@
 <template>
   <!-- [ Sidebar Menu ] start -->
-  <nav class="pc-sidebar" >
-    <div class="navbar-wrapper" style=" overflow: auto;">
+  <nav class="pc-sidebar" style="height: 100vh; ">
+    <div class="navbar-wrapper" >
       <div class="m-header">
-        <router-link to="/admin/dashboard" class="b-brand text-primary mt-2">
+        <a href="/admin/dashboard" class="b-brand text-primary mt-2">
           <!-- ========   Change your logo from here   ============ -->
-          <img :src="setting?.setting_logo_url" width="150px" height="80px"/>
-        </router-link>
+          <img :src="setting?.setting_logo_url" width="150px" height="80px" />
+        </a>
       </div>
-      <div class="navbar-content">
+      <div class="navbar-content mt-4">
         <ul class="pc-navbar">
           <li class="pc-item pc-caption">
             <label>Application</label>
@@ -35,9 +35,9 @@
             </a>
             <ul v-if="dropdowns.projects" class="pc-submenu">
               <li v-for="(item, index) in projects" :key="index" class="pc-item d-flex justify-content-between align-items-center">
-                <router-link class="pc-link" :to="item.link">
+                <a class="pc-link" :href="item.link">
                   <span>{{ item.name }}</span>
-                </router-link>
+                </a>
                 
               </li>
             </ul>
@@ -56,9 +56,9 @@
             </a>
             <ul v-if="dropdowns.partners" class="pc-submenu">
               <li v-for="(item, index) in partners" :key="index" class="pc-item d-flex justify-content-between align-items-center">
-                <router-link class="pc-link" :to="item.link">
+                <a class="pc-link" :href="item.link">
                   <span>{{ item.name }}</span>
-                </router-link>
+                </a>
               </li>
             </ul>
           </li>
@@ -76,9 +76,9 @@
             </a>
             <ul v-if="dropdowns.services" class="pc-submenu">
               <li v-for="(item, index) in services" :key="index" class="pc-item d-flex justify-content-between align-items-center">
-                <router-link class="pc-link" :to="item.link">
+                <a class="pc-link" :href="item.link">
                   <span>{{ item.name }}</span>
-                </router-link>
+                </a>
               </li>
             </ul>
           </li>
@@ -96,9 +96,9 @@
             </a>
             <ul v-if="dropdowns.courses" class="pc-submenu">
               <li v-for="(item, index) in courses" :key="index" class="pc-item d-flex justify-content-between align-items-center">
-                <router-link class="pc-link" :to="item.link">
+                <a class="pc-link" :href="item.link">
                   <span>{{ item.name }}</span>
-                </router-link>
+                </a>
                 
               </li>
             </ul>
@@ -117,9 +117,9 @@
             </a>
             <ul v-if="dropdowns.students" class="pc-submenu">
               <li v-for="(item, index) in students" :key="index" class="pc-item d-flex justify-content-between align-items-center">
-                <router-link class="pc-link" :to="item.link">
+                <a class="pc-link" :href="item.link">
                   <span>{{ item.name }}</span>
-                </router-link>
+                </a>
                 
               </li>
             </ul>
@@ -138,9 +138,9 @@
             </a>
             <ul v-if="dropdowns.team" class="pc-submenu">
               <li v-for="(item, index) in team" :key="index" class="pc-item d-flex justify-content-between align-items-center">
-                <router-link class="pc-link" :to="item.link">
+                <a class="pc-link" :href="item.link">
                   <span>{{ item.name }}</span>
-                </router-link>
+                </a>
                 
               </li>
             </ul>
@@ -159,9 +159,9 @@
             </a>
             <ul v-if="dropdowns.review" class="pc-submenu">
               <li v-for="(item, index) in review" :key="index" class="pc-item d-flex justify-content-between align-items-center">
-                <router-link class="pc-link" :to="item.link">
+                <a class="pc-link" :href="item.link">
                   <span>{{ item.name }}</span>
-                </router-link>
+                </a>
                 
               </li>
             </ul>
@@ -169,12 +169,12 @@
           <!-- End Testimonial Dropdown -->
 
           <li class="pc-item">
-            <router-link to="/admin/setting/edit-setting" class="pc-link">
+            <a href='/admin/setting/edit-setting' class="pc-link">
               <span class="pc-micon">
                 <i class="ph-duotone ph-globe"></i>
               </span>
               <span class="pc-mtext">Site Settings</span>
-            </router-link>
+            </a>
           </li>
         </ul>
       </div>

@@ -6,9 +6,9 @@ use App\Http\Controllers\backend\UserController;
 // Auth Routes
 Route::prefix('auth')->group(function () {
     Route::view('/{any}', 'dashboard')->where('any', '.*');
-    Route::post('/login', [UserController::class, 'login'])->name('login');
-    Route::post('/register', [UserController::class, 'register']);
-    Route::post('/logout', [UserController::class, 'logout'])->name('logout');
+    Route::post('/login', [UserController::class, 'login']);
+    Route::post('/register', [UserController::class, 'register'])->middleware('blockRegisterIfUserExists');;
+    Route::post('/logout', [UserController::class, 'logout']);
 });
 
 // Admin Routes (Require Authentication)

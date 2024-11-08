@@ -55,11 +55,11 @@
                         <div class="tp-course-details-2-content">
                            <div id="info">
                               <h4 class="tp-course-details-2-main-title">About Course</h4>
-                              <div class="tp-course-details-2-text mb-60">
+                              <div class="description-fluid">
                                 <p v-html="project.project_description"></p>
                               </div>
                               <h4 class="tp-course-details-2-main-title">What will you Learn?</h4>
-                              <div class="tp-course-details-2-list">
+                              <div class="description-fluid">
                                  <ul v-html="project.project_tasks">
                                  </ul>
                               </div>
@@ -120,5 +120,15 @@
    },
  };
  </script>
-   
-    
+
+<style scoped>
+.description-fluid {
+  width: 100%;              /* Takes full width of the parent container */
+  max-width: 100%;          /* Prevents overflow on larger screens */
+  height: auto;             /* Adjusts height automatically based on content */
+  box-sizing: border-box;   /* Includes padding in total width and height */
+  overflow-wrap: break-word; /* Breaks long words to prevent overflow */
+  padding: 1rem;            /* Adds some padding */
+}
+
+</style>

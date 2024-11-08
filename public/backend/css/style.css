@@ -19922,6 +19922,7 @@ pre[class*=language-] > code {
   border-right: var(--pc-sidebar-border);
 }
 .pc-sidebar .navbar-wrapper {
+  overflow: auto;
   width: 280px;
   background: inherit;
 }

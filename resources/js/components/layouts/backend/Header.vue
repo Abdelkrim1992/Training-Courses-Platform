@@ -2,8 +2,6 @@
 import { useAuthStore } from '../../../stores/auth.store';
 
     const authStore = useAuthStore();
-    const user = authStore.user;
-
     const logout = async () => {
       await authStore.logout();
     };
@@ -40,10 +38,10 @@ import { useAuthStore } from '../../../stores/auth.store';
               <i class="ph-duotone ph-user"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
-              <router-link to="/admin/setting/add-setting" class="dropdown-item">
+              <a href='/admin/setting/add-setting' class="dropdown-item">
                 <i class="ph-duotone ph-gear"></i>
                 <span>Settings</span>
-              </router-link>
+              </a>
               <button @click="logout" class="dropdown-item">
                 <i class="ph-duotone ph-power"></i>
                 <span>Logout</span>

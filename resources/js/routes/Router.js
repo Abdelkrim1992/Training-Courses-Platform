@@ -347,11 +347,12 @@ export const router = createRouter({
 // Route Guard for Authentication
 router.beforeEach((to, from, next) => {
     const isAuthenticated = localStorage.getItem('auth');
-    if (!isAuthenticated && to.path !== '/auth/login' && to.path !== '/auth/register') {
-    next('/auth/login');
-    } else {
-    next();
-    }
+    if (to.meta.requiresAuth && !isAuthenticated) {
+        next({ name: 'Login' });
+      } else {
+        next();
+      }
+    
 });
 
 

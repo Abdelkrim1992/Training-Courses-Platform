@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { getAuth, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import router from '../routes/Router';  // Import the router
 
 export const useAuthStore = defineStore("authStore", {
@@ -31,6 +31,8 @@ export const useAuthStore = defineStore("authStore", {
       try {
         const auth = getAuth();
         signOut(auth).then(() => {
+          localStorage.removeItem('auth');
+          router.push({ name : 'Login'})
           console.log('sign out sucess')
         }).catch((error) => {
           console.error('Logout failed:', error);

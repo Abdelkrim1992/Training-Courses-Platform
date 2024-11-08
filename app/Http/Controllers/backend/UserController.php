@@ -17,6 +17,7 @@ class UserController extends Controller
         return response()->json([
             'message' => 'Registration is closed. No more users can register.'
         ], 403); // HTTP 403 Forbidden
+
     } else  {
         // Your existing registration logic for creating a user
     $request->validate([
@@ -54,10 +55,9 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             $token = $user->createToken('API Token')->plainTextToken;
-            
             return response()->json(['token' => $token]);
         }
-    
+
         return response()->json(['error' => 'Unauthorized'], 401);
     }
     
