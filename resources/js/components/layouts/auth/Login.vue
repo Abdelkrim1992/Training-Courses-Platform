@@ -8,21 +8,28 @@
               <h4 class="f-w-500 mb-3">Login with your email</h4>
             </div>
             <!-- Error Message -->
-            <div v-if="error" class="alert alert-danger text-center" role="alert">
-              {{ error }}
-            </div>
-
-            <!-- Success Message -->
-            <div v-if="successMessage" class="alert alert-success text-center" role="alert">
-              {{ successMessage }}
+            <div v-if="authStore.error" class="alert alert-danger text-center" role="alert">
+              {{ authStore.error }}
             </div>
 
             <form @submit.prevent="loginUser">
               <div class="mb-3">
-                <input type="email" v-model="formData.email" class="form-control" placeholder="Email Address" />
+                <input
+                  type="email"
+                  v-model="formData.email"
+                  class="form-control"
+                  placeholder="Email Address"
+                  required
+                />
               </div>
               <div class="mb-3">
-                <input type="password" v-model="formData.password" class="form-control" placeholder="Password" />
+                <input
+                  type="password"
+                  v-model="formData.password"
+                  class="form-control"
+                  placeholder="Password"
+                  required
+                />
               </div>
               <div class="d-grid mt-4">
                 <button type="submit" class="btn btn-primary">Login</button>
@@ -47,14 +54,13 @@ const formData = reactive({
 });
 
 const authStore = useAuthStore();
-const router = useRouter()
+const router = useRouter();
 
-// Register user and handle response
+// Login user and handle response
 const loginUser = async () => {
-      await authStore.login(formData);
-      if (authStore.user) {
-        router.push({ name: 'Dashboard' });
-      }
+  await authStore.login(formData);
+  if (authStore.userData) {
+    router.push({ name: 'Dashboard' });
+  }
 };
-
 </script>
