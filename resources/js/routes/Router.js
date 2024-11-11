@@ -68,11 +68,6 @@ const routes =[
         component: notfound,
     },
 
-    {
-        name:'Register',
-        path:'/auth/register',
-        component: Register,
-    },
 
     {
         name:'Login',
