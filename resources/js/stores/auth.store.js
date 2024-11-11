@@ -1,19 +1,10 @@
 import { defineStore } from 'pinia';
-import { getAuth, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { getAuth, signOut, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import router from '../routes/Router';  // Import the router
 
 export const useAuthStore = defineStore("authStore", {
 
   actions: {
-    async register(formData) {
-      try {
-        const auth = getAuth();
-        const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
-        this.auth = userCredential.user;
-      } catch (error) {
-        console.error('Failed to register:', error);
-      }
-    },
 
     async login(formData) {
       try {
