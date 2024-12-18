@@ -24,30 +24,4 @@ export default defineConfig({
             '@': fileURLToPath(new URL('./resources', import.meta.url))
         },
     },
-    server:{
-        proxy : {
-            '/api' : {
-                target : "http://127.0.0.1:8000",
-                changeOrigin : true,
-                headers : {
-                    Accept : "application/json", 
-                    "Content-Type" : "application/json"
-                }
-            }
-        }
-    },
-    build: {
-        rollupOptions: {
-          output: {
-            manualChunks(id) {
-              if (id.includes('node_modules')) {
-                return id.toString().split('node_modules/')[1].split('/')[0].toString();
-              }
-            },
-          },
-        },
-        chunkSizeWarningLimit: 500, // Increase chunk size warning limit if necessary
-    },
-    
-
 });
