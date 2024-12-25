@@ -41,14 +41,24 @@ jobs:
     - name: Update .env with MySQL settings
       run: |
         echo "DB_CONNECTION=mysql" >> .env
-        echo "DB_HOST=localhost" >> .env
-        echo "DB_PORT=3307" >> .env
+        echo "DB_HOST=127.0.0.1" >> .env
+        echo "DB_PORT=3306" >> .env
         echo "DB_DATABASE=training-courses" >> .env
         echo "DB_USERNAME=root" >> .env
         echo "DB_PASSWORD=" >> .env
 
     - name: Generate application key
       run: php artisan key:generate
+
+    - name: Wait for MySQL to be ready
+      run: |
+        until mysqladmin ping -h 127.0.0.1 -P 3306 --silent; do
+          echo "Waiting for database connection..."
+          sleep 5
+        done
+
+    - name: Create database
+      run: mysql -h 127.0.0.1 -P 3306 -u root -e "CREATE DATABASE IF NOT EXISTS training-courses;"
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
