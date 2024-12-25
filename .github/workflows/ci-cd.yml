@@ -47,7 +47,7 @@ jobs:
       run: npm install
 
     - name: Run Laravel migrations
-      run: php artisan migrate --env=testing --force
+      run: php artisan migrate 
 
     - name: Run Laravel tests
       run: php artisan test
