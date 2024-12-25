@@ -16,10 +16,10 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_DATABASE : ${DB_DATABASE}
+          MYSQL_DATABASE: training-courses
           MYSQL_ALLOW_EMPTY_PASSWORD : yes
         ports:
-          - 3309:3308
+          - 3307:3307
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -28,12 +28,21 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.2'
+        extensions: mbstring, pdo, pdo_mysql, xml
 
     - name: Install Composer dependencies
-      run: composer install 
+      run: composer install --prefer-dist --no-progress --no-suggest
 
     - name: Copy .env file
       run: cp .env.example .env
+
+    - name: Update .env with MySQL settings
+      run: |
+        echo "DB_CONNECTION=mysql" >> .env
+        echo "DB_HOST=127.0.0.1" >> .env
+        echo "DB_PORT=3306" >> .env
+        echo "DB_DATABASE=training-courses" >> .env
+        echo "DB_USERNAME=root" >> .env
 
     - name: Generate application key
       run: php artisan key:generate
@@ -47,7 +56,7 @@ jobs:
       run: npm install
 
     - name: Run Laravel migrations
-      run: php artisan migrate 
+      run: php artisan migrate --env=testing --force
 
     - name: Run Laravel tests
       run: php artisan test
