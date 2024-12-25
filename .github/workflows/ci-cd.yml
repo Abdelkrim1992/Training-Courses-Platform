@@ -12,7 +12,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    127.0.0.1:
+    services:
       mysql:
         image: mysql:8.0
         env:
@@ -40,7 +40,7 @@ jobs:
     - name: Update .env with MySQL settings
       run: |
         echo "DB_CONNECTION=mysql" >> .env
-        echo "DB_HOST=127.0.0.1" >> .env
+        echo "DB_HOST=localhost" >> .env
         echo "DB_PORT=3307" >> .env
         echo "DB_DATABASE=training-courses" >> .env
         echo "DB_USERNAME=root" >> .env
