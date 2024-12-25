@@ -20,7 +20,7 @@ jobs:
           MYSQL_USERNAME: root
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
         ports:
-          - 3306:3306
+          - 3307:3307
 
     steps:
     - name: Checkout repository
@@ -42,7 +42,7 @@ jobs:
       run: |
         echo "DB_CONNECTION=mysql" >> .env
         echo "DB_HOST=127.0.0.1" >> .env
-        echo "DB_PORT=3306" >> .env
+        echo "DB_PORT=3307" >> .env
         echo "DB_DATABASE=training-courses" >> .env
         echo "DB_USERNAME=root" >> .env
         echo "DB_PASSWORD=" >> .env
@@ -57,8 +57,9 @@ jobs:
           sleep 5
         done
 
-    - name: Create database
-      run: mysql -h 127.0.0.1 -P 3306 -u root -e "CREATE DATABASE IF NOT EXISTS training-courses;"
+- name: Create database
+  run: mysql -h 127.0.0.1 -P 3306 -u root -e "CREATE DATABASE IF NOT EXISTS \`training-courses\`;"
+
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
