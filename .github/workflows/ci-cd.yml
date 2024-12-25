@@ -16,8 +16,8 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          - MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          - MYSQL_DATABASE: training-courses
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: training-courses
         ports:
           - 3309:3308
     steps:
