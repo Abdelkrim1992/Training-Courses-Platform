@@ -17,10 +17,10 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_DATABASE: training-courses
-          MYSQL_USERNAME: root
-          MYSQL_ALLOW_EMPTY_PASSWORD : yes
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
         ports:
-          - 3307:3307
+          - 3306:3306
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -41,9 +41,10 @@ jobs:
       run: |
         echo "DB_CONNECTION=mysql" >> .env
         echo "DB_HOST=127.0.0.1" >> .env
-        echo "DB_PORT=3306" >> .env
+        echo "DB_PORT=3307" >> .env
         echo "DB_DATABASE=training-courses" >> .env
         echo "DB_USERNAME=root" >> .env
+        echo "DB_PASSWORD=" >> .env
 
     - name: Generate application key
       run: php artisan key:generate
@@ -57,7 +58,7 @@ jobs:
       run: npm install
 
     - name: Run Laravel migrations
-      run: php artisan migrate --env=testing --force
+      run: php artisan migrate --force
 
     - name: Run Laravel tests
       run: php artisan test
