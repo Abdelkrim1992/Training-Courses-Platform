@@ -50,6 +50,14 @@ jobs:
     - name: Generate application key
       run: php artisan key:generate
 
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: Install Node.js dependencies
+      run: npm install
+
     - name: Wait for MySQL to be ready
       run: |
         until mysqladmin ping -h 127.0.0.1 -P 3306 --silent; do
@@ -59,14 +67,6 @@ jobs:
 
     - name: Create database
       run: mysql -h 127.0.0.1 -P 3306 -u root -e "CREATE DATABASE IF NOT EXISTS \`training-courses\`;"
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'
-
-    - name: Install Node.js dependencies
-      run: npm install
 
     - name: Run Laravel migrations
       run: php artisan migrate --force
