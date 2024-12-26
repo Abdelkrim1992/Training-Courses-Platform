@@ -29,7 +29,6 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.2'
-        extensions: mbstring, 
         extensions: mbstring, bcmath, sqlite3, pdo, pdo_mysql, xml  # Add necessary extensions
         coverage: none
         ini-values: |
