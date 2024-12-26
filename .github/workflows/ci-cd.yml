@@ -18,8 +18,7 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root
         ports:
-          - 3306:3306
-        options: --socket=/var/run/mysqld/mysqld.sock
+          - 3309:3308
 
     steps:
     - name: Checkout repository
@@ -29,7 +28,6 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.2'
-        extensions: mbstring, pdo, pdo_mysql, xml
 
     - name: Install Composer dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
@@ -44,8 +42,6 @@ jobs:
         echo "DB_PORT=3307" >> .env
         echo "DB_DATABASE=training-courses" >> .env
         echo "DB_USERNAME=root" >> .env
-        echo "DB_PASSWORD=root" >> .env
-        echo "DB_SOCKET=/var/run/mysqld/mysqld.sock" >> .env
 
     - name: Generate application key
       run: php artisan key:generate
@@ -57,9 +53,6 @@ jobs:
 
     - name: Install Node.js dependencies
       run: npm install
-
-    - name: Create database schema
-      run: mysql -h 127.0.0.1 --socket=/var/run/mysqld/mysqld.sock -u root -proot -e "CREATE DATABASE IF NOT EXISTS \`training-courses\`;"
 
     - name: Run Laravel migrations
       run: php artisan migrate --force
