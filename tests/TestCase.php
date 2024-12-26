@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Support\Facades\Facade;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -11,6 +12,7 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->withoutVite();
+        $this->withoutVite(); // Ensure this is relevant to your application, or remove it if not needed.
     }
+
 }
