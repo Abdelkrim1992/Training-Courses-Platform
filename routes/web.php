@@ -18,3 +18,7 @@ Route::prefix('admin')->group(function () {
 
 // Frontend Client Routes (Public)
 Route::view('/{any}', 'welcome')->where('any', '^(?!admin).*$');
+
+Route::get('/test', function () {
+    return response()->json(['message' => 'Success!']);
+});
