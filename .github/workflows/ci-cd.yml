@@ -29,8 +29,8 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.2'
-        extensions: mbstring, pdo, pdo_mysql, xml
-        extensions: mbstring, bcmath, sqlite3  # Add necessary extensions
+        extensions: mbstring, 
+        extensions: mbstring, bcmath, sqlite3, pdo, pdo_mysql, xml  # Add necessary extensions
         coverage: none
         ini-values: |
           memory_limit=512M
