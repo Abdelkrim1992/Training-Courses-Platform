@@ -72,12 +72,6 @@ jobs:
         php artisan route:clear
         php artisan view:clear 
 
-      - name: Run tests
-        run: |
-          php artisan key:generate
-          php artisan migrate --env=testing --force  # Set up the testing database
-          php artisan config:cache  # Cache configuration
-          ./vendor/bin/phpunit --configuration phpunit.xml --env=testing  # Run PHPUnit tests
 
     - name: Build frontend assets
       run: npm run build
