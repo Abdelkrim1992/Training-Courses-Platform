@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - uses: nathanheffley/laravel-phpunit-action@master
-    
+
   build:
     runs-on: ubuntu-latest
 
@@ -79,6 +79,7 @@ jobs:
         php artisan view:clear 
     - name: Run tests
       run: |
+        php artisan key:generate --env=testing
         php artisan migrate --env=testing --force
         php artisan config:cache
         ./vendor/bin/phpunit --configuration phpunit.xml
