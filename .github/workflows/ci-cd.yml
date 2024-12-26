@@ -72,10 +72,9 @@ jobs:
         php artisan view:clear 
     - name: Run tests
       run: |
-        php artisan key:generate
         php artisan migrate --env=testing --force
         php artisan config:cache
-        ./vendor/bin/phpunit --configuration phpunit.xml --env=testing
+        ./vendor/bin/phpunit --configuration phpunit.xml
     
 
     - name: Build frontend assets
