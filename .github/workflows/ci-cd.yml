@@ -62,12 +62,19 @@ jobs:
 
     - name: Install Node.js dependencies
       run: npm install
+      
+    - name: Clear caches
+      run: |
+        php artisan config:clear
+        php artisan cache:clear
+        php artisan route:clear
+        php artisan view:clear  
 
     - name: Run Laravel tests
-      run: php artisan test
+      run: php artisan test --env=testing   
 
     - name: Build frontend assets
-      run: npm run production
+      run: npm run build
 
     - name: Deploy the e-learning platform
       if: github.ref == 'refs/heads/main'
