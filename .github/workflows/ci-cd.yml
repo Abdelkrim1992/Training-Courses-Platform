@@ -52,20 +52,6 @@ jobs:
     - name: Generate application key
       run: php artisan key:generate
 
-    - name: Wait for MySQL to be ready
-      run: |
-        for i in {30..0}; do
-          if mysqladmin ping -h "127.0.0.1" --port=3307 --silent; then
-            break
-          fi
-          echo 'Waiting for MySQL...'
-          sleep 1
-        done
-        if [ "$i" = 0 ]; then
-          echo 'MySQL did not start in time' >&2
-          exit 1
-        fi
-
     - name: Run Laravel migrations
       run: php artisan migrate --force
 
