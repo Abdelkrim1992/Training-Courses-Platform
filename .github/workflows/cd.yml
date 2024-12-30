@@ -1,0 +1,40 @@
+name: CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main    
+
+jobs:
+
+  deployement:
+
+    runs-on:
+      - ubuntu-latest 
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::474668393194:role/training-courses
+          aws-region: us-east-1
+
+      - name: Log in to Amazon ECR
+        run: |
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 474668393194.dkr.ecr.us-east-1.amazonaws.com
+
+      - name: Build Docker image
+        run: |
+          docker build -t training-courses .
+
+      - name: Tag Docker image
+        run: |
+          docker tag training-courses:latest 474668393194.dkr.ecr.us-east-1.amazonaws.com/training-courses:latest
+
+      - name: Push Docker image to ECR
+        run: |
+          docker push 474668393194.dkr.ecr.us-east-1.amazonaws.com/training-courses:latest
+             
