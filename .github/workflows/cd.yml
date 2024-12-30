@@ -16,11 +16,6 @@ jobs:
       - ubuntu-latest 
 
     steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::474668393194:role/training-courses
-          aws-region: us-east-1
 
       - name: Log in to Amazon ECR
         run: |
