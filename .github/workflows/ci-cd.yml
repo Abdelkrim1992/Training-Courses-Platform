@@ -112,5 +112,5 @@ jobs:
 
     - name: Push Docker image to ECR
       run: |
-        docker buildx build --platform linux/amd64 -t 474668393194.dkr.ecr.us-east-1.amazonaws.com/training-courses:latest --push .
+        docker push 474668393194.dkr.ecr.us-east-1.amazonaws.com/training-courses:latest
                      
