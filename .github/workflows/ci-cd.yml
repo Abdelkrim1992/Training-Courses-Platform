@@ -30,7 +30,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.2'
-        extensions: mbstring, bcmath, sqlite3, pdo, pdo_mysql, xml  # Add necessary extensions
+        extensions: mbstring, bcmath, sqlite3, pdo, pdo_mysql, xml
         coverage: none
         ini-values: |
           memory_limit=512M
@@ -88,6 +88,15 @@ jobs:
         php artisan test
         php artisan config:cache
         ./vendor/bin/phpunit --configuration phpunit.xml
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-test  # Ensure this job runs after the build-test job
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
@@ -110,4 +119,3 @@ jobs:
     - name: Push Docker image to ECR
       run: |
         docker push 474668393194.dkr.ecr.us-east-1.amazonaws.com/training-courses:latest
-                     
