@@ -87,3 +87,15 @@ jobs:
       with:
         github_token: ${{ secrets.SECRET_TOKEN }}  # Pass the GITHUB_TOKEN to authenticate
         publish_dir: ./dist  # Path to the directory to be published
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Log in to Amazon ECR
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build and Push Docker image
+      run: |
+        docker-compose build
+        docker tag training-courses:latest 474668393194.dkr.ecr.us-east-1.amazonaws.com/training-courses:latest
+        docker push 474668393194.dkr.ecr.us-east-1.amazonaws.com/training-courses:latest

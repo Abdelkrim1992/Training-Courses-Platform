@@ -10,14 +10,14 @@ services:
     volumes:
       - .:/var/www/html
     depends_on:
-      - db
+      - mysql
 
-  db:
+  mysql:
     image: mysql:8.0
     ports:
       - "3309:3308" # MySQL port mapping
     environment:
-      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_DATABASE: training-courses
       MYSQL_ALLOW_EMPTY_PASSWORD: yes
     volumes:
       - db-data:/var/lib/mysql
