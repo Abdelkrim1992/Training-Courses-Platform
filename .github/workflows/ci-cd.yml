@@ -64,14 +64,15 @@ jobs:
 
     - name: Run tests
       run: |
+        php artisan key:generate --env=testing
         php artisan config:cache
         ./vendor/bin/phpunit --configuration phpunit.xml
         
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: arn:aws:iam::474668393194:role/training-courses # Ensure this is a role, not a user
-        aws-region: us-east-1  # Replace with your actual AWS region
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Log in to Amazon ECR
+      uses: aws-actions/amazon-ecr-login@v1
 
     - name: Build and Push Docker image
       run: |
