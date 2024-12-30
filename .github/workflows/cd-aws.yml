@@ -65,4 +65,4 @@ jobs:
     - name: Deploy to EKS
       run: |
         kubectl apply -f aws-eks/deployment.yaml --v=8
-        kubectl apply -f aws-eks/service.yaml --v=8             
+        kubectl apply -f aws-eks/service.yaml --v=8

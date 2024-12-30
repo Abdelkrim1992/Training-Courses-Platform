@@ -58,9 +58,6 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Configure Supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Copy kubeconfig
-COPY ./kubeconfig /root/.kube/config
-
 # Set environment variables (optional)
 ENV AWS_REGION=us-east-1
 
