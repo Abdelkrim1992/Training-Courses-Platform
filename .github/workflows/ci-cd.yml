@@ -62,18 +62,24 @@ jobs:
       with:
         node-version: '16'
 
+    - name: Clear npm cache
+      run: npm cache clean --force
+
     - name: Install Node.js dependencies
       run: npm install
-      
+
+    - name: Build frontend assets
+      run: npm run build
+
+    - name: Check Vite manifest
+      run: cat public/build/manifest.json
+
     - name: Clear caches
       run: |
         php artisan config:clear
         php artisan cache:clear
         php artisan route:clear
-        php artisan view:clear 
-
-    - name: Build frontend assets
-      run: npm run build    
+        php artisan view:clear  
 
     - name: Run tests
       run: |
