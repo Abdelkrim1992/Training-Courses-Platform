@@ -49,11 +49,16 @@ jobs:
 
     - name: Update kubeconfig
       run: |
-        aws eks --region us-east-1 update-kubeconfig --name laravel-cluster --alias laravel-cluster
+        aws eks --region us-east-1 update-kubeconfig --name laravel-cluster
+
+    - name: List kubectl contexts
+      run: kubectl config get-contexts
+
+    - name: Display kubeconfig
+      run: cat ~/.kube/config    
 
     - name: Set kubectl context
-      run: |
-        kubectl config use-context arn:aws:eks:us-east-1:474668393194:cluster/laravel-cluster
+      run: kubectl config use-context laravel-cluster  
 
     - name: Verify kubeconfig
       run: |
