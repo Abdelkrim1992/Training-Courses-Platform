@@ -39,6 +39,18 @@ jobs:
     - name: Install Composer dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
 
+    - name: Copy .env file
+      run: cp .env.example .env
+
+    - name: Update .env with MySQL settings
+      run: |
+        sed -i 's|DB_CONNECTION=.*|DB_CONNECTION=mysql|' .env
+        sed -i 's|DB_HOST=.*|DB_HOST=127.0.0.1|' .env
+        sed -i 's|DB_PORT=.*|DB_PORT=3306|' .env
+        sed -i 's|DB_DATABASE=.*|DB_DATABASE=training-courses|' .env
+        sed -i 's|DB_USERNAME=.*|DB_USERNAME=root|' .env
+        sed -i 's|DB_PASSWORD=.*|DB_PASSWORD=|' .env
+
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
@@ -46,13 +58,6 @@ jobs:
 
     - name: Install Node.js dependencies
       run: npm install
-      
-    - name: Clear caches
-      run: |
-        php artisan config:clear
-        php artisan cache:clear
-        php artisan route:clear
-        php artisan view:clear 
 
     - name: Build frontend assets
       run: npm run build    
@@ -61,16 +66,13 @@ jobs:
       run: |
         php artisan config:cache
         ./vendor/bin/phpunit --configuration phpunit.xml
-
-    - name: Checkout repo
-      uses: actions/checkout@v3
-
+        
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        role-to-assume: arn:aws:iam::474668393194:user/training-courses
-        aws-region: aws-region-1        
-        
+        role-to-assume: arn:aws:iam::474668393194:role/training-courses # Ensure this is a role, not a user
+        aws-region: us-east-1  # Replace with your actual AWS region
+
     - name: Build and Push Docker image
       run: |
         docker-compose build
