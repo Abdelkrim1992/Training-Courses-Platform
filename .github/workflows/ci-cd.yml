@@ -79,6 +79,7 @@ jobs:
       run: |
         php artisan key:generate --env=testing
         php artisan migrate --env=testing --force
+        php artisan test
         php artisan config:cache
         ./vendor/bin/phpunit --configuration phpunit.xml
         
