@@ -39,24 +39,6 @@ jobs:
     - name: Install Composer dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
 
-    - name: Copy .env file
-      run: cp .env.example .env
-
-    - name: Update .env with MySQL settings
-      run: |
-        sed -i 's|DB_CONNECTION=.*|DB_CONNECTION=mysql|' .env
-        sed -i 's|DB_HOST=.*|DB_HOST=127.0.0.1|' .env
-        sed -i 's|DB_PORT=.*|DB_PORT=3306|' .env
-        sed -i 's|DB_DATABASE=.*|DB_DATABASE=training-courses|' .env
-        sed -i 's|DB_USERNAME=.*|DB_USERNAME=root|' .env
-        sed -i 's|DB_PASSWORD=.*|DB_PASSWORD=|' .env
-
-    - name: Generate application key
-      run: php artisan key:generate
-
-    - name: Run Laravel migrations
-      run: php artisan migrate --force
-
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
@@ -77,16 +59,21 @@ jobs:
 
     - name: Run tests
       run: |
-        php artisan key:generate --env=testing
-        php artisan migrate --env=testing --force
         php artisan config:cache
         ./vendor/bin/phpunit --configuration phpunit.xml
-        
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
 
-    - name: Log in to Amazon ECR
-      uses: aws-actions/amazon-ecr-login@v1
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: arn:aws:iam::474668393194:user/training-courses
+        aws-region: aws-region-1        
+        
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
 
     - name: Build and Push Docker image
       run: |
