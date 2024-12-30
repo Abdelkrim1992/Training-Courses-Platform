@@ -81,13 +81,7 @@ jobs:
         php artisan migrate --env=testing --force
         php artisan config:cache
         ./vendor/bin/phpunit --configuration phpunit.xml
-
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.SECRET_TOKEN }}  # Pass the GITHUB_TOKEN to authenticate
-        publish_dir: ./dist  # Path to the directory to be published
-
+        
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
