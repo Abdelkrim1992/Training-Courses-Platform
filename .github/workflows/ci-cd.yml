@@ -119,3 +119,18 @@ jobs:
     - name: Push Docker image to ECR
       run: |
         docker push 474668393194.dkr.ecr.us-east-1.amazonaws.com/training-courses:latest
+
+    - name: Set up kubectl
+      uses: azure/setup-kubectl@v1
+      with:
+        version: 'latest'
+
+    - name: Set up Kubernetes context
+      run: |
+        echo "${{ secrets.KUBE_CONFIG }}" > kubeconfig.yaml
+        export KUBECONFIG=$(pwd)/kubeconfig.yaml
+
+    - name: Deploy to Kubernetes
+      run: |
+        kubectl apply -f deployment.yaml
+        kubectl apply -f service.yaml   
