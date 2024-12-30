@@ -24,10 +24,4 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'resources'),
     },
   },
-  build: {
-    outDir: 'public/build',
-    rollupOptions: {
-      input: path.resolve(__dirname, 'index.html'),  // Ensure Vite uses the right HTML file
-    },
-  },
 });
