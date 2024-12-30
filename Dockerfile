@@ -30,16 +30,6 @@ RUN apt-get update && apt-get install -y \
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Install AWS CLI and kubectl
-RUN curl "https://s3.amazonaws.com/aws-cli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
-    && unzip awscliv2.zip \
-    && sudo ./install \
-    && rm awscliv2.zip
-
-RUN curl -LO "https://amazon-eks.s3.us-west-2.amazonaws.com/$(curl -s https://api.github.com/repos/kubernetes-sigs/kubectl/releases/latest | grep tag_name | cut -d '\"' -f 4)/bin/linux/amd64/kubectl" \
-    && chmod +x ./kubectl \
-    && mv ./kubectl /usr/local/bin/kubectl
-
 # Copy all Laravel project files
 COPY . /var/www/html
 
