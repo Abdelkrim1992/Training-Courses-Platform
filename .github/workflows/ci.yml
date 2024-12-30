@@ -1,4 +1,4 @@
-name: CI CD Pipeline With AWS ECR
+name: CI Pipeline
 
 on:
   push:
@@ -70,10 +70,7 @@ jobs:
 
     - name: Build frontend assets
       run: npm run build
-
-    - name: Check Vite manifest
-      run: cat public/build/manifest.json
-
+      
     - name: Clear caches
       run: |
         php artisan config:clear
@@ -88,49 +85,3 @@ jobs:
         php artisan test
         php artisan config:cache
         ./vendor/bin/phpunit --configuration phpunit.xml
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build-test  # Ensure this job runs after the build-test job
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
-
-    - name: Log in to Amazon ECR
-      run: |
-        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 474668393194.dkr.ecr.us-east-1.amazonaws.com
-      
-    - name: Build Docker image
-      run: |
-        docker build -t training-courses .
-
-    - name: Tag Docker image
-      run: |
-        docker tag training-courses:latest 474668393194.dkr.ecr.us-east-1.amazonaws.com/training-courses:latest
-
-    - name: Push Docker image to ECR
-      run: |
-        docker push 474668393194.dkr.ecr.us-east-1.amazonaws.com/training-courses:latest
-
-    - name: Set up kubectl
-      uses: azure/setup-kubectl@v1
-      with:
-        version: 'latest'
-
-    - name: Set up Kubernetes context
-      run: |
-        echo "${{ secrets.KUBE_CONFIG }}" > kubeconfig.yaml
-        export KUBECONFIG=$(pwd)/kubeconfig.yaml
-
-    - name: Deploy to Kubernetes
-      run: |
-        kubectl apply -f deployment.yaml
-        kubectl apply -f service.yaml   
