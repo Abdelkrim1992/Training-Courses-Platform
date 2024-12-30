@@ -55,10 +55,7 @@ jobs:
       run: kubectl config get-contexts
 
     - name: Display kubeconfig
-      run: cat ~/.kube/config    
-
-    - name: Set kubectl context
-      run: kubectl config use-context laravel-cluster  
+      run: cat ~/.kube/config
 
     - name: Verify kubeconfig
       run: |
