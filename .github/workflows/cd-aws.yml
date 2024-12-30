@@ -11,7 +11,7 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on:
       - ubuntu-latest
-      
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -44,10 +44,14 @@ jobs:
       with:
         version: 'latest'
 
-    - name: Set up Kubernetes context
+    - name: Update kubeconfig
       run: |
-        echo "${{ secrets.KUBE_CONFIG }}" > kubeconfig.yaml
-        export KUBECONFIG=$(pwd)/kubeconfig.yaml
+        aws eks --region us-east-1 update-kubeconfig --name laravel-cluster
+
+    - name: Verify kubeconfig
+      run: |
+        kubectl config view
+        kubectl get nodes
 
     - name: Deploy to Kubernetes
       run: |
