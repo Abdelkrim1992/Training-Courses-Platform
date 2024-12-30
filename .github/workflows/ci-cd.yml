@@ -51,6 +51,12 @@ jobs:
         sed -i 's|DB_USERNAME=.*|DB_USERNAME=root|' .env
         sed -i 's|DB_PASSWORD=.*|DB_PASSWORD=|' .env
 
+    - name: Generate application key
+      run: php artisan key:generate
+
+    - name: Run Laravel migrations
+      run: php artisan migrate --force
+
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
@@ -58,6 +64,13 @@ jobs:
 
     - name: Install Node.js dependencies
       run: npm install
+      
+    - name: Clear caches
+      run: |
+        php artisan config:clear
+        php artisan cache:clear
+        php artisan route:clear
+        php artisan view:clear 
 
     - name: Build frontend assets
       run: npm run build    
@@ -65,6 +78,7 @@ jobs:
     - name: Run tests
       run: |
         php artisan key:generate --env=testing
+        php artisan migrate --env=testing --force
         php artisan config:cache
         ./vendor/bin/phpunit --configuration phpunit.xml
         
