@@ -1,4 +1,4 @@
-(public/frontend/img/screen.png)
+(public/frontend/img/favicon.png)
 
 # Skills Studies: Training Courses Platform
 
