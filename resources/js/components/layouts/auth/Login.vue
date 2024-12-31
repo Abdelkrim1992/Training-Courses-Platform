@@ -59,8 +59,5 @@ const router = useRouter();
 // Login user and handle response
 const loginUser = async () => {
   await authStore.login(formData);
-  if (authStore.userData) {
-    router.push({ name: 'Dashboard' });
-  }
 };
 </script>

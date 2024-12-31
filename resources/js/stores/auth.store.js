@@ -12,7 +12,8 @@ export const useAuthStore = defineStore("authStore", {
         const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
         this.auth = userCredential.user;
         localStorage.setItem('auth', this.auth)
-        router.push({ name: 'Dashboard' });
+        const route = router.resolve({ name: 'Dashboard'})
+        window.location.href = route.href
       } catch (error) {
         console.error('Failed to login:', error);
       }
