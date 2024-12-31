@@ -25,7 +25,8 @@ RUN apt-get update && apt-get install -y \
     libpng-dev libjpeg-dev libfreetype6-dev zip git unzip nginx supervisor \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql \
-    && apt-get install -y curl
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -48,10 +49,7 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Configure Supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Copy kubeconfig
-COPY ./kubeconfig /root/.kube/config
-
-# Set environment variables (optional)
+# Set environment variables
 ENV AWS_REGION=us-east-1
 
 EXPOSE 80

@@ -1,10 +1,11 @@
 <template>
     <!-- hero-area-start -->
-   <div class="tp-hero-area lightblue-bg tp-hero-2-bg">
-      <div class="container custom-container">
+    <section >
+      <div class="tp-hero-area lightblue-bg tp-hero-2-bg">
+      <div class="container ">
          <div class="tp-hero-2-wrap">
             <div class="row align-items-end">
-               <div class="tp-hero-2-content" style=" display: space-between;">
+               <div class="tp-hero-2-content" style=" display: space-around;">
                      <div class="col-lg-6 col-md-6 col-sm-3 " >
                         <span class="tp-hero-2-subtitle wow fadeInUp" data-wow-delay=".3s">Keep Learning</span>
                      <h2 class="tp-hero-2-title wow fadeInUp" data-wow-delay=".5s">Best  
@@ -53,6 +54,7 @@
          </div>
       </div>
    </div>
+    </section>
 <!-- hero-area-end -->
 </template>
 

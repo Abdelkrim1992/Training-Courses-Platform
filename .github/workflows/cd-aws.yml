@@ -44,25 +44,28 @@ jobs:
       with:
         version: 'latest'
 
-    - name: Check AWS CLI Credentials
-      run: aws sts get-caller-identity
-
     - name: Update kubeconfig
       run: |
-        aws eks --region us-east-1 update-kubeconfig --name laravel-cluster
+        aws eks update-kubeconfig --region us-east-1 --name laravel-cluster
 
-    - name: List kubectl contexts
-      run: kubectl config get-contexts
-
-    - name: Display kubeconfig
-      run: cat ~/.kube/config
-
-    - name: Verify kubeconfig
+    - name: Configure aws-auth ConfigMap
       run: |
-        kubectl config view
-        kubectl get nodes --v=8
+        cat <<EOF | kubectl apply -f -
+        apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: aws-auth
+          namespace: kube-system
+        data:
+          mapRoles: |
+            - rolearn: arn:aws:iam::474668393194:role/eks-ceca09be-6ca5-125c-23d4-7c05f552b770
+              username: system:node:{{EC2PrivateDNSName}}
+              groups:
+                - system:bootstrappers
+                - system:nodes
+        EOF
 
     - name: Deploy to EKS
       run: |
-        kubectl apply -f aws-eks/deployment.yaml --v=8
-        kubectl apply -f aws-eks/service.yaml --v=8
+        kubectl apply -f aws-eks/deployment.yaml
+        kubectl apply -f aws-eks/service.yaml

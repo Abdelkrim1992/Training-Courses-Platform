@@ -2,7 +2,7 @@
   <div>
     <header class="header-area p-relative">
       <div id="header-sticky" class="tp-header-2">
-        <div class="container custom-container-larg">
+        <div class="container ">
           <div class="row align-items-center">
             <div class="col-xxl-3 col-xl-3 col-lg-6 col-6">
               <div class="tp-header-2-right d-flex align-items-center">
