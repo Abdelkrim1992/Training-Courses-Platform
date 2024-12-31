@@ -1,5 +1,3 @@
-(public/frontend/img/favicon.png)
-
 # Skills Studies: Training Courses Platform
 
 **Skills Studies** is a platform that empowers businesses and individuals by offering **on-site training courses** designed to enhance professional skills and foster growth. Our platform connects learners with expert instructors and provides a variety of training options tailored to meet the needs of today's dynamic market. Whether you are a business looking to improve your team's capabilities or an individual seeking to boost your career, Skills Studies offers the resources and expertise to help you succeed.
