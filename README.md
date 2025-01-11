@@ -2,8 +2,11 @@
 
 **Skills Studies** is a platform that empowers businesses and individuals by offering **on-site training courses** designed to enhance professional skills and foster growth. Our platform connects learners with expert instructors and provides a variety of training options tailored to meet the needs of today's dynamic market. Whether you are a business looking to improve your team's capabilities or an individual seeking to boost your career, Skills Studies offers the resources and expertise to help you succeed.
 
-<img width="935" alt="Screenshot 2024-12-31 142045" src="https://github.com/user-attachments/assets/6584885d-8255-4e3b-bdc3-37b9436e3b3e" />
 <img width="925" alt="Screenshot 2024-12-31 142815" src="https://github.com/user-attachments/assets/2bc937c1-edfe-4df7-9abc-13fb9b4e35f5" />
+<img width="943" alt="Screenshot 2025-01-11 091753" src="https://github.com/user-attachments/assets/08ecd53e-0915-48eb-840b-fd74419016eb" />
+<img width="935" alt="Screenshot 2025-01-11 091835" src="https://github.com/user-attachments/assets/7720d197-3f20-4d07-95a5-236a7393b517" />
+<img width="928" alt="Screenshot 2025-01-11 091910" src="https://github.com/user-attachments/assets/8bd2d3db-8e21-4111-9423-859f3b603cc5" />
+<img width="950" alt="Screenshot 2025-01-11 091949" src="https://github.com/user-attachments/assets/aa91a3ed-3138-4e0a-a8dc-6021ad9ffcb7" />
 
 ---
 
