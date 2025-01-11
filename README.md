@@ -69,11 +69,6 @@ This project is licensed under the **MIT License**, **GPLv3 License**, and **AGP
 
 ---
 
-## 🔗 Contact
-
-For any inquiries or contributions, feel free to contact us via [Email](mailto:your-email@example.com) or visit our website at [Dar Digital](http://www.dardigital.com).
-```
-
 ### Key Updates:
 - The installation steps have been organized correctly to reflect the sequence: 
   - Install frontend dependencies (`npm install`)
