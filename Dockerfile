@@ -1,54 +1,43 @@
-# Step 1: Build the Vue.js frontend
-FROM node:16 AS frontend
+# Step 1: Use a base PHP image with PHP-FPM
+FROM php:8.1-fpm
 
-WORKDIR /var/www/html
+# Step 2: Install system dependencies and PHP extensions for Laravel
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    zip \
+    git \
+    curl \
+    unzip \
+    supervisor \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd pdo pdo_mysql
 
-# Copy package files first for efficient caching
-COPY package.json package-lock.json ./
+# Step 3: Install Node.js and npm for Vue.js
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
+    && apt-get install -y nodejs
 
-# Install dependencies
+# Step 4: Install Composer for Laravel (for PHP dependency management)
+RUN curl -sS https://getcomposer.org/installer | php \
+    && mv composer.phar /usr/local/bin/composer
+
+# Step 5: Set the working directory and copy the Laravel app files
+WORKDIR /var/www
+COPY . /var/www
+
+# Step 6: Install Laravel PHP dependencies using Composer
+RUN composer install --no-interaction --optimize-autoloader
+
+# Step 7: Set up Vue.js (frontend) by navigating to the frontend directory
+WORKDIR /var/www/frontend  # Adjust this path if your Vue.js project is in a different directory
 RUN npm install
 
-# Copy the rest of the application files
-COPY . .
+# Step 8: Expose necessary ports for Laravel (80) and Vue.js (3000)
+EXPOSE 80 3000
 
-# Build the Vue.js app for production
-RUN npm run build
+# Step 9: Copy supervisord configuration to manage both processes (PHP-FPM and npm)
+COPY ./supervisord.conf /etc/supervisord.conf
 
-# Step 2: Set up the Laravel backend
-FROM php:8.2-fpm
-
-WORKDIR /var/www/html
-
-# Install required PHP extensions and dependencies
-RUN apt-get update && apt-get install -y \
-    libpng-dev libjpeg-dev libfreetype6-dev zip git unzip nginx supervisor \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Copy all Laravel project files
-COPY . /var/www/html
-
-# Copy built Vue.js assets from the frontend stage
-COPY --from=frontend /var/www/html/public/build /var/www/html/public/build
-
-# Install Laravel dependencies
-RUN composer install --no-dev --optimize-autoloader
-
-# Set permissions for Laravel files
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Copy Nginx config and Supervisor config
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-# Expose the necessary ports
-EXPOSE 80
-
-# Command to run Supervisor, which will manage both PHP-FPM and Vue.js
-CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+# Step 10: Start supervisord to manage both PHP-FPM and Vue.js (npm) concurrently
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
