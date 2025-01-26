@@ -1,16 +1,19 @@
-# Base image for Laravel (unchanged from your original Dockerfile)
+# Base image for Laravel
 FROM richarvey/nginx-php-fpm:3.1.6
 
-# Copy all project files
+# Install dependencies for Node.js and npm
+RUN apt-get update && \
+    apt-get install -y curl gnupg2 lsb-release ca-certificates && \
+    curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
+    apt-get install -y nodejs
+
+# Copy application files
 COPY . .
 
-# Install Node.js and npm for Vue.js
-RUN apt-get update && \
-    curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
-    apt-get install -y nodejs && \
-    npm install -g npm
+# Set working directory
+WORKDIR /var/www/html
 
-# Install project dependencies for Vue.js
+# Install Node.js dependencies and build Vue.js assets
 RUN npm install && npm run build
 
 # Image config
