@@ -1,35 +1,47 @@
-# Base image for Laravel
-FROM richarvey/nginx-php-fpm:3.1.6
+# Base image for PHP with necessary extensions
+FROM php:8.2-fpm
 
-# Install dependencies for Node.js and npm
-RUN apt-get update && \
-    apt-get install -y curl gnupg2 lsb-release ca-certificates && \
-    curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
-    apt-get install -y nodejs
+# Install system dependencies, PHP extensions, and Node.js
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    zip \
+    unzip \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libonig-dev \
+    libxml2-dev \
+    nodejs \
+    npm \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd xml \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Copy application files
-COPY . .
+# Install Composer globally
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Set working directory
-WORKDIR /var/www/html
+# Set the working directory
+WORKDIR /var/www
 
-# Install Node.js dependencies and build Vue.js assets
+# Copy application files to the container
+COPY . /var/www
+
+# Install PHP dependencies
+RUN composer install --optimize-autoloader --no-dev
+
+# Install Node.js dependencies
 RUN npm install && npm run build
 
-# Image config
-ENV SKIP_COMPOSER 1
-ENV WEBROOT /var/www/html/public
-ENV PHP_ERRORS_STDERR 1
-ENV RUN_SCRIPTS 1
-ENV REAL_IP_HEADER 1
+# Set appropriate permissions for Laravel storage and cache
+RUN chmod -R 775 storage bootstrap/cache
 
-# Laravel config
-ENV APP_ENV production
-ENV APP_DEBUG false
-ENV LOG_CHANNEL stderr
+# Expose necessary ports for Laravel and Vue.js dev server
+EXPOSE 80 5173
 
-# Allow composer to run as root
-ENV COMPOSER_ALLOW_SUPERUSER 1
+# Copy the start script
+COPY start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
 
-# Start the application
-CMD ["/start.sh"]
+# Start the container by running the custom start script
+CMD ["/usr/local/bin/start.sh"]
