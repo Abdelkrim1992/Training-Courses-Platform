@@ -1,15 +1,22 @@
 # Base image for PHP with necessary extensions
 FROM php:8.2-fpm
 
-# Install system dependencies and Node.js
+# Install system dependencies, PHP extensions, and Node.js
 RUN apt-get update && apt-get install -y \
+    git \
     curl \
     zip \
     unzip \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libonig-dev \
+    libxml2-dev \
+    zlib1g-dev \
     nodejs \
     npm \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd xml \
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd xml \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Composer globally
