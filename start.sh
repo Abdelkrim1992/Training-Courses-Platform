@@ -15,6 +15,5 @@ php artisan route:cache
 echo "Running migrations..."
 php artisan migrate --force
 
-# Start PHP-FPM
-echo "Starting PHP-FPM"
-php-fpm
+# Optionally, you can start the Laravel development server or other tasks
+php artisan serve --host=0.0.0.0 --port=8000

@@ -1,7 +1,7 @@
 # Base image for PHP with necessary extensions
-FROM php:8.2-fpm
+FROM php:8.2-cli
 
-# Install system dependencies, PHP extensions, and Node.js
+# Install system dependencies and PHP extensions
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -13,10 +13,9 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     zlib1g-dev \
-    nodejs \
-    npm \
+    postgresql-client \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd xml \
+    && docker-php-ext-install pdo_pgsql pdo_mysql mbstring exif pcntl bcmath gd xml \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Composer globally
@@ -31,8 +30,8 @@ COPY . /var/www
 # Install PHP dependencies
 RUN composer install --optimize-autoloader --no-dev
 
-# Install Node.js dependencies and build the Vue.js app
-RUN npm install && npm run build
+# Install Node.js dependencies
+RUN npm install
 
 # Set appropriate permissions for Laravel storage and cache
 RUN chmod -R 775 storage bootstrap/cache
