@@ -1,4 +1,9 @@
-node_modules
-vendor
-.git
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
 .env
+.phpunit.result.cache
+npm-debug.log
+yarn-error.log
