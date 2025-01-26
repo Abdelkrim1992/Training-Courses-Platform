@@ -1,46 +1,47 @@
-# Step 1: Use a base PHP image with PHP-FPM
+# Base image for PHP with necessary extensions
 FROM php:8.2-fpm
 
-# Step 2: Install system dependencies and PHP extensions for Laravel
+# Install system dependencies, PHP extensions, and Node.js
 RUN apt-get update && apt-get install -y \
-    libpng-dev \
-    libjpeg62-turbo-dev \
-    libfreetype6-dev \
-    zip \
     git \
     curl \
+    zip \
     unzip \
-    supervisor \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libonig-dev \
+    libxml2-dev \
+    nodejs \
+    npm \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd xml \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Step 3: Install Node.js and npm for Vue.js
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
-    && apt-get install -y nodejs
+# Install Composer globally
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Verify Node.js and NPM installation
-RUN node -v && npm -v
-
-# Step 4: Install Composer for Laravel (for PHP dependency management)
-RUN curl -sS https://getcomposer.org/installer | php \
-    && mv composer.phar /usr/local/bin/composer
-
-# Step 5: Set the working directory and copy the Laravel app files
+# Set the working directory
 WORKDIR /var/www
+
+# Copy application files to the container
 COPY . /var/www
 
-# Step 6: Install Laravel PHP dependencies using Composer
-RUN composer install --no-interaction --optimize-autoloader
+# Install PHP dependencies
+RUN composer install --optimize-autoloader --no-dev
 
-# Step 7: Set up Vue.js (frontend) by navigating to the frontend directory
-WORKDIR /var/www/frontend  # Adjust this path if your Vue.js project is in a different directory
+# Install Node.js dependencies
 RUN npm install
 
-# Step 8: Expose necessary ports for Laravel (80) and Vue.js (3000)
-EXPOSE 80 3000
+# Set appropriate permissions for Laravel storage and cache
+RUN chmod -R 775 storage bootstrap/cache
 
-# Step 9: Copy supervisord configuration to manage both processes (PHP-FPM and npm)
-COPY ./supervisord.conf /etc/supervisord.conf
+# Expose necessary ports for Laravel and Vue.js dev server
+EXPOSE 80 5173
 
-# Step 10: Start supervisord to manage both PHP-FPM and Vue.js (npm) concurrently
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+# Copy the start script
+COPY start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
+
+# Start the container by running the custom start script
+CMD ["/usr/local/bin/start.sh"]
