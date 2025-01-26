@@ -1,17 +1,11 @@
 # Base image for PHP with necessary extensions
 FROM php:8.2-fpm
 
-# Install system dependencies, PHP extensions, and Node.js
+# Install system dependencies and Node.js
 RUN apt-get update && apt-get install -y \
-    git \
     curl \
     zip \
     unzip \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    libonig-dev \
-    libxml2-dev \
     nodejs \
     npm \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
@@ -30,7 +24,7 @@ COPY . /var/www
 # Install PHP dependencies
 RUN composer install --optimize-autoloader --no-dev
 
-# Install Node.js dependencies
+# Install Node.js dependencies and build the Vue.js app
 RUN npm install && npm run build
 
 # Set appropriate permissions for Laravel storage and cache
