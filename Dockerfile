@@ -1,5 +1,5 @@
-# Step 1: Use a base PHP image with PHP-FPM (8.2)
-FROM php:8.2-fpm
+# Step 1: Use a base PHP image with PHP-FPM
+FROM php:8.1-fpm
 
 # Step 2: Install system dependencies and PHP extensions for Laravel
 RUN apt-get update && apt-get install -y \
@@ -10,14 +10,16 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     unzip \
-    supervisor && \
-    docker-php-ext-configure gd --with-freetype --with-jpeg && \
-    docker-php-ext-install gd pdo pdo_mysql && \
-    rm -rf /var/lib/apt/lists/*
+    supervisor \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd pdo pdo_mysql
 
-# Step 3: Install Node.js and npm for Vue.js (LTS version)
-RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
+# Step 3: Install Node.js and npm for Vue.js
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
     && apt-get install -y nodejs
+
+# Verify Node.js and NPM installation
+RUN node -v && npm -v
 
 # Step 4: Install Composer for Laravel (for PHP dependency management)
 RUN curl -sS https://getcomposer.org/installer | php \
@@ -28,7 +30,7 @@ WORKDIR /var/www
 COPY . /var/www
 
 # Step 6: Install Laravel PHP dependencies using Composer
-RUN composer install --no-interaction --optimize-autoloader --prefer-dist --no-scripts
+RUN composer install --no-interaction --optimize-autoloader
 
 # Step 7: Set up Vue.js (frontend) by navigating to the frontend directory
 WORKDIR /var/www/frontend  # Adjust this path if your Vue.js project is in a different directory
