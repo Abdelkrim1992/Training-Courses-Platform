@@ -1,10 +1,9 @@
-# Base image for PHP with necessary extensions
 FROM php:8.2-cli
 
-# Install system dependencies and PHP extensions
+# Install necessary dependencies, including PostgreSQL dev libraries
 RUN apt-get update && apt-get install -y \
-    git \
     curl \
+    git \
     zip \
     unzip \
     libpng-dev \
@@ -12,36 +11,30 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     libonig-dev \
     libxml2-dev \
-    zlib1g-dev \
-    postgresql-client \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo_pgsql pdo_mysql mbstring exif pcntl bcmath gd xml \
+    libpq-dev \    # <-- Add this line to install PostgreSQL development libraries
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install Composer globally
+# Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Set the working directory
+# Set the working directory to /var/www
 WORKDIR /var/www
 
-# Copy application files to the container
+# Copy the Laravel application files to the container
 COPY . /var/www
 
-# Install PHP dependencies
+# Install PHP dependencies via Composer
 RUN composer install --optimize-autoloader --no-dev
 
-# Install Node.js dependencies
-RUN npm install
-
-# Set appropriate permissions for Laravel storage and cache
+# Set permissions (if needed for storage and cache)
 RUN chmod -R 775 storage bootstrap/cache
 
-# Expose necessary ports for Laravel and Vue.js dev server
-EXPOSE 80 5173
+# Expose port 8000 for the Laravel development server
+EXPOSE 8000
 
-# Copy the start script
+# Copy the start.sh script and make it executable
 COPY start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
 
-# Start the container by running the custom start script
+# Start the application using the start.sh script
 CMD ["/usr/local/bin/start.sh"]
