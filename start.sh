@@ -21,15 +21,15 @@ php artisan serve --host=0.0.0.0 --port=8000 &
 
 # Install Node.js dependencies for Vue.js
 echo "Installing Node.js dependencies..."
-npm install --prefix /var/www/html
+npm install
 
 # Build the Vue.js project (optional)
 echo "Building Vue.js project..."
-npm run build --prefix /var/www/html
+npm run build
 
 # Start Vue.js development server in background
 echo "Starting Vue.js development server..."
-npm run dev --prefix /var/www/html &
+npm run dev &
 
 # Wait for all background processes to finish
 wait
