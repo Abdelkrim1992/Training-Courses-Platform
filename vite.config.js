@@ -24,4 +24,11 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'resources'),
     },
   },
+  build: {
+    outDir: 'public/build',
+    // Ensure assets are written to correct path
+    assetsDir: '',
+    // Generate manifest.json in output directory
+    manifest: true,
+  }
 });

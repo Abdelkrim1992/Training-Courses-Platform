@@ -19,21 +19,5 @@ PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -U $DB_USERNAME -d $DB_DATABASE -c "CRE
 echo "Running migrations..."
 php artisan migrate --force
 
-# Start Laravel server in background
-echo "Starting Laravel server..."
-php artisan serve --host=0.0.0.0 --port=8000 &
-
-# Install Node.js dependencies for Vue.js
-echo "Installing Node.js dependencies..."
-npm install
-
-# Build the Vue.js project
-echo "Building Vue.js project..."
-npm run build
-
-# Start Vue.js development server in background
-echo "Starting Vue.js development server..."
-npm run dev &
-
-# Wait for all background processes to finish
-wait
+# Start Apache in foreground
+apache2-foreground

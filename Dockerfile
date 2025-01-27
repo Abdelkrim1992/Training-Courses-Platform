@@ -1,7 +1,7 @@
 # Use PHP 8.2 with Apache
 FROM php:8.2-apache
 
-# Install required packages
+# Install required packages including postgresql-client
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     libzip-dev \
@@ -17,41 +17,34 @@ RUN apt-get update && apt-get install -y \
     && apt-get install -y nodejs \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Verify Node.js installation
-RUN node --version && npm --version
-
 # Enable Apache rewrite module
 RUN a2enmod rewrite
 
-# Install PHP extensions (PDO, Zip)
+# Install PHP extensions
 RUN docker-php-ext-install pdo_pgsql zip
 
-# Copy Laravel app files into the container
+# Copy Laravel app files
 COPY . /var/www/html
 
-# Set write permissions to Laravel directories
+# Set write permissions
 RUN chown -R www-data:www-data /var/www/html /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Change working directory to Laravel app root
 WORKDIR /var/www/html
 
-# Install Composer (Laravel's PHP dependency manager)
+# Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-# Install Laravel PHP dependencies
+
+# Install dependencies and build
 RUN composer install --no-dev --optimize-autoloader
-
-# Install Node.js dependencies (Vue.js)
 RUN npm install
-
-# Build the Vue.js frontend
 RUN npm run build
 
-# Copy start.sh script and make it executable
-COPY start.sh /var/www/html/start.sh
-RUN chmod +x /var/www/html/start.sh
+# Configure Apache
+COPY apache.conf /etc/apache2/sites-available/000-default.conf
+RUN a2enmod headers
 
-# Expose port 80 for Apache and 8080 for Vue.js
-EXPOSE 80 8080
+# Expose port 80
+EXPOSE 80
 
-# Command to run the app and serve Vue.js using Laravel's public directory
-CMD ["/var/www/html/start.sh"]
+# Start Apache
+CMD ["apache2-foreground"]
