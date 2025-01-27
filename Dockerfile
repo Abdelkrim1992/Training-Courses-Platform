@@ -26,8 +26,10 @@ RUN docker-php-ext-install pdo_pgsql zip
 # Copy Laravel app files
 COPY . /var/www/html
 
-# Set write permissions
-RUN chown -R www-data:www-data /var/www/html /var/www/html/storage /var/www/html/bootstrap/cache
+# Set proper permissions
+RUN chown -R www-data:www-data /var/www/html && \
+    chmod -R 755 /var/www/html/storage && \
+    chmod -R 755 /var/www/html/bootstrap/cache
 
 WORKDIR /var/www/html
 
@@ -38,6 +40,15 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN composer install --no-dev --optimize-autoloader
 RUN npm install
 RUN npm run build
+
+# Generate Laravel key if not exists
+RUN php artisan key:generate --force
+
+# Clear and cache configs
+RUN php artisan config:clear && \
+    php artisan config:cache && \
+    php artisan route:cache && \
+    php artisan view:cache
 
 # Configure Apache
 COPY apache.conf /etc/apache2/sites-available/000-default.conf
