@@ -11,6 +11,10 @@ php artisan config:cache
 echo "Caching routes..."
 php artisan route:cache
 
+# Create the schema using psql
+echo "Creating schema..."
+PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -U $DB_USERNAME -d $DB_DATABASE -c "CREATE SCHEMA IF NOT EXISTS public;"
+
 # Run database migrations
 echo "Running migrations..."
 php artisan migrate --force
@@ -23,7 +27,7 @@ php artisan serve --host=0.0.0.0 --port=8000 &
 echo "Installing Node.js dependencies..."
 npm install
 
-# Build the Vue.js project (optional)
+# Build the Vue.js project
 echo "Building Vue.js project..."
 npm run build
 
