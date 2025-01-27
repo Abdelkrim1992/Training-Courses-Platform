@@ -45,8 +45,8 @@ RUN mkdir -p /etc/supervisor/conf.d
 # Copy supervisor configuration
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Expose ports
-EXPOSE 8000 5173
+# Expose port
+EXPOSE $PORT
 
 # Start supervisor
 CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
