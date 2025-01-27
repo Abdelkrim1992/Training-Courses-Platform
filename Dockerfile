@@ -1,7 +1,7 @@
 # Use PHP 8.2 with Apache
 FROM php:8.2-apache
 
-# Install required packages including postgresql-client
+# Install required packages including postgresql-client and supervisor
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     libzip-dev \
@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     lsb-release \
     ca-certificates \
     postgresql-client \
+    supervisor \
     && mkdir -p /etc/apt/keyrings \
     && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
     && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
@@ -26,36 +27,26 @@ RUN docker-php-ext-install pdo_pgsql zip
 # Copy Laravel app files
 COPY . /var/www/html
 
-# Set proper permissions
-RUN chown -R www-data:www-data /var/www/html && \
-    chmod -R 755 /var/www/html/storage && \
-    chmod -R 755 /var/www/html/bootstrap/cache
+# Set write permissions
+RUN chown -R www-data:www-data /var/www/html /var/www/html/storage /var/www/html/bootstrap/cache
 
 WORKDIR /var/www/html
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Install dependencies and build
+# Install dependencies
 RUN composer install --no-dev --optimize-autoloader
 RUN npm install
-RUN npm run build
 
-# Generate Laravel key if not exists
-RUN php artisan key:generate --force
+# Create supervisor config directory
+RUN mkdir -p /etc/supervisor/conf.d
 
-# Clear and cache configs
-RUN php artisan config:clear && \
-    php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan view:cache
+# Copy supervisor configuration
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Configure Apache
-COPY apache.conf /etc/apache2/sites-available/000-default.conf
-RUN a2enmod headers
+# Expose ports
+EXPOSE 8000 5173
 
-# Expose port 80
-EXPOSE 80
-
-# Start Apache
-CMD ["apache2-foreground"]
+# Start supervisor
+CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
