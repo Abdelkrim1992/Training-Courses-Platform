@@ -24,19 +24,4 @@ export default defineConfig({
             "@": path.resolve(__dirname, "resources"),
         },
     },
-    server: {
-        host: "0.0.0.0",
-        port: process.env.PORT || 5173,
-        hmr: {
-            clientPort: 443,
-            protocol: "wss",
-        },
-        proxy: {
-            "^(?!.*.(js|css|vue)$)": {
-                target: "http://localhost:8000",
-                changeOrigin: true,
-                secure: false,
-            },
-        },
-    },
 });
