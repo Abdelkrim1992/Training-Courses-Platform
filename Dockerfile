@@ -1,52 +1,67 @@
-# Use PHP 8.2 with Apache
-FROM php:8.2-apache
+# Use a multi-stage build for efficiency
 
-# Install required packages including postgresql-client and supervisor
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    libzip-dev \
-    curl \
-    gnupg2 \
-    lsb-release \
-    ca-certificates \
-    postgresql-client \
-    supervisor \
-    && mkdir -p /etc/apt/keyrings \
-    && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
-    && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
-    && apt-get update \
-    && apt-get install -y nodejs \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+# Stage 1: Build the application
+FROM node:18 as build-stage
 
-# Enable Apache rewrite module
-RUN a2enmod rewrite
+# Set working directory
+WORKDIR /app
 
-# Install PHP extensions
-RUN docker-php-ext-install pdo_pgsql zip
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
-# Copy Laravel app files
-COPY . /var/www/html
-
-# Set write permissions
-RUN chown -R www-data:www-data /var/www/html /var/www/html/storage /var/www/html/bootstrap/cache
-
-WORKDIR /var/www/html
-
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Install dependencies
-RUN composer install --no-dev --optimize-autoloader
+# Install Node.js dependencies
 RUN npm install
 
-# Create supervisor config directory
-RUN mkdir -p /etc/supervisor/conf.d
+# Copy the rest of the application
+COPY . .
 
-# Copy supervisor configuration
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# Build the Vue.js assets
+RUN npm run build
 
-# Expose port
-EXPOSE $PORT
+# Stage 2: Serve the application
+FROM php:8.2-fpm
 
-# Start supervisor
-CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    nginx \
+    git \
+    unzip \
+    libzip-dev \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    libpq-dev \
+    && docker-php-ext-install pdo_mysql zip exif pcntl bcmath gd pdo_pgsql pgsql  # Add PostgreSQL extensions
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Copy Laravel application files
+COPY . .
+
+# Copy built assets from the build stage
+COPY --from=build-stage /app/public/build /var/www/html/public/build
+
+# Install PHP dependencies
+RUN composer install --optimize-autoloader --no-dev
+
+RUN php artisan key:gererate
+
+RUN php artisan migrate --force
+
+RUN php artisan storage:link
+
+# Set permissions for Laravel storage and bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Copy Nginx configuration
+COPY docker/nginx.conf /etc/nginx/sites-available/default
+
+# Expose port 80
+EXPOSE 80
+
+# Start Nginx and PHP-FPM
+CMD service nginx start && php-fpm
