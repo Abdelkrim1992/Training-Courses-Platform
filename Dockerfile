@@ -48,7 +48,7 @@ COPY --from=build-stage /app/public/build /var/www/html/public/build
 # Install PHP dependencies
 RUN composer install --optimize-autoloader --no-dev
 
-RUN php artisan key:gererate
+RUN php artisan key:generate
 
 RUN php artisan migrate --force
 
