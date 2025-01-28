@@ -15,6 +15,7 @@
     "dependencies": {
         "@vitejs/plugin-vue": "^5.1.2",
         "api": "^6.1.2",
+        "core-js": "^3.40.0",
         "firebase": "^11.0.1",
         "pinia": "^2.2.4",
         "pinia-plugin-persistedstate": "^4.1.1",

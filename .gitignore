@@ -20,3 +20,5 @@ yarn-error.log
 /.vscode
 
 echo "start.sh" >> .gitignore
+
+.vercel
