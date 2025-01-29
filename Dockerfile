@@ -17,7 +17,7 @@ RUN apk add --no-cache \
     oniguruma-dev \
     freetype-dev \
     libjpeg-turbo-dev \
-    postgresql-dev 
+    postgresql-dev
 
 # Install PHP extensions including pgsql and pdo_pgsql
 RUN docker-php-ext-install pdo pdo_pgsql pgsql mbstring exif pcntl bcmath gd zip
@@ -30,6 +30,9 @@ WORKDIR /var/www/html
 
 # Copy project files
 COPY . .
+
+# Create .env file from example
+RUN cp .env.example .env
 
 # Install PHP dependencies
 RUN composer install --no-interaction --no-dev --optimize-autoloader
@@ -46,10 +49,11 @@ RUN mkdir -p storage/framework/{sessions,views,cache} \
     && chmod -R 775 storage bootstrap/cache \
     && chown -R www-data:www-data storage bootstrap/cache
 
-# Generate application key
-RUN php artisan key:generate --force
-
-RUN php artisan migrate --force
+# Generate application key and optimize
+RUN php artisan key:generate --force \
+    && php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache
 
 # Expose port 80
 EXPOSE 80
