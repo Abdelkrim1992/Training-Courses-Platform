@@ -47,8 +47,9 @@ RUN mkdir -p storage/framework/{sessions,views,cache} \
     && chmod -R 775 public \
     && chown -R www-data:www-data public
 
-# Install Node.js dependencies and build assets
-RUN npm install && npm run build && RUN npm run dev
+# Install and build Node.js dependencies
+RUN npm install
+RUN npm run dev
 
 # Copy configuration files
 COPY docker/nginx.conf /etc/nginx/nginx.conf
@@ -60,6 +61,8 @@ RUN php artisan key:generate --force \
     && php artisan route:cache \
     && php artisan view:cache \
     && php artisan storage:link
+
+RUN php artisan migrate --force    
 
 # Create cache directory for PHP FPM
 RUN mkdir -p /var/run/php-fpm
@@ -76,7 +79,7 @@ RUN rm -rf node_modules \
     && apk del git
 
 # Expose port 80 and 443
-EXPOSE 80 5173
+EXPOSE 80 443
 
 # Start supervisord
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
