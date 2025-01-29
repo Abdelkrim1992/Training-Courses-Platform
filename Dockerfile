@@ -49,7 +49,6 @@ RUN mkdir -p storage/framework/{sessions,views,cache} \
 
 # Install and build Node.js dependencies
 RUN npm install
-RUN npm run dev
 
 # Copy configuration files
 COPY docker/nginx.conf /etc/nginx/nginx.conf
@@ -80,6 +79,8 @@ RUN rm -rf node_modules \
 
 # Expose port 80 and 443
 EXPOSE 80 443
+
+RUN npm run dev
 
 # Start supervisord
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
