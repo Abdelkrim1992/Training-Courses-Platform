@@ -17,10 +17,12 @@ RUN apk add --no-cache \
     oniguruma-dev \
     freetype-dev \
     libjpeg-turbo-dev \
-    postgresql-dev
+    postgresql-dev \
+    openssl
 
-# Install PHP extensions including pgsql and pdo_pgsql
-RUN docker-php-ext-install pdo pdo_pgsql pgsql mbstring exif pcntl bcmath gd zip
+# Install PHP extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo pdo_pgsql pgsql mbstring exif pcntl bcmath gd zip
 
 # Install composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -37,6 +39,14 @@ RUN cp .env.example .env
 # Install PHP dependencies
 RUN composer install --no-interaction --no-dev --optimize-autoloader
 
+# Set proper permissions for storage and cache
+RUN mkdir -p storage/framework/{sessions,views,cache} \
+    && mkdir -p storage/logs \
+    && chmod -R 775 storage bootstrap/cache \
+    && chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 public \
+    && chown -R www-data:www-data public
+
 # Install Node.js dependencies and build assets
 RUN npm install && npm run build
 
@@ -44,19 +54,29 @@ RUN npm install && npm run build
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Create storage directory and set permissions
-RUN mkdir -p storage/framework/{sessions,views,cache} \
-    && chmod -R 775 storage bootstrap/cache \
-    && chown -R www-data:www-data storage bootstrap/cache
-
 # Generate application key and optimize
 RUN php artisan key:generate --force \
     && php artisan config:cache \
     && php artisan route:cache \
-    && php artisan view:cache
+    && php artisan view:cache \
+    && php artisan storage:link
 
-# Expose port 80
-EXPOSE 80
+# Create cache directory for PHP FPM
+RUN mkdir -p /var/run/php-fpm
+
+# Set proper permissions for nginx
+RUN chown -R www-data:www-data /var/lib/nginx
+
+# Optimize composer autoloader
+RUN composer dump-autoload --optimize
+
+# Clean up
+RUN rm -rf node_modules \
+    && npm cache clean --force \
+    && apk del git
+
+# Expose port 80 and 443
+EXPOSE 80 443
 
 # Start supervisord
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

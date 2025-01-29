@@ -12,6 +12,7 @@
     content="Light Able admin and dashboard template offer a variety of UI elements and pages, ensuring your admin panel is both fast and effective."
   />
   <meta name="author" content="phoenixcoded" />
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
   <!-- [Favicon] icon -->
   <link rel="icon" href="{{asset('backend/images/favicon.svg')}}" type="image/x-icon" />

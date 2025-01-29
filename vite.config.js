@@ -24,4 +24,7 @@ export default defineConfig({
             "@": path.resolve(__dirname, "resources"),
         },
     },
+    server: {
+        https: true,
+    },
 });
