@@ -1,35 +1,22 @@
 {
     "version": 2,
+    "regions": [
+        "fra1"
+    ],
     "functions": {
-      "api/index.php": { "runtime": "vercel-php@latest" }
+        "api/index.php": {
+            "runtime": "vercel-php@0.7.1"
+        }
     },
     "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "/api/index.php"
-      }
+        {
+            "src": "/build/(.*)",
+            "dest": "/build/$1"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/api/index.php"
+        }
     ],
-    "build": {
-      "env": {
-        "NODE_VERSION": "18.x"
-      }
-    },
-    "env": {
-      "APP_ENV": "production",
-      "APP_DEBUG": "false",
-      "APP_URL": "https://training-courses.vercel.app",
-      "APP_KEY": "base64:JL9HN0Ysjp4gxkVwruAI6Q92rNRFGS+Jz3TaATNv2vM=",
-  
-      "APP_CONFIG_CACHE": "/tmp/config.php",
-      "APP_EVENTS_CACHE": "/tmp/events.php",
-      "APP_PACKAGES_CACHE": "/tmp/packages.php",
-      "APP_ROUTES_CACHE": "/tmp/routes.php",
-      "APP_SERVICES_CACHE": "/tmp/services.php",
-      "VIEW_COMPILED_PATH": "/tmp",
-  
-      "CACHE_DRIVER": "array",
-      "LOG_CHANNEL": "stderr",
-      "SESSION_DRIVER": "cookie"
-    }
-  }
-  
+    "outputDirectory": "dist"
+}
