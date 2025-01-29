@@ -1,67 +1,58 @@
-# Use a multi-stage build for efficiency
-
-# Stage 1: Build the application
-FROM node:18 as build-stage
-
-# Set working directory
-WORKDIR /app
-
-# Copy package.json and package-lock.json
-COPY package*.json ./
-
-# Install Node.js dependencies
-RUN npm install
-
-# Copy the rest of the application
-COPY . .
-
-# Build the Vue.js assets
-RUN npm run build
-
-# Stage 2: Serve the application
-FROM php:8.2-fpm
+# Use PHP 8.2 FPM Alpine as base image
+FROM php:8.2-fpm-alpine
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
+RUN apk add --no-cache \
     nginx \
+    supervisor \
+    nodejs \
+    npm \
     git \
+    curl \
+    zip \
     unzip \
-    libzip-dev \
     libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    libpq-dev \
-    && docker-php-ext-install pdo_mysql zip exif pcntl bcmath gd pdo_pgsql pgsql  # Add PostgreSQL extensions
+    libzip-dev \
+    jpeg-dev \
+    oniguruma-dev \
+    freetype-dev \
+    libjpeg-turbo-dev \
+    postgresql-dev 
 
-# Install Composer
+# Install PHP extensions including pgsql and pdo_pgsql
+RUN docker-php-ext-install pdo pdo_pgsql pgsql mbstring exif pcntl bcmath gd zip
+
+# Install composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy Laravel application files
+# Copy project files
 COPY . .
 
-# Copy built assets from the build stage
-COPY --from=build-stage /app/public/build /var/www/html/public/build
-
 # Install PHP dependencies
-RUN composer install --optimize-autoloader --no-dev
+RUN composer install --no-interaction --no-dev --optimize-autoloader
 
-RUN php artisan key:generate
+# Install Node.js dependencies and build assets
+RUN npm install && npm run build
+
+# Copy configuration files
+COPY docker/nginx.conf /etc/nginx/nginx.conf
+COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Create storage directory and set permissions
+RUN mkdir -p storage/framework/{sessions,views,cache} \
+    && chmod -R 775 storage bootstrap/cache \
+    && chown -R www-data:www-data storage bootstrap/cache
+
+# Generate application key
+RUN php artisan key:generate --force
 
 RUN php artisan migrate --force
-
-RUN php artisan storage:link
-
-# Set permissions for Laravel storage and bootstrap/cache
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Copy Nginx configuration
-COPY docker/nginx.conf /etc/nginx/sites-available/default
 
 # Expose port 80
 EXPOSE 80
 
-# Start Nginx and PHP-FPM
-CMD service nginx start && php-fpm
+# Start supervisord
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
