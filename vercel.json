@@ -1,8 +1,7 @@
 {
     "version": 2,
-    "framework": null,
     "functions": {
-      "api/index.php": { "runtime": "vercel-php@0.6.1" }
+      "api/index.php": { "runtime": "vercel-php@latest" }
     },
     "routes": [
       {
@@ -11,9 +10,9 @@
       }
     ],
     "build": {
-        "env": {
-          "NODE_VERSION": "18x"
-        }
+      "env": {
+        "NODE_VERSION": "18.x"
+      }
     },
     "env": {
       "APP_ENV": "production",
