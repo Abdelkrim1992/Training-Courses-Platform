@@ -80,7 +80,5 @@ RUN rm -rf node_modules \
 # Expose port 80 and 443
 EXPOSE 80 443
 
-RUN npm run dev
-
 # Start supervisord
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
