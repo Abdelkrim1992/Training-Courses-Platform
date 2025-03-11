@@ -27,13 +27,13 @@ export default defineConfig({
     // server: {
     //     https: true,
     // },
-    build: {
-        outDir: 'public/build',
-        manifest: true,
-        rollupOptions: {
-            output: {
-                manualChunks: undefined,
-            },
-        },
-    },
+    // build: {
+    //     outDir: 'public/build',
+    //     manifest: true,
+    //     rollupOptions: {
+    //         output: {
+    //             manualChunks: undefined,
+    //         },
+    //     },
+    // },
 });
