@@ -24,9 +24,9 @@ export default defineConfig({
             "@": path.resolve(__dirname, "resources"),
         },
     },
-    server: {
-        https: true,
-    },
+    // server: {
+    //     https: true,
+    // },
     build: {
         outDir: 'public/build',
         manifest: true,

@@ -21,11 +21,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if($this->app->environment('production')) {
-            URL::forceScheme('https');
-            $this->app['request']->server->set('HTTPS', true);
-        }
+        // if($this->app->environment('production')) {
+        //     URL::forceScheme('https');
+        //     $this->app['request']->server->set('HTTPS', true);
+        // }
 
-        Schema::defaultStringLength(191);
+        // Schema::defaultStringLength(191);
     }
 }
