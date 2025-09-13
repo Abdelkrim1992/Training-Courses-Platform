@@ -1,8 +1,11 @@
-(public/frontend/img/favicon.png)
-
 # Skills Studies: Training Courses Platform
 
 **Skills Studies** is a platform that empowers businesses and individuals by offering **on-site training courses** designed to enhance professional skills and foster growth. Our platform connects learners with expert instructors and provides a variety of training options tailored to meet the needs of today's dynamic market. Whether you are a business looking to improve your team's capabilities or an individual seeking to boost your career, Skills Studies offers the resources and expertise to help you succeed.
+
+<img width="925" alt="Screenshot 2024-12-31 142815" src="https://github.com/user-attachments/assets/2bc937c1-edfe-4df7-9abc-13fb9b4e35f5" />
+
+
+<img width="950" alt="Screenshot 2025-01-11 091949" src="https://github.com/user-attachments/assets/aa91a3ed-3138-4e0a-a8dc-6021ad9ffcb7" />
 
 ---
 
@@ -65,11 +68,6 @@ To run this project locally, follow these steps:
 This project is licensed under the **MIT License**, **GPLv3 License**, and **AGPL License**.
 
 ---
-
-## 🔗 Contact
-
-For any inquiries or contributions, feel free to contact us via [Email](mailto:your-email@example.com) or visit our website at [Dar Digital](http://www.dardigital.com).
-```
 
 ### Key Updates:
 - The installation steps have been organized correctly to reflect the sequence: 

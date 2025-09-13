@@ -1,57 +1,84 @@
-# Step 1: Build the Vue.js frontend
-FROM node:16 AS frontend
+# Use PHP 8.2 FPM Alpine as base image
+FROM php:8.2-fpm-alpine
 
-WORKDIR /var/www/html
+# Install system dependencies
+RUN apk add --no-cache \
+    nginx \
+    supervisor \
+    nodejs \
+    npm \
+    git \
+    curl \
+    zip \
+    unzip \
+    libpng-dev \
+    libzip-dev \
+    jpeg-dev \
+    oniguruma-dev \
+    freetype-dev \
+    libjpeg-turbo-dev \
+    postgresql-dev \
+    openssl
 
-# Copy package files first for efficient caching
-COPY package.json package-lock.json ./
+# Install PHP extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo pdo_pgsql pgsql mbstring exif pcntl bcmath gd zip
 
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the application files
-COPY . .
-
-# Build the Vue.js app for production
-RUN npm run build
-
-# Step 2: Set up the Laravel backend
-FROM php:8.2-fpm
-
-WORKDIR /var/www/html
-
-# Install required PHP extensions and dependencies
-RUN apt-get update && apt-get install -y \
-    libpng-dev libjpeg-dev libfreetype6-dev zip git unzip nginx supervisor \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Composer
+# Install composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy all Laravel project files
-COPY . /var/www/html
+# Set working directory
+WORKDIR /var/www/html
 
-# Copy built Vue.js assets from the frontend stage
-COPY --from=frontend /var/www/html/public/build /var/www/html/public/build
+# Copy project files
+COPY . .
 
-# Install Laravel dependencies
-RUN composer install --no-dev --optimize-autoloader
+# Create .env file from example
+RUN cp .env.example .env
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# Install PHP dependencies
+RUN composer install --no-interaction --no-dev --optimize-autoloader
 
-# Configure Nginx
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Set proper permissions for storage and cache
+RUN mkdir -p storage/framework/{sessions,views,cache} \
+    && mkdir -p storage/logs \
+    && chmod -R 775 storage bootstrap/cache \
+    && chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 public \
+    && chown -R www-data:www-data public
 
-# Configure Supervisor
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# Install and build Node.js dependencies
+RUN npm install
 
-# Set environment variables
-ENV AWS_REGION=us-east-1
+# Copy configuration files
+COPY docker/nginx.conf /etc/nginx/nginx.conf
+COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-EXPOSE 80
+# Generate application key and optimize
+RUN php artisan key:generate --force \
+    && php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache \
+    && php artisan storage:link
 
-CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+RUN php artisan migrate --force    
+
+# Create cache directory for PHP FPM
+RUN mkdir -p /var/run/php-fpm
+
+# Set proper permissions for nginx
+RUN chown -R www-data:www-data /var/lib/nginx
+
+# Optimize composer autoloader
+RUN composer dump-autoload --optimize
+
+# Clean up
+RUN rm -rf node_modules \
+    && npm cache clean --force \
+    && apk del git
+
+# Expose port 80 and 443
+EXPOSE 80 443
+
+# Start supervisord
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
