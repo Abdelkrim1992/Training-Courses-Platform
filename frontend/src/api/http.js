@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const envBaseUrl = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
 
 const http = axios.create({
-  baseURL: envBaseUrl || '/api',
+  baseURL: 'https://training-courses-backend-6jkbrp.laravel.cloud/api',
+  withCredentials: false,
   headers: {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
