@@ -1,24 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\backend\UserController;
 
-// Auth Routes
-Route::prefix('auth')->group(function () {
-    Route::view('/{any}', 'dashboard')->where('any', '.*');
-    Route::post('/login', [UserController::class, 'login']);
-    Route::post('/register', [UserController::class, 'register']);
-    Route::post('/logout', [UserController::class, 'logout']);
+// Health check or root JSON response
+Route::get('/', function () {
+    return response()->json(['status' => 'ok', 'app' => 'api']);
 });
 
-// Admin Routes (Require Authentication)
-Route::prefix('admin')->group(function () {
-    Route::view('/{any}', 'dashboard')->where('any', '.*');
-});
-
-// Frontend Client Routes (Public)
-Route::view('/{any}', 'welcome')->where('any', '^(?!admin).*$');
-
-Route::get('/test', function () {
-    return response()->json(['message' => 'Success!']);
+// Fallback to return JSON 404 for any non-API paths
+Route::fallback(function () {
+    return response()->json([
+        'message' => 'Not Found',
+    ], 404);
 });
