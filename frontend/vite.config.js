@@ -18,15 +18,6 @@ export default defineConfig({
       }
     ),
   ],
-  server: {
-    proxy: {
-      '/api': {
-        target: 'https://training-courses-backend-6jkbrp.laravel.cloud/',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-      },
-    },
-  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
