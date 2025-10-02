@@ -1,0 +1,22 @@
+// Global frontend CSS
+import '@/assets/frontend/css/bootstrap.css'
+import '@/assets/frontend/css/main.css'
+import '@/assets/frontend/css/font-awesome-pro.css'
+import '@/assets/frontend/css/spacing.css'
+
+// Global frontend JS (order matters)
+import '@/assets/frontend/js/vendor/jquery.js'
+import '@/assets/frontend/js/bootstrap-bundle.js'
+import '@/assets/frontend/js/flatpickr.js'
+import '@/assets/frontend/js/vendor/waypoints.js'
+import '@/assets/frontend/js/imagesloaded-pkgd.js'
+import '@/assets/frontend/js/isotope-pkgd.js'
+import '@/assets/frontend/js/magnific-popup.js'
+import '@/assets/frontend/js/nice-select.js'
+import '@/assets/frontend/js/purecounter.js'
+import '@/assets/frontend/js/slick.js'
+import '@/assets/frontend/js/swiper-bundle.js'
+import '@/assets/frontend/js/countdown.js'
+import '@/assets/frontend/js/select2.min.js'
+import '@/assets/frontend/js/jquery-one-page-nav.js'
+import '@/assets/frontend/js/main.js'
