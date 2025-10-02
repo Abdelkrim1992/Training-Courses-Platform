@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 const http = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_API_URL,
+  baseURL: 'https://training-courses-backend-6jkbrp.laravel.cloud/api',
   withCredentials: true,
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
