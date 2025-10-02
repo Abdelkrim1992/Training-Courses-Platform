@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/frontend/css/bootstrap.css">
+    <link rel="stylesheet" href="/public/frontend/css/font-awesome-pro.css">
+    <link rel="stylesheet" href="/public/frontend/css/main.css">
+    <link rel="stylesheet" href="/public/frontend/css/spacing.css">
+    <title>Vite App</title>
+    <style>
+      #loading {
+        display: flex;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="loading" class="loading">
+      <h1>Loading...</h1>
+    </div>
+    <div id="app"></div>
+
+    <!-- 🔹 jQuery FIRST -->
+    <script src="/public/frontend/js/vendor/jquery.js"></script>
+
+    <!-- 🔹 Then Bootstrap (depends on jQuery) -->
+    <script src="/public/frontend/js/bootstrap-bundle.js"></script>
+
+    <!-- 🔹 Then other plugins -->
+    <script src="/public/frontend/js/countdown.js"></script>
+    <script src="/public/frontend/js/flatpickr.js"></script>
+    <script src="/public/frontend/js/imagesloaded-pkgd.js"></script>
+    <script src="/public/frontend/js/isotope-pkgd.js"></script>
+    <script src="/public/frontend/js/jquery-one-page-nav.js"></script>
+    <script src="/public/frontend/js/magnific-popup.js"></script>
+    <script src="/public/frontend/js/nice-select.js"></script>
+    <script src="/public/frontend/js/purecounter.js"></script>
+    <script src="/public/frontend/js/range-slider.js"></script>
+    <script src="/public/frontend/js/select2.min.js"></script>
+    <script src="/public/frontend/js/slick.js"></script>
+    <script src="/public/frontend/js/swiper-bundle.js"></script>
+    <script src="/public/frontend/js/vendor/waypoints.js"></script>
+    <script src="/public/frontend/js/wow.js"></script>
+
+    <!-- 🔹 Your custom frontend scripts (that use jQuery) -->
+    <script src="/public/frontend/js/main.js"></script>
+
+    <!-- 🔹 Finally your Vue app -->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
