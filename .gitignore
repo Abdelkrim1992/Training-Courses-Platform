@@ -5,7 +5,7 @@
 /vendor
 /frontend/node_modules
 /backend/vendor
-
+/frontend/.vite
 .env
 .env.backup
 .phpunit.result.cache
