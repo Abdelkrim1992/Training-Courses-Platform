@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:5173', 'https://training-courses-backend-6jkbrp.laravel.cloud'],
+    'allowed_origins' => ['http://localhost:5173', 'https://training-courses-backend-6jkbrp.laravel.cloud', 'https://training-courses-platform.netlify.app'],
 
     'allowed_origins_patterns' => [],
 
