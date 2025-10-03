@@ -1,5 +1,5 @@
-functionsDirectory = "D:\\Training-Courses-Platform\\frontend\\netlify\\functions"
-functionsDirectoryOrigin = "config-v1"
+functionsDirectory = "D:\\Training-Courses-Platform\\netlify\\functions"
+functionsDirectoryOrigin = "ui"
 plugins = []
 headers = []
 redirects = []
@@ -9,12 +9,11 @@ redirects = []
 [functions."*"]
 
 [build]
-publish = "D:\\Training-Courses-Platform\\frontend\\dist"
-publishOrigin = "config"
-commandOrigin = "config"
-base = "D:\\Training-Courses-Platform\\frontend"
+publish = "D:\\Training-Courses-Platform\\dist"
+publishOrigin = "ui"
+commandOrigin = "ui"
 command = "npm run build"
-functions = "D:\\Training-Courses-Platform\\frontend\\netlify\\functions"
+functions = "D:\\Training-Courses-Platform\\netlify\\functions"
 
 [build.environment]
 
