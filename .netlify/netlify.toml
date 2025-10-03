@@ -2,7 +2,10 @@ functionsDirectory = "D:\\Training-Courses-Platform\\netlify\\functions"
 functionsDirectoryOrigin = "ui"
 plugins = []
 headers = []
-redirects = []
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
 
 [functions]
 
@@ -14,6 +17,7 @@ publishOrigin = "ui"
 commandOrigin = "ui"
 command = "npm run build"
 functions = "D:\\Training-Courses-Platform\\netlify\\functions"
+publish = "dist"
 
 [build.environment]
 
