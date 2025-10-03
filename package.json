@@ -1,28 +1,5 @@
 {
-    "private": true,
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build",
-        "production": "npm run build",
-        "preview": "vite preview"
-    },
-    "devDependencies": {
-        "axios": "^1.7.5",
-        "laravel-vite-plugin": "^1.0.5",
-        "vite": "^5.0"
-    },
-    "dependencies": {
-        "@vitejs/plugin-vue": "^5.1.2",
-        "api": "^6.1.2",
-        "core-js": "^3.40.0",
-        "firebase": "^11.0.1",
-        "pinia": "^2.2.4",
-        "pinia-plugin-persistedstate": "^4.1.1",
-        "vue": "^3.4.38",
-        "vue-froala-wysiwyg": "^4.3.0",
-        "vue-router": "^4.4.3",
-        "vue-sidebar-menu": "^5.4.1",
-        "vue3-datepicker": "^0.4.0"
-    }
+  "dependencies": {
+    "vue": "^3.5.22"
+  }
 }
