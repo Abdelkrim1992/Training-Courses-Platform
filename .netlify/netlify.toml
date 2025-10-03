@@ -1,0 +1,31 @@
+functionsDirectory = "D:\\Training-Courses-Platform\\frontend\\netlify\\functions"
+functionsDirectoryOrigin = "config-v1"
+plugins = []
+headers = []
+redirects = []
+
+[functions]
+
+[functions."*"]
+
+[build]
+publish = "D:\\Training-Courses-Platform\\frontend\\dist"
+publishOrigin = "config"
+commandOrigin = "config"
+base = "D:\\Training-Courses-Platform\\frontend"
+command = "npm run build"
+functions = "D:\\Training-Courses-Platform\\frontend\\netlify\\functions"
+
+[build.environment]
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]
