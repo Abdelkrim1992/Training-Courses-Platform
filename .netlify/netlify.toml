@@ -1,11 +1,34 @@
-[build]
-  publish = "dist"
-  command = "npm run build"
-
+functionsDirectory = "D:\\Training-Courses-Platform\\netlify\\functions"
+functionsDirectoryOrigin = "ui"
+plugins = []
+headers = []
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
+[functions]
+
+[functions."*"]
+
+[build]
+publish = "D:\\Training-Courses-Platform\\dist"
+publishOrigin = "ui"
+commandOrigin = "ui"
+command = "npm run build"
+functions = "D:\\Training-Courses-Platform\\netlify\\functions"
+publish = "dist"
+
 [build.environment]
-  NODE_VERSION = "18"
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]

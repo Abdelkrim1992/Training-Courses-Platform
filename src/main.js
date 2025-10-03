@@ -13,4 +13,4 @@ app.use(Router)
    .use(VueFroala)
    .mount('#app');
 
-document.getElementById('loading').classList.add('d-none');
+// document.getElementById('loading').classList.add('d-none');
